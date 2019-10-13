@@ -5,8 +5,8 @@ library(TDA)
 library(TDAstats)
 library(bench)
 
-bench <- function(pointdata, whichTDA, featdim, iter) {
-  if (whichTDA == "stats") {
+bench <- function(pointdata, whichTDA, featdim, iter) { #point data input is required. program that is calculated is based off text string. Dimensional features and iteration number for benchmark should also be specified
+  if (whichTDA == "stats") { 
     time <- mark(calculate_homology(pointdata, dim = featdim), iterations = iter)
   }
   if (whichTDA == "Dionysus") {
@@ -15,5 +15,5 @@ bench <- function(pointdata, whichTDA, featdim, iter) {
   if (whichTDA == "GUDHI") {
     time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 5, location = FALSE, library = "GUDHI"), iterations = iter)
   }
-  return(time[1,3])
+  return(time[1,3]) #row 1 column 3 is specifically median bench time
 }

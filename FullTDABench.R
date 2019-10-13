@@ -5,7 +5,7 @@ library(TDA)
 library(TDAstats)
 library(bench)
 
-source("UnifCircle.R")
+source("UnifCircle.R") #calls on the other R scripts 
 source("UnifBox.R")
 source("NoisyCircle.R")
 source("torus.R")
@@ -13,7 +13,7 @@ source("bench.R")
 
 
 
-TDA_bench <- function(data.type, data.dimensions, num.points, feature.dimensions, TDA.library, num.iteration, ...) {
+TDA_bench <- function(data.type, data.dimensions, num.points, feature.dimensions, TDA.library, num.iteration, ...) { #step 1, generate the pointdata, step 2 benchmark
   if (data.type == "circle") {
     pointdata <- unifcircle(num.points, data.dimensions)
   }
