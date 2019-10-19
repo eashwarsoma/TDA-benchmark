@@ -1,3 +1,25 @@
+#####BOX DATA#####
+# generates an n-dimension box (0, 1) of uniformly distributed points
+unifbox <- function(box.points, box.dimensions) {
+  # empty 
+  to.calc.hom <- matrix(NA, nrow = box.points, ncol = box.dimensions)
+  
+  # adds a column of randomaly generated points 0 to 1 for how many ever dimensions specified
+  for (i in 1:box.dimensions) {
+    col <- runif(box.points, 0, 1)
+    to.calc.hom[, i] <- col
+  }
+  
+  return(to.calc.hom)
+}
+
+#####TORUS DATA#####
+# very simple, uses native uniform torus function from TDA
+torus <- function(torus.points) {
+  torusUnif(torus.points, 1, 1)
+}
+
+#####UNIFORM CIRCLE DATA#####
 # Uses the sphere picking tactic to make uniform distribution 
 # Cite Marsaglia paper from Wolfram Alpha page
 unifcircle <- function(circle.points, circle.dimensions) {
@@ -74,6 +96,7 @@ unifcircle <- function(circle.points, circle.dimensions) {
   return(to.calc.hom)
 }
 
+#####NOISY CIRCLE DATA#####
 # almost idential to unif circle, but all x and y coordinates are multiplied by a perturbance varying from .9 to 1.1
 noisycircle <- function(circle.points, circle.dimensions,
                         noise.magnitude = 0.1) {

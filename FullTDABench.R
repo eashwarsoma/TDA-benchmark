@@ -6,10 +6,7 @@ library(TDAstats)
 library(bench)
 library(pryr)
 
-source("UnifCircle.R") #calls on the other R scripts 
-source("UnifBox.R")
-source("NoisyCircle.R")
-source("torus.R")
+source("generate-data.R")
 source("bench.R")
 source("MemorySize.R")
 
