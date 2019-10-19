@@ -1,12 +1,12 @@
 #Uses the sphere picking tactic to make uniform distribution 
-unifcircle <- function(circle.points, circle.dimensions) { 
+unifcircle <- function(circle.points, circle.dimensions) {
+  # var that stores result
+  to.calc.hom <- NULL
+  
+  # returns 2-d circle data
   if (circle.dimensions == 2) {
-    list.parameters <- data.frame() 
-    list.parameters <- runif(circle.points, 0, 2*pi)
-    
-    x1 <- list.parameters #this seems pointless, but it's to keep the pattern with the higher dimensional circles
-    list.unifcircle <- data.frame()
-    list.unifcircle <- cbind(cos(x1), sin(x1))
+    angles <- runif(circle.points, 0, 2*pi)
+    to.calc.hom <- cbind(cos(angles), sin(angles))
   }
   
   if (circle.dimensions == 3) {
@@ -48,6 +48,6 @@ unifcircle <- function(circle.points, circle.dimensions) {
     list.unifcircle <- data.frame()
     list.unifcircle <- cbind(x1, x2, x3*sqrt((1-x1^2-x2^2)/(x3^2+x4^2)), x4*sqrt((1-x1^2-x2^2)/(x3^2+x4^2)))
   }
-  to.calc.hom <- data.matrix(list.unifcircle, rownames.force = NA) #data is converted from data frame to matrix
+  #to.calc.hom <- data.matrix(list.unifcircle, rownames.force = NA) #data is converted from data frame to matrix
   return(to.calc.hom) #every function will create this matrix
 }
