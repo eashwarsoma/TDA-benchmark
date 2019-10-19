@@ -1,8 +1,9 @@
-#Uses the sphere picking tactic to make uniform distribution 
+# Uses the sphere picking tactic to make uniform distribution 
+# Cite Marsaglia paper from Wolfram Alpha page
 unifcircle <- function(circle.points, circle.dimensions) {
   # var that stores result (empty df setup)
   to.calc.hom <- matrix(NA, nrow = circle.points, ncol = circle.dimensions)
-  to.calc.hom <- as.data.frame(to.calc.hom)
+  #to.calc.hom <- as.data.frame(to.calc.hom)
   
   # returns 2-d circle data
   if (circle.dimensions == 2) {
@@ -30,7 +31,7 @@ unifcircle <- function(circle.points, circle.dimensions) {
       z <- 1 - 2 * (x1 ^ 2 + x2 ^ 2)
       
       # store into data frame
-      to.calc.hom[curr_row, ] <- rbind(x, y, z)
+      to.calc.hom[curr_row, ] <- c(x, y, z)
     }
     
     # cast df into matrix
@@ -62,7 +63,7 @@ unifcircle <- function(circle.points, circle.dimensions) {
       x4 <- w * temp
       
       # store into data frame
-      to.calc.hom[curr_row, ] <- rbind(x1, x2, x3, x4)
+      to.calc.hom[curr_row, ] <- c(x1, x2, x3, x4)
     }
     
     # cast df into matrix
