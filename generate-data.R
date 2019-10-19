@@ -1,12 +1,14 @@
+# add if statements to check for parameter validity
+
 #####BOX DATA#####
 # generates an n-dimension box (0, 1) of uniformly distributed points
-unifbox <- function(box.points, box.dimensions) {
+unifbox <- function(num.points, data.dimensions) {
   # empty 
-  to.calc.hom <- matrix(NA, nrow = box.points, ncol = box.dimensions)
+  to.calc.hom <- matrix(NA, nrow = num.points, ncol = data.dimensions)
   
   # adds a column of randomaly generated points 0 to 1 for how many ever dimensions specified
-  for (i in 1:box.dimensions) {
-    col <- runif(box.points, 0, 1)
+  for (i in 1:data.dimensions) {
+    col <- runif(num.points, 0, 1)
     to.calc.hom[, i] <- col
   }
   
@@ -15,29 +17,29 @@ unifbox <- function(box.points, box.dimensions) {
 
 #####TORUS DATA#####
 # very simple, uses native uniform torus function from TDA
-torus <- function(torus.points) {
-  torusUnif(torus.points, 1, 1)
+torus <- function(num.points) {
+  torusUnif(num.points, 1, 1)
 }
 
 #####UNIFORM CIRCLE DATA#####
 # Uses the sphere picking tactic to make uniform distribution 
 # Cite Marsaglia paper from Wolfram Alpha page
-unifcircle <- function(circle.points, circle.dimensions) {
+unifcircle <- function(num.points, data.dimensions) {
   # var that stores result (empty df setup)
-  to.calc.hom <- matrix(NA, nrow = circle.points, ncol = circle.dimensions)
+  to.calc.hom <- matrix(NA, nrow = num.points, ncol = data.dimensions)
   #to.calc.hom <- as.data.frame(to.calc.hom)
   
   # returns 2-d circle data
-  if (circle.dimensions == 2) {
-    angles <- runif(circle.points, 0, 2*pi)
+  if (data.dimensions == 2) {
+    angles <- runif(num.points, 0, 2*pi)
     to.calc.hom <- cbind(cos(angles), sin(angles))
   }
   
   # returns 3-d circle data
-  if (circle.dimensions == 3) {
+  if (data.dimensions == 3) {
     
     # each loop generates one row of data
-    for (curr_row in 1:circle.points) {
+    for (curr_row in 1:num.points) {
       
       # generate valid x1 and x2
       x1 <- runif(1, -1, 1)
@@ -60,9 +62,9 @@ unifcircle <- function(circle.points, circle.dimensions) {
     to.calc.hom <- as.matrix(to.calc.hom)
   }
   
-  if (circle.dimensions == 4) { #follows same principle as previous but with more parameters
+  if (data.dimensions == 4) { #follows same principle as previous but with more parameters
     # each loop generates one row of data
-    for (curr_row in 1:circle.points) {
+    for (curr_row in 1:num.points) {
       
       # generate valid w, x, y, z
       x <- runif(1, -1, 1)
@@ -98,14 +100,14 @@ unifcircle <- function(circle.points, circle.dimensions) {
 
 #####NOISY CIRCLE DATA#####
 # almost idential to unif circle, but all x and y coordinates are multiplied by a perturbance varying from .9 to 1.1
-noisycircle <- function(circle.points, circle.dimensions,
+noisycircle <- function(num.points, data.dimensions,
                         noise.magnitude = 0.1) {
   # get non-noisy data
-  to.calc.hom <- unifcircle(circle.points, circle.dimensions)
+  to.calc.hom <- unifcircle(num.points, data.dimensions)
   
   # add noise
-  for (curr.col in 1:circle.dimensions) {
-    noise <- runif(circle.points, 1 - noise.magnitude,
+  for (curr.col in 1:data.dimensions) {
+    noise <- runif(num.points, 1 - noise.magnitude,
                    1 + noise.magnitude)
     to.calc.hom[, curr.col] <- to.calc.hom[, curr.col] * noise
   }
