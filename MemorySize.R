@@ -1,11 +1,3 @@
-library(dplyr)
-library(readr)
-library(plyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-library(pryr)
-
 memory <- function(pointdata, whichTDA, featdim, iter) { #point data input is required. program that is calculated is based off text string. Dimensional features and iteration number for benchmark should also be specified
   if (whichTDA == "stats") { 
     phom <- calculate_homology(pointdata, dim = featdim)

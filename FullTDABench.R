@@ -4,6 +4,7 @@ library(plyr)
 library(TDA)
 library(TDAstats)
 library(bench)
+library(pryr)
 
 source("UnifCircle.R") #calls on the other R scripts 
 source("UnifBox.R")

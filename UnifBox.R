@@ -1,10 +1,3 @@
-library(dplyr)
-library(readr)
-library(plyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-
 unifbox <- function(box.points, box.dimensions) {
   list <- data.frame() 
   for (i in 1:box.dimensions) { #adds a column of randomaly generated points 0 to 1 for how many ever dimensions specified

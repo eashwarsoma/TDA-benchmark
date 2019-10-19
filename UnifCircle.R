@@ -1,10 +1,3 @@
-library(dplyr)
-library(readr)
-library(plyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-
 #Uses the sphere picking tactic to make uniform distribution 
 unifcircle <- function(circle.points, circle.dimensions) { 
   if (circle.dimensions == 2) {
