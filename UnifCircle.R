@@ -1,7 +1,8 @@
 #Uses the sphere picking tactic to make uniform distribution 
 unifcircle <- function(circle.points, circle.dimensions) {
-  # var that stores result
-  to.calc.hom <- NULL
+  # var that stores result (empty df setup)
+  to.calc.hom <- matrix(NA, nrow = circle.points, ncol = circle.dimensions)
+  to.calc.hom <- as.data.frame(to.calc.hom)
   
   # returns 2-d circle data
   if (circle.dimensions == 2) {
@@ -9,22 +10,31 @@ unifcircle <- function(circle.points, circle.dimensions) {
     to.calc.hom <- cbind(cos(angles), sin(angles))
   }
   
+  # returns 3-d circle data
   if (circle.dimensions == 3) {
-    list.parameters <- data.frame() 
-    repeat { #this loop generates the necessary parameters to make a uniform sphere
-      x <- runif(1, -1, 1) #pick one point at a time
-      y <- runif(1, -1, 1)
-      if (x^2 + y^2 < 1) { #if this condition is satisfied, add it to the parameter list at the next row
-        list.parameters[nrow(list.parameters)+1,1:2 ] <- rbind(x,y)
+    
+    # each loop generates one row of data
+    for (curr_row in 1:circle.points) {
+      
+      # generate valid x1 and x2
+      x1 <- runif(1, -1, 1)
+      x2 <- runif(1, -1, 1)
+      while (x1 ^ 2 + x2 ^ 2 >= 1) {
+        x1 <- runif(1, -1, 1)
+        x2 <- runif(1, -1, 1)
       }
-      if (nrow(list.parameters) == circle.points) {
-        break #this loop will repeat until the number of parameters equals the number of circular points
-      }
+      
+      # generate coordinates of sphere
+      x <- 2 * x1 * sqrt(1 - x1 ^ 2 - x2 ^ 2)
+      y <- 2 * x2 * sqrt(1 - x1 ^ 2 - x2 ^ 2)
+      z <- 1 - 2 * (x1 ^ 2 + x2 ^ 2)
+      
+      # store into data frame
+      to.calc.hom[curr_row, ] <- rbind(x, y, z)
     }
-    x1 <- select(list.parameters, 1) #isolates the first parameter
-    x2 <- select(list.parameters, 2) #isolates the second parameter
-    list.unifcircle <- data.frame()
-    list.unifcircle <- cbind(2*x1*sqrt(1-x1^2-x2^2), 2*x2*sqrt(1-x1^2-x2^2), 1-2*(x1^2+x2^2)) #math equation to generate the sphere
+    
+    # cast df into matrix
+    to.calc.hom <- as.matrix(to.calc.hom)
   }
   
   if (circle.dimensions == 4) { #follows same principle as previous but with more parameters
