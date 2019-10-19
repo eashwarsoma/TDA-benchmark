@@ -10,10 +10,11 @@ source("UnifBox.R")
 source("NoisyCircle.R")
 source("torus.R")
 source("bench.R")
+source("MemorySize.R")
 
 
 
-TDA_bench <- function(data.type, data.dimensions, num.points, feature.dimensions, TDA.library, num.iteration, ...) { #step 1, generate the pointdata, step 2 benchmark
+TDA_bench <- function(measure, data.type, data.dimensions, num.points, feature.dimensions, TDA.library, num.iteration, ...) { #step 1, generate the pointdata, step 2 benchmark
   if (data.type == "circle") {
     pointdata <- unifcircle(num.points, data.dimensions)
   }
@@ -26,19 +27,22 @@ TDA_bench <- function(data.type, data.dimensions, num.points, feature.dimensions
   if (data.type == "torus") {
     pointdata <- torus(num.points)
   }
-  bench(pointdata, TDA.library, feature.dimensions, num.iteration)
+  
+  if (measure == "time") {
+    exec.time <- bench(pointdata, TDA.library, feature.dimensions, num.iteration)
+    exec.time <- exec.time[[1,1]]
+    return(exec.time)
+  }
+  if (measure == "memory") {
+    memory <- memory(pointdata, TDA.library, feature.dimensions)
+    return(memory)
+  }
 }
 
-test1 <- TDA_bench(data.type = "uniform", data.dimensions = 4, num.points = 100, feature.dimensions = 1, TDA.library = "stats", num.iteration = 11)
-test2 <- TDA_bench(data.type = "uniform", data.dimensions = 8, num.points = 100, feature.dimensions = 1, TDA.library = "GUDHI", num.iteration = 10)
-test3 <- TDA_bench(data.type = "uniform", data.dimensions = 12, num.points = 100, feature.dimensions = 2, TDA.library = "stats", num.iteration = 10)
-test4 <- TDA_bench(data.type = "uniform", data.dimensions = 16, num.points = 100, feature.dimensions = 1, TDA.library = "stats", num.iteration = 7)
-test5 <- TDA_bench(data.type = "circle", data.dimensions = 2, num.points = 100, feature.dimensions = 1, TDA.library = "GUDHI", num.iteration = 10)
-test6 <- TDA_bench(data.type = "circle", data.dimensions = 3, num.points = 100, feature.dimensions = 1, TDA.library = "stats", num.iteration = 10)
-#test7 <- TDA_bench(data.type = "annulus", data.dimensions = 3, num.points = 100, feature.dimensions = 2, TDA.library = "Dionysus", num.iteration = 9)
-test8 <- TDA_bench(data.type = "annulus", data.dimensions = 4, num.points = 100, feature.dimensions = 1, TDA.library = "stats", num.iteration = 10)
-#test9 <- TDA_bench(data.type = "circle", data.dimensions = 4, num.points = 100, feature.dimensions = 2, TDA.library = "Dionysus", num.iteration = 10)
-test10 <- TDA_bench(data.type = "torus", data.dimensions = 2, num.points = 100, feature.dimensions = 1, TDA.library = "stats", num.iteration = 10)
+test1 <- TDA_bench(measure = "time", data.type = "uniform", data.dimensions = 3, num.points = 150, feature.dimensions = 1, TDA.library = "GUDHIalpha", num.iteration = 11)
+test2 <- TDA_bench(measure = "time", data.type = "uniform", data.dimensions = 3, num.points = 150, feature.dimensions = 1, TDA.library = "stats", num.iteration = 11)
+
+
 
 
 

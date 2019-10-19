@@ -15,5 +15,8 @@ bench <- function(pointdata, whichTDA, featdim, iter) { #point data input is req
   if (whichTDA == "GUDHI") {
     time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 5, location = FALSE, library = "GUDHI"), iterations = iter)
   }
+  if (whichTDA == "GUDHIalpha") {
+    time <- mark(alphaComplexDiag(pointdata, maxdimension = featdim, location = FALSE, library = "GUDHI"), iterations = iter)
+  }
   return(time[1,3]) #row 1 column 3 is specifically median bench time
 }
