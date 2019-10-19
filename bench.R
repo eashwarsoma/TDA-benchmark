@@ -1,10 +1,3 @@
-library(dplyr)
-library(readr)
-library(plyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-
 bench <- function(pointdata, whichTDA, featdim, iter) { #point data input is required. program that is calculated is based off text string. Dimensional features and iteration number for benchmark should also be specified
   if (whichTDA == "stats") { 
     time <- mark(calculate_homology(pointdata, dim = featdim), iterations = iter)

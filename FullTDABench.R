@@ -4,6 +4,7 @@ library(plyr)
 library(TDA)
 library(TDAstats)
 library(bench)
+library(pryr)
 
 source("UnifCircle.R") #calls on the other R scripts 
 source("UnifBox.R")
@@ -13,7 +14,10 @@ source("bench.R")
 source("MemorySize.R")
 
 
-
+###FIX THIS LATER ON###
+#need if-then statements to stop function if (for example)
+#  feature.dim > data.dimension
+#make more user-friendly
 TDA_bench <- function(measure, data.type, data.dimensions, num.points, feature.dimensions, TDA.library, num.iteration, ...) { #step 1, generate the pointdata, step 2 benchmark
   if (data.type == "circle") {
     pointdata <- unifcircle(num.points, data.dimensions)

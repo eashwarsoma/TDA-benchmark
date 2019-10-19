@@ -1,10 +1,3 @@
-library(dplyr)
-library(readr)
-library(plyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-
 #almost idential to unif circle, but all x and y coordinates are multiplied by a perturbance varying from .9 to 1.1
 noisycircle <- function(noisycircle.points, noisycircle.dimensions) {
   if (noisycircle.dimensions == 2) {

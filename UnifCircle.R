@@ -1,60 +1,75 @@
-library(dplyr)
-library(readr)
-library(plyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-
-#Uses the sphere picking tactic to make uniform distribution 
-unifcircle <- function(circle.points, circle.dimensions) { 
+# Uses the sphere picking tactic to make uniform distribution 
+# Cite Marsaglia paper from Wolfram Alpha page
+unifcircle <- function(circle.points, circle.dimensions) {
+  # var that stores result (empty df setup)
+  to.calc.hom <- matrix(NA, nrow = circle.points, ncol = circle.dimensions)
+  #to.calc.hom <- as.data.frame(to.calc.hom)
+  
+  # returns 2-d circle data
   if (circle.dimensions == 2) {
-    list.parameters <- data.frame() 
-    list.parameters <- runif(circle.points, 0, 2*pi)
-    
-    x1 <- list.parameters #this seems pointless, but it's to keep the pattern with the higher dimensional circles
-    list.unifcircle <- data.frame()
-    list.unifcircle <- cbind(cos(x1), sin(x1))
+    angles <- runif(circle.points, 0, 2*pi)
+    to.calc.hom <- cbind(cos(angles), sin(angles))
   }
   
+  # returns 3-d circle data
   if (circle.dimensions == 3) {
-    list.parameters <- data.frame() 
-    repeat { #this loop generates the necessary parameters to make a uniform sphere
-      x <- runif(1, -1, 1) #pick one point at a time
-      y <- runif(1, -1, 1)
-      if (x^2 + y^2 < 1) { #if this condition is satisfied, add it to the parameter list at the next row
-        list.parameters[nrow(list.parameters)+1,1:2 ] <- rbind(x,y)
+    
+    # each loop generates one row of data
+    for (curr_row in 1:circle.points) {
+      
+      # generate valid x1 and x2
+      x1 <- runif(1, -1, 1)
+      x2 <- runif(1, -1, 1)
+      while (x1 ^ 2 + x2 ^ 2 >= 1) {
+        x1 <- runif(1, -1, 1)
+        x2 <- runif(1, -1, 1)
       }
-      if (nrow(list.parameters) == circle.points) {
-        break #this loop will repeat until the number of parameters equals the number of circular points
-      }
+      
+      # generate coordinates of sphere
+      x <- 2 * x1 * sqrt(1 - x1 ^ 2 - x2 ^ 2)
+      y <- 2 * x2 * sqrt(1 - x1 ^ 2 - x2 ^ 2)
+      z <- 1 - 2 * (x1 ^ 2 + x2 ^ 2)
+      
+      # store into data frame
+      to.calc.hom[curr_row, ] <- c(x, y, z)
     }
-    x1 <- select(list.parameters, 1) #isolates the first parameter
-    x2 <- select(list.parameters, 2) #isolates the second parameter
-    list.unifcircle <- data.frame()
-    list.unifcircle <- cbind(2*x1*sqrt(1-x1^2-x2^2), 2*x2*sqrt(1-x1^2-x2^2), 1-2*(x1^2+x2^2)) #math equation to generate the sphere
+    
+    # cast df into matrix
+    to.calc.hom <- as.matrix(to.calc.hom)
   }
   
   if (circle.dimensions == 4) { #follows same principle as previous but with more parameters
-    list.parameters <- data.frame() 
-    repeat {
+    # each loop generates one row of data
+    for (curr_row in 1:circle.points) {
+      
+      # generate valid w, x, y, z
       x <- runif(1, -1, 1)
       y <- runif(1, -1, 1)
       z <- runif(1, -1, 1)
       w <- runif(1, -1, 1)
-      if (x^2 + y^2 < 1 & z^2 + w^2 < 1 ) {
-        list.parameters[nrow(list.parameters)+1,1:4] <- rbind(x,y,z,w)
+      while (x ^ 2 + y ^ 2 >= 1 |
+             w ^ 2 + z ^ 2 >= 1) {
+        w <- runif(1, -1, 1)
+        x <- runif(1, -1, 1)
+        y <- runif(1, -1, 1)
+        z <- runif(1, -1, 1)
       }
-      if (nrow(list.parameters) == circle.points) {
-        break
-      }
+      
+      # generate coordinates of sphere
+      temp <- sqrt((1 - x ^ 2 - y ^ 2) / (w ^ 2 + z ^ 2))
+      x1 <- x
+      x2 <- y
+      x3 <- z * temp
+      x4 <- w * temp
+      
+      # store into data frame
+      to.calc.hom[curr_row, ] <- c(x1, x2, x3, x4)
     }
-    x1 <- select(list.parameters, 1)
-    x2 <- select(list.parameters, 2)
-    x3 <- select(list.parameters, 3)
-    x4 <- select(list.parameters, 4)
-    list.unifcircle <- data.frame()
-    list.unifcircle <- cbind(x1, x2, x3*sqrt((1-x1^2-x2^2)/(x3^2+x4^2)), x4*sqrt((1-x1^2-x2^2)/(x3^2+x4^2)))
+    
+    # cast df into matrix
+    to.calc.hom <- as.matrix(to.calc.hom)
   }
-  to.calc.hom <- data.matrix(list.unifcircle, rownames.force = NA) #data is converted from data frame to matrix
-  return(to.calc.hom) #every function will create this matrix
+  
+  # return answer variable
+  return(to.calc.hom)
 }
