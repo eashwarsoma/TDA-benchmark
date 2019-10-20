@@ -43,12 +43,15 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
   }
 }
 
-test1 <- TDA_bench(measure = "time", data.type = "uniform",
-                   data.dimensions = 3, num.points = 150,
-                   feature.dimensions = 1, TDA.library = "GUDHIalpha",
-                   num.iteration = 11)
+test1 <- TDA_bench(measure = "time", data.type = "circle",
+                   data.dimensions = 3, num.points = 250,
+                   feature.dimensions = 1, TDA.library = "GUDHI",
+                   num.iteration = 10)
 
-test2 <- TDA_bench(measure = "time", data.type = "uniform",
-                   data.dimensions = 3, num.points = 150,
+test2 <- TDA_bench(measure = "time", data.type = "circle",
+                   data.dimensions = 3, num.points = 250,
                    feature.dimensions = 1, TDA.library = "stats",
-                   num.iteration = 11)
+                   num.iteration = 10)
+
+print(paste("GUDHI:   ", test1))
+print(paste("TDAstats:", test2))

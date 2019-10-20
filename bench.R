@@ -2,7 +2,7 @@
 
 # point data input is required. program that is calculated is based off text string
 # dimensional features and iteration number for benchmark should also be specified
-bench <- function(dataset, which.TDA, feature.dim, iter) {
+bench <- function(pointdata, whichTDA, featdim, iter) {
   # TDAstats
   if (whichTDA == "stats") {
     time <- mark(calculate_homology(pointdata, dim = featdim),
