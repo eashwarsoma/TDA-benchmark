@@ -35,12 +35,12 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
                        feature.dimensions, num.iteration)
     exec.time <- exec.time[[1,1]]
     return(exec.time)
-  }
-  if (measure == "memory") {
+    
+  } else if (measure == "memory") {
     mem.data <- memory(pointdata, TDA.library,
                        feature.dimensions)
     return(mem.data)
-  }
+  } else stop("Select either 'memory' or 'time' as measurement")
 }
 
 test1 <- TDA_bench(measure = "time", data.type = "circle",
@@ -48,10 +48,9 @@ test1 <- TDA_bench(measure = "time", data.type = "circle",
                    feature.dimensions = 1, TDA.library = "GUDHI",
                    num.iteration = 10)
 
-test2 <- TDA_bench(measure = "time", data.type = "circle",
+test1 <- TDA_bench(measure = "memory", data.type = "circle",
                    data.dimensions = 3, num.points = 250,
-                   feature.dimensions = 1, TDA.library = "stats",
+                   feature.dimensions = 1, TDA.library = "GUDHI",
                    num.iteration = 10)
 
-print(paste("GUDHI:   ", test1))
-print(paste("TDAstats:", test2))
+
