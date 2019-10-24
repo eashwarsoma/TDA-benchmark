@@ -8,14 +8,16 @@ library(pryr)
 
 source("generate-data.R")
 source("bench.R")
-source("MemorySize.R") # need to review
+source("MemorySize.R") # need to review see comment at end
 
 ###FIX THIS LATER ON###
 #need if-then statements to stop function if (for example)
-#  feature.dim > data.dimension
-#make more user-friendly
 TDA_bench <- function(measure, data.type, data.dimensions, num.points,
                       feature.dimensions, TDA.library, num.iteration) {
+  if (feature.dimensions > data.dimensions) {
+    stop("Feature dimensions must be less than data dimensions")
+  } else
+  
   #step 1, generate the dataset
   if (data.type == "circle") {
     pointdata <- unifcircle(num.points, data.dimensions)
@@ -43,14 +45,18 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
   } else stop("Select either 'memory' or 'time' as measurement")
 }
 
-test1 <- TDA_bench(measure = "time", data.type = "circle",
-                   data.dimensions = 3, num.points = 250,
-                   feature.dimensions = 1, TDA.library = "GUDHI",
-                   num.iteration = 10)
+test3 <- TDA_bench(measure = "time", data.type = "circle",
+                   data.dimensions = 3, num.points = 50,
+                   feature.dimensions = 2, TDA.library = "GUDHI",
+                   num.iteration = 1)
 
-test1 <- TDA_bench(measure = "memory", data.type = "circle",
-                   data.dimensions = 3, num.points = 250,
-                   feature.dimensions = 1, TDA.library = "GUDHI",
-                   num.iteration = 10)
+#If we use the same parameters, memory always returns the same
+#value...Not sure if this is expected (is it supposed
+#to be deterministic?)
+
+#lapply practice
+#50-500 points for GUDHI > circle > 3 dimensions > 1 feature dimension > 
+# time
+#still working on this
 
 
