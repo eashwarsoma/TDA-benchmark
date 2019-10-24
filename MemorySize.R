@@ -1,18 +1,21 @@
 #point data input is required. program that is calculated is based off 
 #text string. Dimensional features and iteration number for benchmark 
 #should also be specified. Uses rips filtration function
-memory <- function(pointdata, whichTDA, featdim, iter) { 
-  if (whichTDA == "Dionysus") { 
-    phom <- ripsDiag(pointdata, maxdimension = featdim, maxscale = 5, location = FALSE, library = "Dionysus")
-    size <- object_size(phom)
+memory <- function(pointdata, TDA.library, feature.dimensions) { 
+  if (TDA.library == "Dionysus") { 
+    filtrate <- ripsFiltration(pointdata, maxdimension = feature.dimensions, maxscale = 5, 
+                           library = "Dionysus")
+    size <- object_size(filtrate[[1]])
     
-  } else if (whichTDA == "GUDHI") { 
-    phom <- ripsDiag(pointdata, maxdimension = featdim, maxscale = 5, location = FALSE, library = "GUDHI")
-    size <- object_size(phom)
+  } else if (TDA.library == "GUDHI") { 
+    filtrate <- ripsFiltration(pointdata, maxdimension = feature.dimensions, maxscale = 5, 
+                           library = "GUDHI")
+    size <- object_size(filtrate[[1]])
     
-  } else if (whichTDA == "GUDHIalpha") { 
-    phom <- alphaComplexDiag(pointdata, maxdimension = featdim, location = FALSE, library = "GUDHI")
-    size <- object_size(phom)
+  } else if (TDA.library == "GUDHIalpha") { 
+    filtrate <- alphaComplexFiltration(pointdata, maxdimension = feature.dimensions, 
+                                   library = "GUDHI")
+    size <- object_size(filtrate[[1]])
     
   } else {
     stop("Choose 'Dionysus', 'GUDHI', or 'GUDHIalpa'. Cannot use TDAstats")
