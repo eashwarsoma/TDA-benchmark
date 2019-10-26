@@ -14,6 +14,8 @@ source("MemorySize.R") # need to review see comment at end
 #need if-then statements to stop function if (for example)
 TDA_bench <- function(measure, data.type, data.dimensions, num.points,
                       feature.dimensions, TDA.library, num.iteration) {
+  print(paste("Starting", measure, data.type, data.dimensions, num.points,
+              feature.dimensions, TDA.library, num.iteration))
   if (feature.dimensions > data.dimensions) {
     stop("Feature dimensions must be less than data dimensions")
   } else
@@ -47,31 +49,11 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
 
 #If we use the same parameters, memory always returns the same
 #value...Not sure if this is expected (is it supposed
-#to be deterministic?)
+#to be invariant?)
 test3 <- TDA_bench(measure = "time", data.type = "circle",
                    data.dimensions = 3, num.points = 50,
                    feature.dimensions = 2, TDA.library = "GUDHI",
                    num.iteration = 1)
-
-
-
-#mapply practice look into multiple core mapplt
-#creates a tibble of all variable combination
-vars.test <- as_tibble(expand.grid(measure = "time", data.type = "circle",
-               data.dimensions = 2:4, num.points = seq(50, 150, 50),
-               feature.dimensions = 1, TDA.library = "GUDHI",
-               num.iteration = 1))
-#for some reason, including 0 causes whole program to crash
-#figured it out, ripsDiag cannot take 0 as an input
-
-#Uses mapply function to pass on variables to function and returns vector of time values
-test.mapply <- mapply(TDA_bench, vars.test$measure, vars.test$data.type,
-                     vars.test$data.dimensions, vars.test$num.points,
-                     vars.test$feature.dimensions, vars.test$TDA.library,
-                     vars.test$num.iteration)
-
-#Attaches the time values back to the variables grid
-vars.test$time <- test.mapply
 
 ##Measuring Time Circle Grid## 
 vars.circle <- as_tibble(expand.grid(measure = "time", data.type = "circle",
@@ -98,15 +80,20 @@ vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
 
 #This grid is simple and easy 
 vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
-                                    data.dimensions = 2, num.points = seq(50, 500, 50),
-                                    feature.dimensions = 1, 
+                                    data.dimensions = 3, num.points = seq(50, 500, 50),
+                                    feature.dimensions = 1:2, 
                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                     num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
 
 
+vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
 
+times.all <- mapply(TDA_bench, vars.all$measure, vars.all$data.type,
+                      vars.all$data.dimensions, vars.all$num.points,
+                      vars.all$feature.dimensions, vars.all$TDA.library,
+                      vars.all$num.iteration)
 
-
+vars.all$time <- times.all
 
 
 
