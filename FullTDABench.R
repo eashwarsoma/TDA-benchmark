@@ -47,23 +47,16 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
   } else stop("Select either 'memory' or 'time' as measurement")
 }
 
-#If we use the same parameters, memory always returns the same
-#value...Not sure if this is expected (is it supposed
-#to be invariant?)
-test3 <- TDA_bench(measure = "time", data.type = "circle",
-                   data.dimensions = 3, num.points = 50,
-                   feature.dimensions = 2, TDA.library = "GUDHI",
-                   num.iteration = 1)
 
-##Measuring Time Circle Grid## 
+##Creating variables for measuring Time ## 
+#Making Circle Variables for time
 vars.circle <- as_tibble(expand.grid(measure = "time", data.type = "circle",
                               data.dimensions = 2:4, num.points = seq(50, 500, 50),
                               feature.dimensions = 1:3, 
                               TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                               num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
-## 240 comcbination checks out with my math on paper
 
-##Measuring Time Noisy Circle Grid, identical to circle## 
+#Making Annulus Variables for time
 vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus",
                                      data.dimensions = 2:4, num.points = seq(50, 500, 50),
                                      feature.dimensions = 1:3, 
@@ -71,19 +64,51 @@ vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus
                                      num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
 
 
-##Not sure where we want to cap it here since we can go infinitiely high## 
+#Making Box Variables for time
 vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
                                      data.dimensions = 2:5, num.points = seq(50, 500, 50),
                                      feature.dimensions = 1:4, 
                                      TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                      num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
 
-#This grid is simple and easy 
+#Making Torus Variables for time
 vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
                                     data.dimensions = 3, num.points = seq(50, 500, 50),
                                     feature.dimensions = 1:2, 
                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                     num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
+
+
+#variables for memory
+#circle
+mvars.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
+                                      data.dimensions = 2:4, num.points = seq(50, 500, 50),
+                                      feature.dimensions = 1:3, 
+                                      TDA.library = c("GUDHI", "GUDHIalpha")
+)) %>% subset(feature.dimensions < data.dimensions)
+
+#annulus
+mvars.noisycircle <- as_tibble(expand.grid(measure = "memory", data.type = "annulus",
+                                           data.dimensions = 2:4, num.points = seq(50, 500, 50),
+                                           feature.dimensions = 1:3, 
+                                           TDA.library = c("GUDHI", "GUDHIalpha")
+)) %>% subset(feature.dimensions < data.dimensions)
+
+
+##box
+mvars.box <- as_tibble(expand.grid(measure = "memory", data.type = "uniform",
+                                   data.dimensions = 2:5, num.points = seq(50, 500, 50),
+                                   feature.dimensions = 1:4, 
+                                   TDA.library = c("GUDHI", "GUDHIalpha")
+)) %>% subset(feature.dimensions < data.dimensions)
+
+#torus
+mvars.torus <- as_tibble(expand.grid(measure = "memory", data.type = "torus",
+                                     data.dimensions = 3, num.points = seq(50, 500, 50),
+                                     feature.dimensions = 1:2, 
+                                     TDA.library = c("GUDHI", "GUDHIalpha")
+)) %>% subset(feature.dimensions < data.dimensions)
+
 
 ##Start measuring all times
 vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
@@ -96,36 +121,6 @@ times.all <- mapply(TDA_bench, vars.all$measure, vars.all$data.type,
 vars.all$time <- times.all
 ##Finish measuring all times
 
-
-#variables for memory
-#circle
-mvars.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
-                                     data.dimensions = 2:4, num.points = seq(50, 500, 50),
-                                     feature.dimensions = 1:3, 
-                                     TDA.library = c("GUDHI", "GUDHIalpha")
-                                     )) %>% subset(feature.dimensions < data.dimensions)
-
-#annulus
-mvars.noisycircle <- as_tibble(expand.grid(measure = "memory", data.type = "annulus",
-                                          data.dimensions = 2:4, num.points = seq(50, 500, 50),
-                                          feature.dimensions = 1:3, 
-                                          TDA.library = c("GUDHI", "GUDHIalpha")
-                                          )) %>% subset(feature.dimensions < data.dimensions)
-
-
-##box
-mvars.box <- as_tibble(expand.grid(measure = "memory", data.type = "uniform",
-                                  data.dimensions = 2:5, num.points = seq(50, 500, 50),
-                                  feature.dimensions = 1:4, 
-                                  TDA.library = c("GUDHI", "GUDHIalpha")
-                                  )) %>% subset(feature.dimensions < data.dimensions)
-
-#torus
-mvars.torus <- as_tibble(expand.grid(measure = "memory", data.type = "torus",
-                                    data.dimensions = 3, num.points = seq(50, 500, 50),
-                                    feature.dimensions = 1:2, 
-                                    TDA.library = c("GUDHI", "GUDHIalpha")
-                                    )) %>% subset(feature.dimensions < data.dimensions)
 
 ##Start measuring all memories
 mvars.all <- rbind(mvars.circle, mvars.noisycircle, mvars.box, mvars.torus)
