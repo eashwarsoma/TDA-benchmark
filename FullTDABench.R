@@ -15,7 +15,7 @@ source("MemorySize.R") # need to review see comment at end
 TDA_bench <- function(measure, data.type, data.dimensions, num.points,
                       feature.dimensions, TDA.library, num.iteration) {
   print(paste("Starting", measure, data.type, data.dimensions, num.points,
-              feature.dimensions, TDA.library, num.iteration))
+              feature.dimensions, TDA.library))
   if (feature.dimensions > data.dimensions) {
     stop("Feature dimensions must be less than data dimensions")
   } else
@@ -85,7 +85,7 @@ vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                     num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
 
-
+##Start measuring all times
 vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
 
 times.all <- mapply(TDA_bench, vars.all$measure, vars.all$data.type,
@@ -94,6 +94,62 @@ times.all <- mapply(TDA_bench, vars.all$measure, vars.all$data.type,
                       vars.all$num.iteration)
 
 vars.all$time <- times.all
+##Finish measuring all times
+
+
+#variables for memory
+#circle
+mvars.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
+                                     data.dimensions = 2:4, num.points = seq(50, 500, 50),
+                                     feature.dimensions = 1:3, 
+                                     TDA.library = c("GUDHI", "GUDHIalpha")
+                                     )) %>% subset(feature.dimensions < data.dimensions)
+
+#annulus
+mvars.noisycircle <- as_tibble(expand.grid(measure = "memory", data.type = "annulus",
+                                          data.dimensions = 2:4, num.points = seq(50, 500, 50),
+                                          feature.dimensions = 1:3, 
+                                          TDA.library = c("GUDHI", "GUDHIalpha")
+                                          )) %>% subset(feature.dimensions < data.dimensions)
+
+
+##box
+mvars.box <- as_tibble(expand.grid(measure = "memory", data.type = "uniform",
+                                  data.dimensions = 2:5, num.points = seq(50, 500, 50),
+                                  feature.dimensions = 1:4, 
+                                  TDA.library = c("GUDHI", "GUDHIalpha")
+                                  )) %>% subset(feature.dimensions < data.dimensions)
+
+#torus
+mvars.torus <- as_tibble(expand.grid(measure = "memory", data.type = "torus",
+                                    data.dimensions = 3, num.points = seq(50, 500, 50),
+                                    feature.dimensions = 1:2, 
+                                    TDA.library = c("GUDHI", "GUDHIalpha")
+                                    )) %>% subset(feature.dimensions < data.dimensions)
+
+##Start measuring all memories
+mvars.all <- rbind(mvars.circle, mvars.noisycircle, mvars.box, mvars.torus)
+
+memory.all <- mapply(TDA_bench, mvars.all$measure, mvars.all$data.type,
+                    mvars.all$data.dimensions, mvars.all$num.points,
+                    mvars.all$feature.dimensions, mvars.all$TDA.library)
+
+mvars.all$memory <- memory.all
+##Finish measuring all memories
+
+
+#testmvars
+mvars.test.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
+                                      data.dimensions = 2:4, num.points = seq(50, 150, 50),
+                                      feature.dimensions = 1, 
+                                      TDA.library = c("GUDHI", "GUDHIalpha")
+)) %>% subset(feature.dimensions < data.dimensions)
+
+memory.test <- mapply(TDA_bench, mvars.test.circle$measure, mvars.test.circle$data.type,
+                      mvars.test.circle$data.dimensions, mvars.test.circle$num.points,
+                      mvars.test.circle$feature.dimensions, mvars.test.circle$TDA.library)
+
+mvars.test.circle$memory <- memory.test
 
 
 
