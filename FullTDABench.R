@@ -45,18 +45,73 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
   } else stop("Select either 'memory' or 'time' as measurement")
 }
 
+#If we use the same parameters, memory always returns the same
+#value...Not sure if this is expected (is it supposed
+#to be deterministic?)
 test3 <- TDA_bench(measure = "time", data.type = "circle",
                    data.dimensions = 3, num.points = 50,
                    feature.dimensions = 2, TDA.library = "GUDHI",
                    num.iteration = 1)
 
-#If we use the same parameters, memory always returns the same
-#value...Not sure if this is expected (is it supposed
-#to be deterministic?)
 
-#lapply practice
-#50-500 points for GUDHI > circle > 3 dimensions > 1 feature dimension > 
-# time
-#still working on this
+
+#mapply practice look into multiple core mapplt
+#creates a tibble of all variable combination
+vars.test <- as_tibble(expand.grid(measure = "time", data.type = "circle",
+               data.dimensions = 2:4, num.points = seq(50, 150, 50),
+               feature.dimensions = 1, TDA.library = "GUDHI",
+               num.iteration = 1))
+#for some reason, including 0 causes whole program to crash
+#figured it out, ripsDiag cannot take 0 as an input
+
+#Uses mapply function to pass on variables to function and returns vector of time values
+test.mapply <- mapply(TDA_bench, vars.test$measure, vars.test$data.type,
+                     vars.test$data.dimensions, vars.test$num.points,
+                     vars.test$feature.dimensions, vars.test$TDA.library,
+                     vars.test$num.iteration)
+
+#Attaches the time values back to the variables grid
+vars.test$time <- test.mapply
+
+##Measuring Time Circle Grid## 
+vars.circle <- as_tibble(expand.grid(measure = "time", data.type = "circle",
+                              data.dimensions = 2:4, num.points = seq(50, 500, 50),
+                              feature.dimensions = 1:3, 
+                              TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
+                              num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
+## 240 comcbination checks out with my math on paper
+
+##Measuring Time Noisy Circle Grid, identical to circle## 
+vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus",
+                                     data.dimensions = 2:4, num.points = seq(50, 500, 50),
+                                     feature.dimensions = 1:3, 
+                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
+                                     num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
+
+
+##Not sure where we want to cap it here since we can go infinitiely high## 
+vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
+                                     data.dimensions = 2:5, num.points = seq(50, 500, 50),
+                                     feature.dimensions = 1:4, 
+                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
+                                     num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
+
+#This grid is simple and easy 
+vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
+                                    data.dimensions = 2, num.points = seq(50, 500, 50),
+                                    feature.dimensions = 1, 
+                                    TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
+                                    num.iteration = 10)) %>% subset(feature.dimensions < data.dimensions)
+
+
+
+
+
+
+
+
+
+
+
 
 
