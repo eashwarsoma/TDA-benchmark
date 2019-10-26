@@ -13,7 +13,7 @@ memory <- function(pointdata, TDA.library, feature.dimensions) {
     size <- object_size(filtrate[[1]])
     
   } else if (TDA.library == "GUDHIalpha") { 
-    filtrate <- alphaComplexFiltration(pointdata, maxdimension = feature.dimensions, 
+    filtrate <- alphaComplexFiltration(pointdata, 
                                    library = "GUDHI")
     size <- object_size(filtrate[[1]])
     
