@@ -55,4 +55,4 @@ Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
 ## Discussion
 
 This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](https://journal.r-project.org/share/author-guide.pdf).
-\bibliography{RJreferences}
+\bibliography{tdabench-paper}
