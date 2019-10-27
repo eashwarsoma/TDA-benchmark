@@ -119,6 +119,10 @@ times.all <- mapply(TDA_bench, vars.all$measure, vars.all$data.type,
                       vars.all$num.iteration)
 
 vars.all$time <- times.all
+
+# write to file
+write.csv(vars.all, file = "time-output.csv",
+          row.names = FALSE)
 ##Finish measuring all times
 
 
@@ -132,24 +136,19 @@ memory.all <- mapply(TDA_bench, mvars.all$measure, mvars.all$data.type,
 mvars.all$memory <- memory.all
 ##Finish measuring all memories
 
+# write to file
+write.csv(mvars.all, file = "mem-output.csv",
+          row.names = FALSE)
 
 #testmvars
-mvars.test.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
-                                      data.dimensions = 2:4, num.points = seq(50, 150, 50),
-                                      feature.dimensions = 1, 
-                                      TDA.library = c("GUDHI", "GUDHIalpha")
-)) %>% subset(feature.dimensions < data.dimensions)
+#mvars.test.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
+#                                      data.dimensions = 2:4, num.points = seq(50, 150, 50),
+#                                      feature.dimensions = 1, 
+#                                      TDA.library = c("GUDHI", "GUDHIalpha")
+#)) %>% subset(feature.dimensions < data.dimensions)
 
-memory.test <- mapply(TDA_bench, mvars.test.circle$measure, mvars.test.circle$data.type,
-                      mvars.test.circle$data.dimensions, mvars.test.circle$num.points,
-                      mvars.test.circle$feature.dimensions, mvars.test.circle$TDA.library)
+#memory.test <- mapply(TDA_bench, mvars.test.circle$measure, mvars.test.circle$data.type,
+#                      mvars.test.circle$data.dimensions, mvars.test.circle$num.points,
+#                      mvars.test.circle$feature.dimensions, mvars.test.circle$TDA.library)
 
-mvars.test.circle$memory <- memory.test
-
-
-
-
-
-
-
-
+#mvars.test.circle$memory <- memory.test
