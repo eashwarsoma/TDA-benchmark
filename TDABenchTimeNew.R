@@ -1,7 +1,7 @@
 ####calling libraries, scrips, and making function####
+library(plyr)
 library(readr)
 library(dplyr)
-library(plyr)
 library(TDA)
 library(TDAstats)
 library(bench)
@@ -162,6 +162,11 @@ vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>100
 vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>70 
                        & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==4
                         & vars.all$TDA.library == "Dionysus"), ]
+
+#Remove >3 D objects for GUDHI ALpha
+vars.all <- vars.all[!(vars.all$data.dimensions > 3 
+                       & vars.all$TDA.library == "GUDHIalpha"), ]
+
 ####
 
 ####splitting table into 10 tables to manage for my computer and running code####
@@ -174,8 +179,7 @@ vars.all.5 <- vars.all[641:800, ]
 vars.all.6 <- vars.all[801:960, ]
 vars.all.7 <- vars.all[961:1120, ]
 vars.all.8 <- vars.all[1121:1280, ]
-vars.all.9 <- vars.all[1281:1440, ]
-vars.all.10 <- vars.all[1441:1646, ]
+vars.all.9 <- vars.all[1281:1399, ]
 
 mapply(TDA_bench, vars.all.4$measure, vars.all.4$data.type,
        vars.all.4$data.dimensions, vars.all.4$num.points,
@@ -222,10 +226,6 @@ mapply(TDA_bench, vars.all.9$measure, vars.all.9$data.type,
        vars.all.9$feature.dimensions, vars.all.9$TDA.library,
        vars.all.9$num.iteration, vars.all.9$file.name)
 
-mapply(TDA_bench, vars.all.10$measure, vars.all.10$data.type,
-       vars.all.10$data.dimensions, vars.all.10$num.points,
-       vars.all.10$feature.dimensions, vars.all.10$TDA.library,
-       vars.all.10$num.iteration, vars.all.10$file.name)
 ####
 
 ####Run Function for all variables ####
@@ -235,7 +235,6 @@ mapply(TDA_bench, vars.all.10$measure, vars.all.10$data.type,
 #       vars.all$feature.dimensions, vars.all$TDA.library,
 #       vars.all$num.iteration, vars.all$file.name)
 ####
-
 
 
 
