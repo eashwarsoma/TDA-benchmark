@@ -6,11 +6,11 @@ library(TDAstats)
 library(bench)
 library(pryr)
 library(ggplot2)
+library(magick)
 
 data.all <- read.csv("time1.csv", header = FALSE)
 
 colnames(data.all) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", "exec.time")
-
 
 
 #Figure 1: Comparison of persistent homology calculation runtimes across R packages for a torus. 
@@ -22,9 +22,17 @@ colnames(data.all) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.p
 #Panel 1. Torus showing users visual representation of dataset/point cloud. 
 #Goal: overview showing speed differences across engines on a canonical shape.
 data.fig.1 <- subset(data.all, point.cloud == "torus" & feat.dim == 2)
-ggplot(data.fig.1, aes(x=num.points, y=exec.time, color=library)) + geom_point()
+fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=exec.time, color=library)) + geom_point()
+ggsave("fig.1.png", plot = fig.1)
 
+#Fixing the images together
+#still need to crop
+torus <- image_read("torus.png")
+pic.fig.r <- image_read("fig.1.png")
+pic.fig.r <- image_resize(pic.fig.r, "1280x960")
 
+full.fig.1 <- c(torus, pic.fig.r)
+image_append(full.fig.1)
 
 #Figure 2: Comparison of persistent homology calculation runtimes across R packages for n-dimensional boxes (n = 2, 3, 4, 5). 
 #For each dimension, features up to n-1 dimensions are calculated. 
