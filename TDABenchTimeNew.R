@@ -163,7 +163,55 @@ vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>70
                        & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==4
                         & vars.all$TDA.library == "Dionysus"), ]
 
-#Remove >3 D objects for GUDHI ALpha
+
+#Remove 3D circle, 2D analysis over 300 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>300 
+                       & vars.all$data.dimensions ==3 & vars.all$feature.dimensions ==2
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 3D annulus, 2D analysis over 300 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>300 
+                       & vars.all$data.dimensions ==3 & vars.all$feature.dimensions ==2
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 4D circle, 2D analysis over 300 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>300 
+                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==2
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 4D annulus, 2D analysis over 300 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>300 
+                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==2
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 4D circle, 3D analysis over 125 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>125 
+                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 4D annulus, 3D analysis over 125 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>125 
+                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 4D uniform, 3D analysis over 125 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>125 
+                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+
+#Remove 5D uniform, 3D analysis over 125 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>125 
+                       & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==3
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+#Remove 5D uniform, 4D analysis over 100 points for Gudhi
+vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>100 
+                       & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==4
+                       & vars.all$TDA.library == "GUDHI"), ]
+
+
+#Remove >3D objects for GUDHI ALpha
 vars.all <- vars.all[!(vars.all$data.dimensions > 3 
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
@@ -173,7 +221,10 @@ colnames(vars.tested) <- c("measure", "data.type", "data.dimensions",
                            "num.points", "feature.dimensions", "TDA.library", "time")
 
 #From the variables, removes what has already been collected from each session
+#Also remove stats since I have already collected in another run, comment out for real run
+vars.tested$feature.dimensions <- as.integer(vars.tested$feature.dimensions)
 vars.all <- vars.all %>% anti_join(vars.tested)
+vars.all <- subset(vars.all, TDA.library != "stats")
 
 mapply(TDA_bench, vars.all$measure, vars.all$data.type,
        vars.all$data.dimensions, vars.all$num.points,
