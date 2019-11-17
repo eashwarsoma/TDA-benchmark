@@ -90,126 +90,49 @@ vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
 ####
 
 ####Assemble variables for time...and delete the ones my laptop can't handle####
+#If a certain point threshold for a certain dim feature is reached, then calc fails independent of point cloud shape and dim
 #Comment out this next session for the real deal
 vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
 
-#Remove 4D circle, 3D analysis over 300 points for stats
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>300 
-                           & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3 
-                            & vars.all$TDA.library == "stats"), ]
-
-#Remove 4D annulus, 3D analysis over 300 points for stats
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>300 
-                           & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                            & vars.all$TDA.library == "stats"), ]
-
-#Remove 4D uniform, 3D analysis over 300 points for stats
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>300 
-                           & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                             & vars.all$TDA.library == "stats"), ]
-
-#Remove 5D uniform, 3D analysis over 300 points for stats
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>300 
-                           & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==3
-                            & vars.all$TDA.library == "stats"), ]
-
-#Remove 5D uniform, 4D analysis over 100 points for stats
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>100 
-                           & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==4
-                            & vars.all$TDA.library == "stats"), ]
-
-#Remove 3D circle, 2D analysis over 200 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>200 
-                       & vars.all$data.dimensions ==3 & vars.all$feature.dimensions ==2
-                        & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 3D annulus, 2D analysis over 200 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>200 
-                       & vars.all$data.dimensions ==3 & vars.all$feature.dimensions ==2
-                        & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 4D circle, 2D analysis over 200 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>200 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==2
-                         & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 4D annulus, 2D analysis over 200 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>200 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==2
-                         & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 4D circle, 3D analysis over 100 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>100 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                        & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 4D annulus, 3D analysis over 100 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>100 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                         & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 4D uniform, 3D analysis over 100 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>100 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                        & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 5D uniform, 3D analysis over 100 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>100 
-                       & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==3
-                        & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 5D uniform, 4D analysis over 70 points for Dionysus
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>70 
-                       & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==4
-                        & vars.all$TDA.library == "Dionysus"), ]
-
-
-#Remove 3D circle, 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>300 
-                       & vars.all$data.dimensions ==3 & vars.all$feature.dimensions ==2
+#Remove 4D analysis over 100 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>100 
+                       & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 3D annulus, 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>300 
-                       & vars.all$data.dimensions ==3 & vars.all$feature.dimensions ==2
+#Remove 3D analysis over 125 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>125 
+                       & vars.all$feature.dimensions ==3
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 4D circle, 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>300 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==2
+#Remove 2D analysis over 300 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>300 
+                       & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 4D annulus, 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>300 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==2
-                       & vars.all$TDA.library == "GUDHI"), ]
+#Remove 4D analysis over 75 points for Dionysus
+vars.all <- vars.all[!(vars.all$num.points>75 
+                       & vars.all$feature.dimensions ==4
+                       & vars.all$TDA.library == "Dionysus"), ]
 
-#Remove 4D circle, 3D analysis over 125 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "circle" & vars.all$num.points>125 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                       & vars.all$TDA.library == "GUDHI"), ]
+#Remove 3D analysis over 100 points for Dionysus
+vars.all <- vars.all[!(vars.all$num.points>100 
+                       & vars.all$feature.dimensions ==3
+                       & vars.all$TDA.library == "Dionysus"), ]
 
-#Remove 4D annulus, 3D analysis over 125 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "annulus" & vars.all$num.points>125 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                       & vars.all$TDA.library == "GUDHI"), ]
+#Remove 2D analysis over 200 points for Dionysus
+vars.all <- vars.all[!(vars.all$num.points>200 
+                       & vars.all$feature.dimensions ==2
+                       & vars.all$TDA.library == "Dionysus"), ]
 
-#Remove 4D uniform, 3D analysis over 125 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>125 
-                       & vars.all$data.dimensions ==4 & vars.all$feature.dimensions ==3
-                       & vars.all$TDA.library == "GUDHI"), ]
+#Remove 4D analysis over 100 points for stats
+vars.all <- vars.all[!(vars.all$num.points>100 
+                       & vars.all$feature.dimensions ==4
+                       & vars.all$TDA.library == "stats"), ]
 
-
-#Remove 5D uniform, 3D analysis over 125 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>125 
-                       & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==3
-                       & vars.all$TDA.library == "GUDHI"), ]
-
-#Remove 5D uniform, 4D analysis over 100 points for Gudhi
-vars.all <- vars.all[!(vars.all$data.type == "uniform" & vars.all$num.points>100 
-                       & vars.all$data.dimensions ==5 & vars.all$feature.dimensions ==4
-                       & vars.all$TDA.library == "GUDHI"), ]
-
+#Remove 3D analysis over 300 points for stats
+vars.all <- vars.all[!(vars.all$num.points>300 
+                       & vars.all$feature.dimensions ==3
+                       & vars.all$TDA.library == "stats"), ]
 
 #Remove >3D objects for GUDHI ALpha
 vars.all <- vars.all[!(vars.all$data.dimensions > 3 
