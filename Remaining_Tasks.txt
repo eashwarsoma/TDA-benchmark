@@ -1,0 +1,36 @@
+Remaining Tasks:
+Finish Collecting Data on Computer
+	Complete Time Collection
+	Create and test Rscript for Mem collection
+	Begin and Complete Memory Collection
+
+Finish the Preliminary Figures
+
+Discuss with Team The Figures and Plan Out Necessary Adjustments
+	Do we need more/fewer parameters for the figures already planned out?
+	Should we remove any figures?
+	Should we add any figures?
+
+Write
+	Methods Draft
+	Results Draft
+	Discussion Draft
+	Introduction Draft
+
+Have Team Review 
+	Methods Draft
+	Results Draft
+	Discussion Draft
+	Introduction Draft
+
+Get CCF ID
+	Find/Call Mr. Pellechia
+	
+On CCF Computer
+	Pull the directory into a DropBox Folder
+	Test CCF specific Rscript files 
+	Test the num.point and feat.dim limitations of computer
+	Review the limitations and discussion points and modify the parameters to be collected
+	Run Code and Collect Data
+	Recreate Figures with new data
+
