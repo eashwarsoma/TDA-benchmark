@@ -109,8 +109,8 @@ vars.all <- vars.all[!(vars.all$num.points>300
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 4D analysis over 75 points for Dionysus
-vars.all <- vars.all[!(vars.all$num.points>75 
+#Remove 4D analysis over 50 points for Dionysus
+vars.all <- vars.all[!(vars.all$num.points>50 
                        & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "Dionysus"), ]
 
