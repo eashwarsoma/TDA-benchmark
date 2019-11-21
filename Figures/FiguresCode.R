@@ -50,6 +50,9 @@ setwd("./ImagePlaceHolders")
 torus <- image_read("torus.png")
 torus <- image_resize(torus, "200x200")
 
+#Opening the figures image
+pic.fig.1 <- image_read("fig.1.png")
+
 #fixing them together
 comp.fig.1.1 <- image_composite(pic.fig.1, torus, offset = "+25+75", gravity = "northeast")
 setwd('./..')
