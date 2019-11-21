@@ -43,11 +43,10 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
     exec.time <- bench(pointdata, TDA.library,
                        feature.dimensions, num.iteration)
     exec.time.list <- unlist(exec.time[[1]])
-    row.apnd  <- as_tibble(cbind(str.measure, str.data.type, data.dimensions, num.points, 
-                                 feature.dimensions, str.TDA.library, exec.time.list[1],
-                                 exec.time.list[2], exec.time.list[3], exec.time.list[4],
-                                 exec.time.list[5], exec.time.list[6], exec.time.list[7],
-                                 exec.time.list[8], exec.time.list[9], exec.time.list[10]))
+    appnd <- tibble()
+    row  <- c(str.measure, str.data.type, data.dimensions, num.points, 
+                                 feature.dimensions, str.TDA.library, exec.time.list)
+    row.apnd <- rbind(appnd, row)
     write_csv(row.apnd, path = str.file.name, na = "NA", append = TRUE)
   } else if (measure == "memory") {
     mem.data <- memory(pointdata, TDA.library,
