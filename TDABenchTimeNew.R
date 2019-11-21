@@ -135,7 +135,7 @@ vars.all <- vars.all[!(vars.all$num.points>300
                        & vars.all$TDA.library == "stats"), ]
 
 #Remove >3D objects for GUDHI ALpha
-vars.all <- vars.all[!(vars.all$data.dimensions > 3 
+vars.all <- vars.all[!(vars.all$feature.dimensions > 3 
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
 #Reads in collected data so far
