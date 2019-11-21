@@ -94,8 +94,8 @@ vars.torus <- as_tibble(expand.grid(measure = "memory", data.type = "torus",
 #Comment out this next session for the real deal
 vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
 
-#Remove 4D analysis over 100 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>100 
+#Remove 4D analysis over 75 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>75 
                        & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "GUDHI"), ]
 
@@ -108,31 +108,6 @@ vars.all <- vars.all[!(vars.all$num.points>125
 vars.all <- vars.all[!(vars.all$num.points>300 
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
-
-#Remove 4D analysis over 75 points for Dionysus
-vars.all <- vars.all[!(vars.all$num.points>75 
-                       & vars.all$feature.dimensions ==4
-                       & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 3D analysis over 100 points for Dionysus
-vars.all <- vars.all[!(vars.all$num.points>100 
-                       & vars.all$feature.dimensions ==3
-                       & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 2D analysis over 200 points for Dionysus
-vars.all <- vars.all[!(vars.all$num.points>200 
-                       & vars.all$feature.dimensions ==2
-                       & vars.all$TDA.library == "Dionysus"), ]
-
-#Remove 4D analysis over 100 points for stats
-vars.all <- vars.all[!(vars.all$num.points>100 
-                       & vars.all$feature.dimensions ==4
-                       & vars.all$TDA.library == "stats"), ]
-
-#Remove 3D analysis over 300 points for stats
-vars.all <- vars.all[!(vars.all$num.points>300 
-                       & vars.all$feature.dimensions ==3
-                       & vars.all$TDA.library == "stats"), ]
 
 #Remove >3D objects for GUDHI ALpha
 vars.all <- vars.all[!(vars.all$data.dimensions > 3 
