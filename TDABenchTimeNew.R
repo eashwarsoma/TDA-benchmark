@@ -94,8 +94,8 @@ vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
 #Comment out this next session for the real deal
 vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
 
-#Remove 4D analysis over 100 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>100 
+#Remove 4D analysis over 75 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>75 
                        & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "GUDHI"), ]
 
