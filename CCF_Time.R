@@ -7,57 +7,7 @@ library(TDAstats)
 library(bench)
 library(pryr)
 
-source("generate-data.R")
-source("CCF_bench.R")
-source("MemorySize.R") 
-
-TDA_bench <- function(measure, data.type, data.dimensions, num.points,
-                      feature.dimensions, TDA.library, num.iteration, file.name) {
-  print(paste("Starting", measure, data.type, data.dimensions, num.points,
-              feature.dimensions, TDA.library, Sys.time()))
-  
-  str.measure <- paste(measure)
-  str.data.type <- paste(data.type)
-  str.TDA.library <- paste(TDA.library)
-  str.file.name <- paste(file.name)
-  
-  if (feature.dimensions > data.dimensions) {
-    stop("Feature dimensions must be less than data dimensions")
-  } else
-    
-    #step 1, generate the dataset
-    if (data.type == "circle") {
-      pointdata <- unifcircle(num.points, data.dimensions)
-    } else if (data.type == "uniform") {
-      pointdata <- unifbox(num.points, data.dimensions)
-    } else if (data.type == "annulus") {
-      pointdata <- noisycircle(num.points, data.dimensions)
-    } else if (data.type == "torus") {
-      pointdata <- torus(num.points)
-    } else {
-      stop("Invalid data type")
-    }
-  
-  # step 2 benchmark, write all times to a csv
-  if (measure == "time") {
-    exec.time <- bench(pointdata, TDA.library,
-                       feature.dimensions, num.iteration)
-    exec.time.list <- unlist(exec.time[[1]])
-    appnd <- tibble()
-    row  <- c(str.measure, str.data.type, data.dimensions, num.points, 
-                                 feature.dimensions, str.TDA.library, exec.time.list)
-    row.apnd <- rbind(appnd, row)
-    write_csv(row.apnd, path = str.file.name, na = "NA", append = TRUE)
-  } else if (measure == "memory") {
-    mem.data <- memory(pointdata, TDA.library,
-                       feature.dimensions)
-    row.apnd  <- as_tibble(cbind(str.measure, str.data.type, data.dimensions, num.points, 
-                                 feature.dimensions, str.TDA.library, mem.data))
-    write_csv(row.apnd, path = str.file.name, na = "NA", append = TRUE)
-  } else stop("Select either 'memory' or 'time' as measurement")
-}
-####
-
+source("Functions.R")
 
 ####Making the parameters to test for time####
 ##Creating variables for measuring Time ## 
