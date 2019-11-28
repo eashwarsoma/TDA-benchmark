@@ -116,6 +116,7 @@ noisycircle <- function(num.points, data.dimensions,
   return(to.calc.hom)
 }
 
+#####bench time#####
 # NB: maxscale = 5 is used in TDA package examples, so used here (no default)
 
 # point data input is required. program that is calculated is based off text string
@@ -149,18 +150,38 @@ bench <- function(pointdata, TDA.library, featdim, num.iterations) {
   return(time[1,12])
 }
 
-library(plyr)
-library(readr)
-library(dplyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-library(pryr)
+#####measure memory#####
+#point data input is required. program that is calculated is based off 
+#text string. Dimensional features and iteration number for benchmark 
+#should also be specified. Uses rips filtration function
+memory <- function(pointdata, TDA.library, feature.dimensions) { 
+  if (TDA.library == "Dionysus") { 
+    filtrate <- ripsFiltration(pointdata, maxdimension = feature.dimensions, maxscale = 5, 
+                               library = "Dionysus")
+    size <- object_size(filtrate[[1]])
+    
+  } else if (TDA.library == "GUDHI") {
+    print("1")
+    filtrate <- ripsFiltration(pointdata, maxdimension = feature.dimensions, maxscale = 5, 
+                               library = "GUDHI")
+    print("2")
+    size <- object_size(filtrate[[1]])
+    
+  } else if (TDA.library == "GUDHIalpha") {
+    print("1")
+    filtrate <- alphaComplexFiltration(pointdata, 
+                                       library = "GUDHI")
+    print("2")
+    size <- object_size(filtrate[[1]])
+    
+  } else {
+    stop("Choose 'Dionysus', 'GUDHI', or 'GUDHIalpa'. Cannot use TDAstats")
+  }
+  
+  return(size)
+}
 
-source("generate-data.R")
-source("CCF_bench.R")
-source("MemorySize.R") 
-
+#####combined function#####
 TDA_bench <- function(measure, data.type, data.dimensions, num.points,
                       feature.dimensions, TDA.library, num.iteration, file.name) {
   print(paste("Starting", measure, data.type, data.dimensions, num.points,
