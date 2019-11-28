@@ -7,14 +7,18 @@ memory <- function(pointdata, TDA.library, feature.dimensions) {
                            library = "Dionysus")
     size <- object_size(filtrate[[1]])
     
-  } else if (TDA.library == "GUDHI") { 
+  } else if (TDA.library == "GUDHI") {
+    print("1")
     filtrate <- ripsFiltration(pointdata, maxdimension = feature.dimensions, maxscale = 5, 
                            library = "GUDHI")
+    print("2")
     size <- object_size(filtrate[[1]])
     
-  } else if (TDA.library == "GUDHIalpha") { 
+  } else if (TDA.library == "GUDHIalpha") {
+    print("1")
     filtrate <- alphaComplexFiltration(pointdata, 
                                    library = "GUDHI")
+    print("2")
     size <- object_size(filtrate[[1]])
     
   } else {
