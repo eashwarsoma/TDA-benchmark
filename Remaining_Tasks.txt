@@ -1,17 +1,8 @@
 Remaining Tasks:
 Finish Collecting Data on Computer
-	Complete Time Collection
-	Create and test Rscript for Mem collection
-	Begin and Complete Memory Collection
+	Complete Memory Collection
 
-Finish the Preliminary Figures
-
-Create agendea for discussions
-  What to do about apparant alpha complex not working for 4D point clouds and higher?
-	Do we need more/fewer parameters for the figures already planned out?
-	Should we remove any figures?
-	Should we add any figures?
-	
+#####	
 Agenda: 
 Limitation of Data Points
   Review the limitation table for time and memory
@@ -25,6 +16,7 @@ Limitation of Data Points
 Selection of Figures
   Fig 1: Runtimes of all libraries against torus
       This graph is a must
+      In general, how to show exponential growth of TDAstats in proper scale
       
   Fig 2: Runtimes of all libraries against n-dim boxes
       This graph is limited by the number of points we can test on my laptop
@@ -43,9 +35,18 @@ Selection of Figures
   Fig 6: Exec time of rips Filtration vs alpha complex on all point clouds
       Seemingly restricted to 3D points clouds due to alpha complex limitation
 
+Explaining the theoretical computation times for Rips vs Alpha Complexes
+  Discussing O(2^n)?
+  Alpha complex time increases with additional dimensions
+  Rips complex time increases with additional points
 
-Discuss with Team The Figures and Plan Out Necessary Adjustments
-
+For nonTDA stats, how do we resolve the limiting radius? GUDHI and Dionysus requires fixed radius
+  Write code to make it a non fixed number?
+  Or give TDAstats a fixed radius to expand to?
+  Or keep the radius at 5 which is the default example given in TDA package guide
+  
+For memory, clarify correct language with regards to boundary matrix and object size
+#####
 
 Write
 	Methods Draft
@@ -60,8 +61,7 @@ Have Team Review
 	Introduction Draft
 
 Get CCF ID
-	Find/Call Mr. Pellechia
-	
+
 On CCF Computer
 	Pull the directory into a DropBox Folder
 	Test CCF specific Rscript files 
