@@ -6,10 +6,46 @@ Finish Collecting Data on Computer
 
 Finish the Preliminary Figures
 
-Discuss with Team The Figures and Plan Out Necessary Adjustments
+Create agendea for discussions
+  What to do about apparant alpha complex not working for 4D point clouds and higher?
 	Do we need more/fewer parameters for the figures already planned out?
 	Should we remove any figures?
 	Should we add any figures?
+	
+Agenda: 
+Limitation of Data Points
+  Review the limitation table for time and memory
+  Limitations for Rips Complex are based on number of points and feature dimensions
+  Alpha Complex seems to be limited to 3D point clouds
+  
+  Where should we stop the data for each point cloud feature dimension?
+  What should be the interval between number of points for each point cloud?
+  What do we do about the alpha complexes?
+  
+Selection of Figures
+  Fig 1: Runtimes of all libraries against torus
+      This graph is a must
+      
+  Fig 2: Runtimes of all libraries against n-dim boxes
+      This graph is limited by the number of points we can test on my laptop
+      
+  Fig 3: Runtimes of all libraries against n-dim annuluses
+      This graph is limited by the number of points we can test on my laptop
+      May be redundant with Fig 2. 
+      Replace by holding feat.dim constant and increasing data dimension??
+      
+  Fig 4: Runtime of all libraries against 4D sphere by n-dim features
+      This graph is limited by the number of points we can test on my laptop
+
+  Fig 5: Object size of rips filtration on all point clouds by library
+      Seemingly restricted to 3D point clouds due to alpha complex limitation
+      
+  Fig 6: Exec time of rips Filtration vs alpha complex on all point clouds
+      Seemingly restricted to 3D points clouds due to alpha complex limitation
+
+
+Discuss with Team The Figures and Plan Out Necessary Adjustments
+
 
 Write
 	Methods Draft
