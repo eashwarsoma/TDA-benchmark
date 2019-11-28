@@ -7,7 +7,9 @@ library(bench)
 library(pryr)
 library(ggplot2)
 library(magick)
-
+library(patc)
+library(devtools)
+library(patchwork)
 
 data.time <- read.csv("time1.csv", header = FALSE)
 data.mem <- read.csv("mem1.csv", header = FALSE)
@@ -83,7 +85,12 @@ data.fig.3 <- data.fig.3[(data.fig.3$point.cloud.dim - 1 == data.fig.3$feat.dim)
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Annulus
 fig.3 <- ggplot(data.fig.3, aes(x=num.points, y=exec.time, color=library)) + 
-  geom_point() + facet_grid(cols = vars(point.cloud.dim))
+  geom_point() + facet_grid(cols = vars(point.cloud.dim)) + 
+  labs(color = "TDA Library",
+       x = "Number of Points on N-Box",
+       y = "Execution Time",
+       title = "Run Times For N-Dim Annulus",
+       subtitle = "")
 
 #Editing the colors (Making everything blank)
 fig.3 <- fig.3 + theme(panel.grid.major = element_blank(), 
@@ -106,7 +113,12 @@ data.fig.4$feat.dim <- as.factor(data.fig.4$feat.dim)
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: feat.dim; Facet: library
 fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=exec.time, color=feat.dim)) + 
-  geom_point() + facet_grid(cols = vars(library))
+  geom_point() + facet_grid(cols = vars(library)) + 
+  labs(color = "feature dimension",
+       x = "Number of Points",
+       y = "Execution Time",
+       title = "Run Times On 4D Sphere",
+       subtitle = "")
 
 #Editing the colors (Making everything blank)
 fig.4 <- fig.4 + theme(panel.grid.major = element_blank(), 
@@ -130,9 +142,14 @@ fig.4
 #POINT OUT THAT RIPSER DOESN'T MEASURE MEMORY B/C NO BOUNDARY MATRIX, BUT LIKELY SOMEWHERE IN BETWEEN THE TWO
 data.fig.5 <- subset(data.mem, point.cloud.dim == 3 & feat.dim == 2)
 
-#Point graph facet; X: Num.points; Y: Runtime; Color: feat.dim; Facet: library
+#Point graph facet; X: Num.points; Y: Memory; Color: Library; Facet: Pointcloud
 fig.5 <- ggplot(data.fig.5, aes(x=num.points, y=memory, color=library)) + 
-  geom_point() + facet_grid(cols = vars(point.cloud))
+  geom_point() + facet_grid(cols = vars(point.cloud)) + 
+  labs(color = "library",
+       x = "Number of Points",
+       y = "Object Size",
+       title = "Object Size of Boundary Matrix",
+       subtitle = "")
 
 #Editing the colors (Making everything blank)
 fig.5 <- fig.5 + theme(panel.grid.major = element_blank(), 
@@ -152,9 +169,14 @@ fig.5
 #Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
 data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 & (library == "stats" | library == "GUDHIalpha"))
 
-#Point graph facet; X: Num.points; Y: Runtime; Color: feat.dim; Facet: library
+#Point graph facet; X: Num.points; Y: time; Color: Library; Facet: Pointcloud
 fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=exec.time, color=library)) + 
-  geom_point() + facet_wrap(~point.cloud)
+  geom_point() + facet_wrap(~point.cloud) + 
+  labs(color = "library",
+       x = "Number of Points",
+       y = "Execution Time",
+       title = "TDAstats vs GUDHI Alpha Complex",
+       subtitle = "")
 
 #Editing the colors (Making everything blank)
 fig.6 <- fig.6 + theme(panel.grid.major = element_blank(), 
@@ -166,8 +188,9 @@ fig.6 <- fig.6 + theme(panel.grid.major = element_blank(),
                        plot.title = element_text(hjust = 0.5),
                        axis.line = element_blank())
 
-fig.6
 
+(fig.1 | fig.2 | fig.3) /
+  (fig.4 + fig.5 +fig.6)
 
 
 
