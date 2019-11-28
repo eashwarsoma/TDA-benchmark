@@ -47,11 +47,15 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
                                  feature.dimensions, str.TDA.library, exec.time))
     write_csv(row.apnd, path = str.file.name, na = "NA", append = TRUE)
   } else if (measure == "memory") {
+      print("a")
     mem.data <- memory(pointdata, TDA.library,
                        feature.dimensions)
+    print("b")
     row.apnd  <- as_tibble(cbind(str.measure, str.data.type, data.dimensions, num.points, 
                                  feature.dimensions, str.TDA.library, mem.data))
+    print("c")
     write_csv(row.apnd, path = str.file.name, na = "NA", append = TRUE)
+    print("d")
   } else stop("Select either 'memory' or 'time' as measurement")
 }
 ####
@@ -99,17 +103,17 @@ vars.all <- vars.all[!(vars.all$num.points>75
                        & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 3D analysis over 125 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>125 
+#Remove 3D analysis over 100 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>100 
                        & vars.all$feature.dimensions ==3
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>300 
+#Remove 2D analysis over 275 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>275 
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove >3D objects for GUDHI ALpha
+#Remove >3D clouds for GUDHI ALpha
 vars.all <- vars.all[!(vars.all$data.dimensions > 3 
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
