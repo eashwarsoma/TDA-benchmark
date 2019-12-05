@@ -133,7 +133,8 @@ enclosing_radius <- function(X){
 bench <- function(pointdata, TDA.library, featdim, num.iterations) {
   # TDAstats
   if (TDA.library == "stats") {
-    time <- mark(calculate_homology(pointdata, dim = featdim),
+    enc.rad <- enclosing_radius(pointdata)
+    time <- mark(calculate_homology(pointdata, dim = featdim, threshold = enc.rad),
                  iterations = num.iterations)
     # TDA - Dionysus
   } else if (TDA.library == "Dionysus") {
