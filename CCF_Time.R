@@ -13,14 +13,14 @@ source("Functions.R")
 ##Creating variables for measuring Time ## 
 #Making Circle Variables for time
 vars.circle <- as_tibble(expand.grid(measure = "time", data.type = "circle",
-                                     data.dimensions = 2:4, num.points = seq(50, 500, 25),
+                                     data.dimensions = 2:4, num.points = seq(10, 500, 5),
                                      feature.dimensions = 1:3, 
                                      TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                      num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Making Annulus Variables for time
 vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus",
-                                          data.dimensions = 2:4, num.points = seq(50, 500, 25),
+                                          data.dimensions = 2:4, num.points = seq(10, 500, 5),
                                           feature.dimensions = 1:3, 
                                           TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                           num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
@@ -28,14 +28,14 @@ vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus
 
 #Making Box Variables for time
 vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
-                                  data.dimensions = 2:5, num.points = seq(50, 500, 25),
-                                  feature.dimensions = 1:4, 
+                                  data.dimensions = 2:10, num.points = seq(10, 500, 5),
+                                  feature.dimensions = 1:9, 
                                   TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                   num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Making Torus Variables for time
 vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
-                                    data.dimensions = 3, num.points = seq(50, 500, 25),
+                                    data.dimensions = 3, num.points = seq(10, 500, 5),
                                     feature.dimensions = 1:2, 
                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                     num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
@@ -43,11 +43,20 @@ vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
 
 ####Assemble variables for time...and delete the ones my laptop can't handle####
 #If a certain point threshold for a certain dim feature is reached, then calc fails independent of point cloud shape and dim
+#Remove Points that are not needed to show growth of the curve
 #Comment out this next session for the real deal
 vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
+vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus) %>% 
+  subset(feature.dimensions != 1 | num.points %% 25 == 0) %>%
+  subset(feature.dimensions != 2 | num.points %% 20 == 0) %>%
+  subset(feature.dimensions != 3 | num.points %% 10 == 0)
 
-#Remove 4D analysis over 100 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>100 
+#Remove 5+D analysis over 25
+vars.all <- vars.all[!(vars.all$num.points>25 
+                       & vars.all$feature.dimensions >= 5), ]
+
+#Remove 4D analysis over 75 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>75 
                        & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "GUDHI"), ]
 
@@ -61,8 +70,8 @@ vars.all <- vars.all[!(vars.all$num.points>300
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 4D analysis over 75 points for Dionysus
-vars.all <- vars.all[!(vars.all$num.points>75 
+#Remove 4D analysis over 50 points for Dionysus
+vars.all <- vars.all[!(vars.all$num.points>50 
                        & vars.all$feature.dimensions ==4
                        & vars.all$TDA.library == "Dionysus"), ]
 
