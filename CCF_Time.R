@@ -115,7 +115,7 @@ mapply(TDA_bench, vars.all$measure, vars.all$data.type,
        vars.all$feature.dimensions, vars.all$TDA.library,
        vars.all$num.iteration, vars.all$file.name)
 
-print("done")
+write.csv(vars.all, "done.csv")
 
 
 
