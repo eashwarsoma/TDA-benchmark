@@ -116,14 +116,7 @@ noisycircle <- function(num.points, data.dimensions,
   return(to.calc.hom)
 }
 
-#####Function to make enclosing radius for TDA GUDHI and Dionysus (makes runtime fairer)#####
-enclosing_radius <- function(X){
-  # function which finds radius beyond which no homology changes
-  # X is a point cloud data frame
-  d = dist(X)
-  n = nrow(X)
-  return(min(unlist(lapply(X = 1:(nrow(X) - 1), FUN = function(X){ return(max(d[(1+(X-1)*n-(X-1)*X/2):(X*n-X*(X+1)/2)])) }))))
-}
+
 
 #####bench time#####
 # NB: maxscale = 5 is used in TDA package examples, so used here (no default)
@@ -133,19 +126,16 @@ enclosing_radius <- function(X){
 bench <- function(pointdata, TDA.library, featdim, num.iterations) {
   # TDAstats
   if (TDA.library == "stats") {
-    enc.rad <- enclosing_radius(pointdata)
-    time <- mark(calculate_homology(pointdata, dim = featdim, threshold = enc.rad),
+    time <- mark(calculate_homology(pointdata, dim = featdim, threshold = 2),
                  iterations = num.iterations)
     # TDA - Dionysus
   } else if (TDA.library == "Dionysus") {
-    enc.rad <- enclosing_radius(pointdata)
-    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = enc.rad,
+    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 2,
                           location = FALSE, library = "Dionysus"),
                  iterations = num.iterations)
     # TDA - GUDHI
   } else if (TDA.library == "GUDHI") {
-    enc.rad <- enclosing_radius(pointdata)
-    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = enc.rad,
+    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 2,
                           location = FALSE, library = "GUDHI"),
                  iterations = num.iterations)
     # TDA - GUDHI (alpha complex)
