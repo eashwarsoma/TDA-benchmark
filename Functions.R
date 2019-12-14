@@ -126,16 +126,16 @@ noisycircle <- function(num.points, data.dimensions,
 bench <- function(pointdata, TDA.library, featdim, num.iterations) {
   # TDAstats
   if (TDA.library == "stats") {
-    time <- mark(calculate_homology(pointdata, dim = featdim, threshold = 2),
+    time <- mark(calculate_homology(pointdata, dim = featdim, threshold = 4),
                  iterations = num.iterations)
     # TDA - Dionysus
   } else if (TDA.library == "Dionysus") {
-    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 2,
+    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 4,
                           location = FALSE, library = "Dionysus"),
                  iterations = num.iterations)
     # TDA - GUDHI
   } else if (TDA.library == "GUDHI") {
-    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 2,
+    time <- mark(ripsDiag(pointdata, maxdimension = featdim, maxscale = 4,
                           location = FALSE, library = "GUDHI"),
                  iterations = num.iterations)
     # TDA - GUDHI (alpha complex)
