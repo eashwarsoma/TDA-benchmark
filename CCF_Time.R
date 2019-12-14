@@ -100,15 +100,15 @@ vars.all <- vars.all[!(vars.all$data.dimensions > 3
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
 #Reads in collected data so far
-vars.tested <- read.csv("timeccf.csv")
-colnames(vars.tested) <- c("measure", "data.type", "data.dimensions",
-                           "num.points", "feature.dimensions", "TDA.library", "time1",
-                           "time2", "time3", "time4", "time5", "time6", "time7", "time8",
-                           "time9", "time10")
+#vars.tested <- read.csv("timeccf.csv")
+#colnames(vars.tested) <- c("measure", "data.type", "data.dimensions",
+#                           "num.points", "feature.dimensions", "TDA.library", "time1",
+ #                          "time2", "time3", "time4", "time5", "time6", "time7", "time8",
+ #                          "time9", "time10")
 
 #From the variables, removes what has already been collected from each session
-vars.tested$feature.dimensions <- as.integer(vars.tested$feature.dimensions)
-vars.all <- vars.all %>% anti_join(vars.tested)
+#vars.tested$feature.dimensions <- as.integer(vars.tested$feature.dimensions)
+#vars.all <- vars.all %>% anti_join(vars.tested)
 
 mapply(TDA_bench, vars.all$measure, vars.all$data.type,
        vars.all$data.dimensions, vars.all$num.points,
