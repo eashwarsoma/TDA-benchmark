@@ -333,8 +333,6 @@ format.data <- do.call(rbind, all.data)
 
 write.csv(format.data, "cluster.csv")
 
-
-
 format.data
 
 
