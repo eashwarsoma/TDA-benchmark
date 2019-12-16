@@ -15,7 +15,7 @@ enclosing_radius <- function(X){
   # X is a point cloud data frame
   d = dist(X)
   n = nrow(X)
-  return(min(unlist(lapply(X = 1:(nrow(X) - 1), FUN = function(X){ return(max(d[(1+(X-1)*n-(X-1)*X/2):(X*n-X*(X+1)/2)])) }))))
+  return(max(unlist(lapply(X = 1:(nrow(X) - 1), FUN = function(X){ return(min(d[(1+(X-1)*n-(X-1)*X/2):(X*n-X*(X+1)/2)])) }))))
 }
 
 #####alternate bench function
@@ -91,4 +91,13 @@ fig.2
 
 
 unifcircle(100, 3)
+
+test <- rbind(c(-1.1,-1.1), c(-1,-1), c(1, 1), c(1.1, 1))
+dist(test)
+enclosing_radius(test)
+hom <- alphaComplexDiag(test)
+hom1 <-calculate_homology(test)
+
+
+
 
