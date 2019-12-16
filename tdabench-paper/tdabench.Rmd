@@ -73,4 +73,11 @@ Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
 
 ## Discussion
 
+Need to make a better version of this figure, but essential idea remains the same (recommendation for which R package to use depending on what you want to do).
+
+\begin{figure}
+  \centering
+  \includegraphics[height=2.5in]{decision}
+\end{figure}
+
 \bibliography{tdabench}
