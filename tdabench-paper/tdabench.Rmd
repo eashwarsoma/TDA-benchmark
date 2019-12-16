@@ -1,18 +1,36 @@
 ---
-title: Comparing efficiency of R packages implementing calculation of persistent homology
+title: Comparing R packages for calculation of persistent homology
 author:
-  - name: Author One
+  - name: Eashwar V. Somasundaram
     affiliation: Affiliation
     address:
     - line 1
     - line 2
     email:  author1@work
-  - name: Author Two
+  - name: Shael E. Brown
     affiliation: Affiliation
     address:
     - line 1
     - line 2
     email:  author2@work
+  - name: Adam Litzler
+    affiliation: Affiliation
+    address:
+    - line 1
+    - line 2
+    email:  author1@work
+  - name: Raoul R. Wadhwa
+    affiliation: Affiliation
+    address:
+    - line 1
+    - line 2
+    email:  author1@work
+  - name: Jacob G. Scott
+    affiliation: Affiliation
+    address:
+    - line 1
+    - line 2
+    email:  author1@work
 abstract: >
   An abstract of less than 150 words.
 output:
