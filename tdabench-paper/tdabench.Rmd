@@ -2,35 +2,35 @@
 title: Comparing R packages for calculation of persistent homology
 author:
   - name: Eashwar V. Somasundaram
-    affiliation: Affiliation
+    affiliation: School of Medicine
     address:
-    - line 1
-    - line 2
-    email:  author1@work
+    - Case Western Reserve University
+    - Cleveland, OH 44016
+    email: eashwar.somasundaram@case.edu
   - name: Shael E. Brown
     affiliation: Affiliation
     address:
     - line 1
     - line 2
-    email:  author2@work
+    email: shael.brown@mail.mcgill.ca
   - name: Adam Litzler
-    affiliation: Affiliation
+    affiliation: Department of Translational Hematology and Oncology Research
     address:
-    - line 1
-    - line 2
-    email:  author1@work
+    - Cleveland Clinic Foundation
+    - Cleveland, OH 44195
+    email:  author@work
   - name: Raoul R. Wadhwa
-    affiliation: Affiliation
+    affiliation: Cleveland Clinic Lerner College of Medicine
     address:
-    - line 1
-    - line 2
-    email:  author1@work
+    - Case Western Reserve University
+    - Cleveland, OH 44195
+    email: raoul.wadhwa@case.edu
   - name: Jacob G. Scott
-    affiliation: Affiliation
+    affiliation: Department of Translational Hematology and Oncology Research
     address:
-    - line 1
-    - line 2
-    email:  author1@work
+    - Cleveland Clinic Foundation
+    - Cleveland, OH 44195
+    email: ScottJ10@ccf.org
 abstract: >
   An abstract of less than 150 words.
 output:
@@ -42,7 +42,7 @@ output:
 ## Introduction
 
 Introductory section which may include references in parentheses
-\citep{R}, or cite a reference such as \citet{R} in the text.
+\citep{Rlang}, or cite a reference such as \citet{Rlang} in the text.
 
 ## Methods
 
@@ -73,4 +73,4 @@ Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
 ## Discussion
 
 This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](https://journal.r-project.org/share/author-guide.pdf).
-\bibliography{tdabench-paper}
+\bibliography{tdabench}
