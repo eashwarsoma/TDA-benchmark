@@ -5,7 +5,7 @@ author:
     affiliation: School of Medicine
     address:
     - Case Western Reserve University
-    - Cleveland, OH 44016
+    - Cleveland, OH 44016, United States
     email: eashwar.somasundaram@case.edu
   - name: Shael E. Brown
     affiliation: Affiliation
@@ -17,19 +17,19 @@ author:
     affiliation: Department of Translational Hematology and Oncology Research
     address:
     - Cleveland Clinic Foundation
-    - Cleveland, OH 44195
+    - Cleveland, OH 44195, United States
     email:  author@work
   - name: Raoul R. Wadhwa
     affiliation: Cleveland Clinic Lerner College of Medicine
     address:
     - Case Western Reserve University
-    - Cleveland, OH 44195
+    - Cleveland, OH 44195, United States
     email: raoul.wadhwa@case.edu
   - name: Jacob G. Scott
     affiliation: Department of Translational Hematology and Oncology Research
     address:
     - Cleveland Clinic Foundation
-    - Cleveland, OH 44195
+    - Cleveland, OH 44195, United States
     email: ScottJ10@ccf.org
 abstract: >
   An abstract of less than 150 words.
