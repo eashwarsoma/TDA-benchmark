@@ -5,3 +5,8 @@
 *.Rproj
 .DS_Store
 timeccf.csv
+
+# R markdown files
+*.log
+*.pdf
+*.tex
