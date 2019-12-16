@@ -1,4 +1,4 @@
-@Manual{R,
+@manual{Rlang,
   title = {R: A Language and Environment for Statistical Computing},
   author = {{R Core Team}},
   organization = {R Foundation for Statistical Computing},
@@ -8,21 +8,179 @@
   url = {http://www.R-project.org/},
 }
 
-@article{ihaka:1996,
-  Author = {Ihaka, Ross and Gentleman, Robert},
-	Journal = {Journal of Computational and Graphical Statistics},
-	Number = 3,
-	Pages = {299--314},
-	Title = {R: A Language for Data Analysis and Graphics},
-	Volume = 5,
-	Year = 1996}
+@article{ihaka1996,
+  author = {Ross Ihaka and Robert Gentleman},
+	journal = {Journal of Computational and Graphical Statistics},
+	number = {3},
+	pages = {299--314},
+	title = {R: A Language for Data Analysis and Graphics},
+	volume = {5},
+	year = {1996}
+}
 
-@article{tda-realworld,
-  author = "Marc Offroy and Ludovic Duponchel",
-  title = "Topological data analysis: A promising big data exploration tool in biology, analytical chemistry and physical chemistry",
-  journal = "Analytica Chimica Acta",
-  year = "2016",
-  volume = "910",
-  pages = "1--11",
-  doi = "10.1016/j.aca.2015.12.037"
+@article{phom-survey,
+  author = {Herbert Edelsbrunner and John Harer},
+  year = {2008},
+  month = {1},
+  title = {Persistent homology — a survey},
+  volume = {453},
+  journal = {Discrete \& Computational Geometry},
+  doi = {10.1090/conm/453/08802}
+}
+
+@article{Rips-Complex, 
+  title = {On the Vietoris-Rips complexes and a Cohomology Theory for metric spaces}, 
+  doi = {10.1515/9781400882588-013}, 
+  journal = {Prospects in Topology}, 
+  author = {Jean-Claude Hausmann}, 
+  year = {1996}, 
+  pages = {175–188}
+}
+
+@article{alpha-complex, 
+    title={Three-dimensional alpha shapes}, 
+    volume={13}, 
+    DOI={10.1145/174462.156635}, 
+    number={1}, 
+    journal={ACM Transactions on Graphics}, 
+    author={Edelsbrunner, Herbert and Mücke, Ernst P.}, 
+    year={1994}, 
+    month={Jan},
+    pages={43–72}
+}
+
+%Real World Examples
+@article{TDA-Contagion, 
+    title={Topological data analysis of contagion maps for examining spreading processes on networks}, 
+    volume={6},
+    DOI={10.1038/ncomms8723}, 
+    number={1}, 
+    journal={Nature Communications}, 
+    author={Taylor, Dane and Klimm, Florian and Harrington, Heather A. and Kramár, Miroslav and Mischaikow, Konstantin and Porter, Mason A. and Mucha, Peter J.},
+    year={2015}
+}
+
+@article{TDA-PChem,
+    author = "Marc Offroy and Ludovic Duponchel",
+    title = "Topological data analysis: A promising big data exploration tool in biology, analytical chemistry and physical chemistry",
+    journal = "Analytica Chimica Acta",
+    year = "2016",
+    volume = "910",
+    pages = "1--11",
+    doi = "10.1016/j.aca.2015.12.037"
+}
+
+@article{TDA-Viral, 
+    title={Topology of viral evolution}, 
+    volume={110}, 
+    DOI={10.1073/pnas.1313480110}, 
+    number={46}, 
+    journal={Proceedings of the National Academy of Sciences}, 
+    author={Chan, J. M. and Carlsson, G. and Rabadan, R.}, 
+    year={2013}, 
+    pages={18566–18571}
+}
+
+@manual{Dionysus,
+    title = "Dionysus", 
+    author = "Dmitriy Morozov",
+    year = "2018",
+    url = "http://mrzv.org/software/dionysus2"
+}
+
+@book{gudhi, 
+    title = "{GUDHI} User and Reference Manual", 
+    author = "{The GUDHI Project}", 
+    publisher = "{GUDHI Editorial Board}", 
+    year = 2015, 
+    url = "http://gudhi.gforge.inria.fr/doc/latest/"
+}
+
+@misc{Ripser,
+	author = {Ulrich Bauer},
+	Title = {Ripser: efficient computation of Vietoris-Rips persistence barcodes},
+	Month = Aug,
+	Year = {2019},
+	Eprint = {1908.02518},
+	Note = {Preprint}
+}
+
+@article{marsaglia, 
+    title={Choosing a Point from the Surface of a Sphere}, 
+    volume={43}, DOI={10.1214/aoms/1177692644}, 
+    number={2}, 
+    journal={The Annals of Mathematical Statistics}, 
+    author={Marsaglia, George}, 
+    year={1972}, 
+    pages={645–646}
+}
+
+%Packages
+@manual{dplyr,
+    title = {dplyr: A Grammar of Data Manipulation},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+    year = {2018},
+    note = {R package version 0.7.6},
+    url = {https://CRAN.R-project.org/package=dplyr},
+}
+  
+@manual{readr,
+    title = {readr: Read Rectangular Text Data},
+    author = {Hadley Wickham and Jim Hester and Romain Francois},
+    year = {2018},
+    note = {R package version 1.3.1},
+    url = {https://CRAN.R-project.org/package=readr},
+}
+  
+@manual{bench,
+    title = {bench: High Precision Timing of R Expressions},
+    author = {Jim Hester},
+    year = {2019},
+    note = {R package version 1.0.4},
+    url = {https://CRAN.R-project.org/package=bench},
+}
+  
+@manual{pryr,
+    title = {pryr: Tools for Computing on the Language},
+    author = {Hadley Wickham},
+    year = {2018},
+    note = {R package version 0.1.4},
+    url = {https://CRAN.R-project.org/package=pryr},
+}
+
+@manual{TDA,
+    title = {TDA: Statistical Tools for Topological Data Analysis},
+    author = {Brittany T. Fasy and Jisu Kim and Fabrizio Lecci and Clement Maria and David L. Millman and Vincent Rouvreau. The included GUDHI is authored by Clement Maria and Dionysus by Dmitriy Morozov and PHAT by Ulrich Bauer and Michael Kerber and Jan Reininghaus.},
+    year = {2019},
+    note = {R package version 1.6.5},
+    url = {https://CRAN.R-project.org/package=TDA},
+}
+
+@Article{TDAstats,
+    title = {{T}{D}{A}stats: {R} pipeline for computing persistent homology in topological data analysis},
+    author = {Raoul R. Wadhwa and Drew F.K. Williamson and Andrew Dhawan and Jacob G. Scott},
+    journal = {Journal of Open Source Software},
+    year = {2018},
+    volume = {3},
+    number = {28},
+    pages = {860},
+    url = {https://doi.org/10.21105/joss.00860},
+    doi = {10.21105/joss.00860},
+}
+  
+@book{ggplot2,
+    author = {Hadley Wickham},
+    title = {ggplot2: Elegant Graphics for Data Analysis},
+    publisher = {Springer-Verlag New York},
+    year = {2016},
+    isbn = {978-3-319-24277-4},
+    url = {https://ggplot2.tidyverse.org},
+}
+  
+@manual{magick,
+    title = {magick: Advanced Graphics and Image-Processing in R},
+    author = {Jeroen Ooms},
+    year = {2019},
+    note = {R package version 2.2},
+    url = {https://CRAN.R-project.org/package=magick},
 }
