@@ -8,10 +8,10 @@ author:
     - Cleveland, OH 44016, United States
     email: eashwar.somasundaram@case.edu
   - name: Shael E. Brown
-    affiliation: Affiliation
+    affiliation: Department of Quantitative Life Sciences
     address:
-    - line 1
-    - line 2
+    - McGill University
+    - Montreal, QC H3A 0G4, Canada
     email: shael.brown@mail.mcgill.ca
   - name: Adam Litzler
     affiliation: Department of Translational Hematology and Oncology Research
