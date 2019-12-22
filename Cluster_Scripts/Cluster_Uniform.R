@@ -6,6 +6,7 @@ library(TDA)
 library(TDAstats)
 library(bench)
 library(pryr)
+library(snowfall)
 
 # add if statements to check for parameter validity
 
@@ -233,21 +234,11 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
 }
 ####
 
+
 ####Making the parameters to test for time####
 ##Creating variables for measuring Time ## 
 #Making Circle Variables for time
-vars.circle <- as_tibble(expand.grid(measure = "time", data.type = "circle",
-                                     data.dimensions = 2:4, num.points = seq(10, 500, 5),
-                                     feature.dimensions = 1:3, 
-                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                     num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
-#Making Annulus Variables for time
-vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus",
-                                          data.dimensions = 2:4, num.points = seq(10, 500, 5),
-                                          feature.dimensions = 1:3, 
-                                          TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                          num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 
 #Making Box Variables for time
@@ -257,20 +248,14 @@ vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
                                   TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                   num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
-#Making Torus Variables for time
-vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
-                                    data.dimensions = 3, num.points = seq(10, 500, 5),
-                                    feature.dimensions = 1:2, 
-                                    TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                    num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
+
 ####
 
 ####Assemble variables for time...and delete the ones my laptop can't handle####
 #If a certain point threshold for a certain dim feature is reached, then calc fails independent of point cloud shape and dim
 #Remove Points that are not needed to show growth of the curve
 #Comment out this next session for the real deal
-vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus)
-vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus) %>% 
+vars.all <- rbind(vars.box) %>% 
   subset(feature.dimensions != 1 | num.points %% 25 == 0) %>%
   subset(feature.dimensions != 2 | num.points %% 20 == 0) %>%
   subset(feature.dimensions != 3 | num.points %% 10 == 0)
@@ -322,18 +307,31 @@ vars.all <- vars.all[!(vars.all$num.points>300
 #Remove >3D objects for GUDHI ALpha
 vars.all <- vars.all[!(vars.all$data.dimensions > 3 
                        & vars.all$TDA.library == "GUDHIalpha"), ]
-                       
 
-all.data <- mapply(TDA_bench, vars.all$measure, vars.all$data.type,
-                   vars.all$data.dimensions, vars.all$num.points,
-                   vars.all$feature.dimensions, vars.all$TDA.library,
-                   vars.all$num.iteration, vars.all$file.name, SIMPLIFY = F)
+####Set Up Parallel####
+sfInit(parallel=TRUE, cpus=4, type = "SOCK")
+sfExport( "vars.all", "bench", "memory", "noisycircle", "TDA_bench", "torus",
+          "unifbox", "unifcircle")
+sfLibrary(plyr)
+sfLibrary(readr)
+sfLibrary(dplyr)
+sfLibrary(TDA)
+sfLibrary(TDAstats)
+sfLibrary(bench)
+sfLibrary(pryr)
+sfLibrary(snowfall)
 
-format.data <- do.call(rbind, all.data)
 
-write.csv(format.data, "cluster.csv")
+result <- sfClusterApplyLB(seq_len(nrow(vars.all)),
+                           function(x) do.call(TDA_bench,as.list(vars.all[x,])))
 
-format.data
+format.data <- do.call(rbind, result)
+sfStop()
+
+
+write.csv(format.data, "uniform.csv")
+
+
 
 
 
