@@ -11,12 +11,19 @@ library(patc)
 library(devtools)
 library(patchwork)
 
-data.time <- read.csv("time1.csv", header = FALSE)
+data.time <- read.csv("/Users/Soma/Downloads/torus.csv", header = TRUE)
 data.mem <- read.csv("mem1.csv", header = FALSE)
 
-colnames(data.time) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", "exec.time")
+colnames(data.time) <- c("row", "measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", 
+                         "time1", "time2", "time3", "time4", "time5", "time6", "time7",
+                         "time8", "time9", "time10")
 colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", "memory")
 
+data.time$avg.time <- (data.time$time1 + data.time$time2 + 
+                      data.time$time3 + data.time$time4 +
+                      data.time$time5 + data.time$time6 +
+                      data.time$time7 + data.time$time8 +
+                      data.time$time9 + data.time$time10) * .1
 
 ####Figure_1####
 #Goal: overview showing speed differences across engines on a canonical shape.
@@ -25,7 +32,7 @@ colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.p
 data.fig.1 <- subset(data.time, point.cloud == "torus" & feat.dim == 2)
 
 #Point graph; X: Num.points; Y: Runtime; Color: TDA library
-fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=exec.time, color=library)) + 
+fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=avg.time, color=library)) + 
   geom_point() +
   labs(color = "TDA Library",
        x = "Number of Points on Torus",
