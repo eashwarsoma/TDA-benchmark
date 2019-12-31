@@ -1,44 +1,53 @@
-library(plyr)
-library(readr)
 library(dplyr)
-library(TDA)
-library(TDAstats)
-library(bench)
-library(pryr)
 library(ggplot2)
-library(magick)
-library(patc)
-library(devtools)
-library(patchwork)
-
-data.time <- read.csv("/Users/Soma/Downloads/torus.csv", header = TRUE)
+#Reading in the data
+data.time <- rbind(read.csv("/Users/Soma/Downloads/torus.csv", header = TRUE),
+                   read.csv("/Users/Soma/Downloads/circle.csv", header = TRUE))
 data.mem <- read.csv("mem1.csv", header = FALSE)
 
+#Adding Column Names
 colnames(data.time) <- c("row", "measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", 
                          "time1", "time2", "time3", "time4", "time5", "time6", "time7",
                          "time8", "time9", "time10")
 colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", "memory")
 
-data.time$avg.time <- (data.time$time1 + data.time$time2 + 
-                      data.time$time3 + data.time$time4 +
-                      data.time$time5 + data.time$time6 +
-                      data.time$time7 + data.time$time8 +
-                      data.time$time9 + data.time$time10) * .1
+#Creating average and standard deviation columns
+#Remove extraneuous row variable
+data.time <- data.time %>% select(-'row')
+
+data.time$avg.time <- apply(data.time[,7:16],1,mean)
+
+data.time$std <- apply(data.time[,7:16],1,sd)
+
+data.time$min.time <- apply(data.time[,7:16],1,min)
+
+data.time$max.time <- apply(data.time[,7:16],1,max)
+
 
 ####Figure_1####
 #Goal: overview showing speed differences across engines on a canonical shape.
 
 #Selected torus data scanning for two dimensional features
-data.fig.1 <- subset(data.time, point.cloud == "torus" & feat.dim == 2)
+data.fig.1 <- subset(data.time, point.cloud == "torus" & feat.dim == 2 & 
+                       library != "GUDHIalpha") %>%
+              melt(id.vars = c("num.points", "library", "measure.type",
+                               "feat.dim", "point.cloud", "point.cloud.dim",
+                               "std", "avg.time", "min.time", "max.time"))
+
 
 #Point graph; X: Num.points; Y: Runtime; Color: TDA library
-fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=avg.time, color=library)) + 
-  geom_point() +
+fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=value, color=library)) + 
+  geom_point()+
+  geom_errorbar(data.fig.1, mapping = aes(x=num.points, 
+                                            ymin=avg.time - std, 
+                                            ymax=avg.time + std)) +
   labs(color = "TDA Library",
        x = "Number of Points on Torus",
        y = "Execution Time",
        title = "Per. Homology Run Times For 3D Torus",
-       subtitle = "")
+       subtitle = "") 
+
+
 
 #Editing the colors (Making everything blank)
 fig.1 <- fig.1 + theme(panel.grid.major = element_blank(), 
@@ -49,8 +58,16 @@ fig.1 <- fig.1 + theme(panel.grid.major = element_blank(),
                        plot.title = element_text(hjust = 0.5),
                        axis.line = element_line(colour = "black"))
 
-fig.1
+fig.1 
 
+##Model##
+data.fig.1 %>% glm(avg.time ~ a*num.points^3, family = binomial)
+model <- data.fig.1 %>% subset(library == "stats") %>% 
+                        lm(avg.time ~ num.points*log(num.points), data = .)
+summary(model)
+plot(model)
+
+data.fig.1 %>% subset(library == "Dionysus") %>% select("num.points", "avg.time")
 
 
 ####Figure_2####
@@ -139,14 +156,8 @@ fig.4 <- fig.4 + theme(panel.grid.major = element_blank(),
 
 fig.4
 
-#Figure 5: Memory use of Rips complex vs alpha complex. Engine = GUDHI(alpha). 
-#Panel 1 = 4-sphere. Panel 2 = 3-annulus. Panel 3 = torus. Panel 4 = 5-box. 
-#For each panel: point color/shape = engine (GUDHI vs alpha); 
-#horizontal axis = number of points; 
-#vertical axis = memory use; 
-#feature dimension = data dimension - 1 for all panels. 
+####Figure 5: Memory use of Rips complex vs alpha complex. Engine = GUDHI(alpha). 
 #Goal: compare memory
-#POINT OUT THAT RIPSER DOESN'T MEASURE MEMORY B/C NO BOUNDARY MATRIX, BUT LIKELY SOMEWHERE IN BETWEEN THE TWO
 data.fig.5 <- subset(data.mem, point.cloud.dim == 3 & feat.dim == 2)
 
 #Point graph facet; X: Num.points; Y: Memory; Color: Library; Facet: Pointcloud
@@ -173,7 +184,7 @@ fig.5
 
 
 
-#Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
+#####Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
 data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 & (library == "stats" | library == "GUDHIalpha"))
 
 #Point graph facet; X: Num.points; Y: time; Color: Library; Facet: Pointcloud
@@ -196,8 +207,101 @@ fig.6 <- fig.6 + theme(panel.grid.major = element_blank(),
                        axis.line = element_blank())
 
 
-(fig.1 | fig.2 | fig.3) /
-  (fig.4 + fig.5 +fig.6)
+fig.6
+
+
+#####IntroFigures
+library(ggtda)
+source("Functions.R")
+
+# generate a noisy circle
+n <- 36; sd <- .2
+set.seed(0)
+t <- stats::runif(n = n, min = 0, max = 2*pi)
+d <- data.frame(
+  x = cos(t) + stats::rnorm(n = n, mean = 0, sd = sd),
+  y = sin(t) + stats::rnorm(n = n, mean = 0, sd = sd)
+)
+# compute the persistent homology
+ph <- as.data.frame(TDAstats::calculate_homology(as.matrix(d), dim = 1))
+print(head(ph, n = 12))
+#>    dimension birth      death
+#> 1          0     0 0.02903148
+#> 2          0     0 0.05579919
+#> 3          0     0 0.05754819
+#> 4          0     0 0.06145429
+#> 5          0     0 0.10973364
+#> 6          0     0 0.11006440
+#> 7          0     0 0.11076601
+#> 8          0     0 0.12968679
+#> 9          0     0 0.14783527
+#> 10         0     0 0.15895889
+#> 11         0     0 0.16171041
+#> 12         0     0 0.16548606
+ph <- transform(ph, dim = as.factor(dimension))
+
+# attach *ggtda*
+library(ggtda)
+#> Loading required package: ggplot2
+# visualize disks of fixed radii and the Vietoris complex for this proximity
+p_d <- ggplot(d, aes(x = x, y = y)) +
+  theme_bw() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3", alpha = .15) +
+  geom_point()
+p_sc <- ggplot(d, aes(x = x, y = y)) +
+  theme_bw() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod", alpha = .1) +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0()
+# combine the plots
+gridExtra::grid.arrange(
+  p_d, p_sc,
+  layout_matrix = matrix(c(1, 2), nrow = 1)
+)
+
+#####test 
+library(ggplot2)
+library(TDAstats)
+library(cowplot)
+
+circle <- circle2d
+
+mydata <- as.data.frame(circle)
+
+ggplot(mydata, aes(x = V1, y = V2))  + 
+  geom_point(size = I(25), alpha = .1, color = "aquamarine") +
+  geom_point(color = I("black")) +
+  theme_cowplot()
+
+
+
+
+phom <- calculate_homology(mydata)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
