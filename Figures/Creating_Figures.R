@@ -1,27 +1,38 @@
 library(dplyr)
 library(ggplot2)
-#Reading in the data
-data.time <- rbind(read.csv("/Users/Soma/Downloads/torus.csv", header = TRUE),
-                   read.csv("/Users/Soma/Downloads/circle.csv", header = TRUE))
-data.mem <- read.csv("mem1.csv", header = FALSE)
+library(reshape)
+library(ggforce)
 
+#Reading in the time data
+data.time <- read.csv("/Users/Soma/Downloads/temp_incomp_data.csv", header = TRUE)
 #Adding Column Names
-colnames(data.time) <- c("row", "measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", 
-                         "time1", "time2", "time3", "time4", "time5", "time6", "time7",
+colnames(data.time) <- c("measure.type", "point.cloud", "point.cloud.dim", 
+                         "num.points", "feat.dim", "library", 
+                         "time1", "time2", "time3", "time4", 
+                         "time5", "time6", "time7",
                          "time8", "time9", "time10")
-colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim", "num.points", "feat.dim", "library", "memory")
-
-#Creating average and standard deviation columns
-#Remove extraneuous row variable
-data.time <- data.time %>% select(-'row')
-
+#Creating average and standard deviation columns for time data
 data.time$avg.time <- apply(data.time[,7:16],1,mean)
-
 data.time$std <- apply(data.time[,7:16],1,sd)
-
 data.time$min.time <- apply(data.time[,7:16],1,min)
-
 data.time$max.time <- apply(data.time[,7:16],1,max)
+
+#Create Factor labels for libraries
+data.time$library <- factor(data.time$library,
+                            levels = c("stats","Dionysus","GUDHI", "GUDHIalpha"),
+                            labels = c("TDAstats", "Dionysus", "GUDHI Rips", "GUDHI Alpha"))
+
+#Read in object size data
+data.mem <- read.csv("/Users/Soma/Downloads/mem1.csv", header = FALSE)
+
+#Name columns
+colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim", 
+                        "num.points", "feat.dim", "library", "memory")
+
+#Create Factor labels for libraries
+data.mem$library <- factor(data.mem$library,
+                            levels = c("stats","Dionysus","GUDHI", "GUDHIalpha"),
+                            labels = c("TDAstats", "Dionysus", "GUDHI Rips", "GUDHI Alpha"))
 
 
 ####Figure_1####
@@ -29,256 +40,282 @@ data.time$max.time <- apply(data.time[,7:16],1,max)
 
 #Selected torus data scanning for two dimensional features
 data.fig.1 <- subset(data.time, point.cloud == "torus" & feat.dim == 2 & 
-                       library != "GUDHIalpha") %>%
-              melt(id.vars = c("num.points", "library", "measure.type",
-                               "feat.dim", "point.cloud", "point.cloud.dim",
-                               "std", "avg.time", "min.time", "max.time"))
-
+                       library != "GUDHI Alpha") 
 
 #Point graph; X: Num.points; Y: Runtime; Color: TDA library
-fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=value, color=library)) + 
+fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=avg.time, color=library)) + 
   geom_point()+
   geom_errorbar(data.fig.1, mapping = aes(x=num.points, 
                                             ymin=avg.time - std, 
                                             ymax=avg.time + std)) +
   labs(color = "TDA Library",
        x = "Number of Points on Torus",
-       y = "Execution Time",
-       title = "Per. Homology Run Times For 3D Torus",
+       y = "Average Run Time",
+       title = "Rips Complex Run Times on 3D Torus Point Clouds",
        subtitle = "") 
 
-
-
 #Editing the colors (Making everything blank)
-fig.1 <- fig.1 + theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_blank(),
-                       legend.position = c(0.87, 0.5),
-                       legend.key = element_blank(),
-                       plot.title = element_text(hjust = 0.5),
-                       axis.line = element_line(colour = "black"))
+fig.1 <- fig.1 + theme_classic() +
+                 theme_update(legend.position = c(0.85, 0.5),
+                              legend.title = element_text(size = 9),
+                              legend.text = element_text(size = 7),
+                              plot.title = element_text(hjust = 0.5),
+                              axis.line = element_line(colour = "black"),
+                              legend.text.align = 0,
+                              legend.title.align = 0)
 
 fig.1 
 
-##Model##
-data.fig.1 %>% glm(avg.time ~ a*num.points^3, family = binomial)
-model <- data.fig.1 %>% subset(library == "stats") %>% 
-                        lm(avg.time ~ num.points*log(num.points), data = .)
-summary(model)
-plot(model)
-
-data.fig.1 %>% subset(library == "Dionysus") %>% select("num.points", "avg.time")
-
 
 ####Figure_2####
-#Goal Comparison of persistent homology calculation runtimes across R packages for n-dimensional boxes (n = 2, 3, 4, 5). 
+#Goal Comparison of persistent homology calculation runtimes 
+#across R packages for n-dimensional sphere (n = 2, 3, 4)
 
 #Selected all boxes up to n-1 dimensional features
-data.fig.2 <- subset(data.time, point.cloud == "uniform")
+data.fig.2 <- subset(data.time, point.cloud == "circle" & library != "GUDHI Alpha")
 data.fig.2 <- data.fig.2[(data.fig.2$point.cloud.dim - 1 == data.fig.2$feat.dim), ]
 
-#Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Box
-fig.2 <- ggplot(data.fig.2, aes(x=num.points, y=exec.time, color=library)) + 
-  geom_point() + 
-  facet_wrap( ~ point.cloud.dim, ncol=2) + 
+#Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Sphere
+fig.2 <- ggplot(data.fig.2, aes(x=num.points, y=avg.time, color=library)) + 
+  geom_point() +
+  facet_wrap( ~ point.cloud.dim, ncol=3, scales = "free") + 
+  geom_errorbar(data.fig.2, mapping = aes(x=num.points, 
+                                          ymin=avg.time - std, 
+                                          ymax=avg.time + std)) +
   labs(color = "TDA Library",
-       x = "Number of Points on N-Box",
-       y = "Execution Time",
-       title = "Run Times For N-Dim Boxes",
-       subtitle = "")
+       x = "Number of Points on N-Sphere",
+       y = "Average Run Time",
+       title = "Rips Complex Run Times For n-Dimensional Spheres",
+       subtitle = "") +
+scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
+scale_y_continuous(limits=c(-50,1800))
+
 
 #Editing the colors (Making everything blank)
-fig.2 <- fig.2 + theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_blank(),
-                       strip.background = element_blank(),
-                       strip.text = element_blank(),
-                       panel.border = element_rect(color = "black", fill = NA, size = 1),
-                       legend.key = element_blank(),
-                       plot.title = element_text(hjust = 0.5),
-                       axis.line = element_blank())
+fig.2 <- fig.2 + theme_classic() +
+                 theme_update(legend.position = c(0.95, 0.50),
+                              legend.title = element_text(size = 9),
+                              legend.text = element_text(size = 7),
+                              plot.title = element_text(hjust = 0.5),
+                              legend.text.align = 0,
+                              legend.title.align = 0,
+                              strip.background = element_blank(),
+                              strip.text.x = element_blank(),
+                              axis.line=element_line(),
+                              axis.text.x = element_text(angle=-45, hjust=.025))
 
 fig.2
 
-####Figure 3: Runtime of persistent homology calculation as a function of underlying engine (4d noisy circle/annulus)####
-#Goal: show that TDAstats and GUDHIalpha are sufficiently faster than GUDHI and Dionysus, so the latter pair can be ignored for rest of figures.
+####Figure 3: Runtime of persistent homology calculation as a function of feature dimension####
 
 #Select all annulus data for all dimension point cloud and n-1 dim features
-data.fig.3 <- subset(data.time, point.cloud == "annulus")
-data.fig.3 <- data.fig.3[(data.fig.3$point.cloud.dim - 1 == data.fig.3$feat.dim), ]
+data.fig.3 <- subset(data.time, point.cloud == "uniform" & 
+                       point.cloud.dim == 8 & library != "GUDHI Alpha" & 
+                       (num.points == 10 | num.points == 15| num.points == 20))
+data.fig.3$num.points <- as.factor(data.fig.3$num.points)
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Annulus
-fig.3 <- ggplot(data.fig.3, aes(x=num.points, y=exec.time, color=library)) + 
-  geom_point() + facet_grid(cols = vars(point.cloud.dim)) + 
-  labs(color = "TDA Library",
-       x = "Number of Points on N-Box",
-       y = "Execution Time",
-       title = "Run Times For N-Dim Annulus",
-       subtitle = "")
+fig.3 <- ggplot(data.fig.3, aes(x=feat.dim, y=avg.time, color=num.points)) + 
+  geom_point() + facet_wrap(~library, ncol = 2) + 
+  geom_errorbar(data.fig.3, mapping = aes(x=feat.dim, 
+                                          ymin=avg.time - std, 
+                                          ymax=avg.time + std)) +
+  labs(color = "Number of \nPoints",
+       x = "Feature Dimensions",
+       y = "Average Run Time",
+       title = "Run Times For Extracting Dimensional Features 
+       on an 8 Dimensional Box",
+       subtitle = "") + xlim(0, 8)
 
 #Editing the colors (Making everything blank)
-fig.3 <- fig.3 + theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_blank(),
-                       strip.background = element_blank(),
-                       strip.text = element_blank(),
-                       panel.border = element_rect(color = "black", fill = NA, size = 1),
-                       legend.key = element_blank(),
-                       plot.title = element_text(hjust = 0.5),
-                       axis.line = element_blank())
+fig.3 <- fig.3 + theme_classic() +
+                 theme_update(legend.position = c(0.85, 0.80),
+                             legend.title = element_text(size = 9),
+                             legend.text = element_text(size = 7),
+                             plot.title = element_text(hjust = 0.5),
+                             legend.text.align = 0,
+                             legend.title.align = 0,
+                             #strip.background = element_blank(),
+                             #strip.text.x = element_blank(),
+                             axis.text.x = element_text(angle=0, hjust=.025))
 fig.3
+#Continue here
 
-####Figure 4: Runtime of persistent homology calculation as a function of underlying engine and engine####
+####Figure 4: Runtime of persistent homology calculation as a function of point cloud####
 #Goal: show how increasing dimension slows down the calculation time.
 
-#Select all 4D circles and change feature dimension to a factor variable
-data.fig.4 <- subset(data.time, point.cloud == "circle" & point.cloud.dim == 4)
-data.fig.4$feat.dim <- as.factor(data.fig.4$feat.dim)
+#Select all 3D annuluses and change feature dimension to a factor variable
+data.fig.4 <- subset(data.time, point.cloud == "annulus" & feat.dim == 1 & 
+                       (library == "GUDHI Rips" | library == "GUDHI Alpha"))
+data.fig.4$point.cloud.dim <- as.factor(data.fig.4$point.cloud.dim)
+data.fig.4 <- as.data.frame(data.fig.4)
 
-#Point graph facet; X: Num.points; Y: Runtime; Color: feat.dim; Facet: library
-fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=exec.time, color=feat.dim)) + 
-  geom_point() + facet_grid(cols = vars(library)) + 
-  labs(color = "feature dimension",
+#Point graph facet; X: Num.points; Y: Runtime; Color: point.cloud dim; Facet: library
+fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=avg.time, color=point.cloud.dim)) + 
+  geom_point() + facet_wrap(~library, scales = "free") + 
+  geom_errorbar(data.fig.4, mapping = aes(x=num.points, 
+                                          ymin=avg.time - std, 
+                                          ymax=avg.time + std)) +
+  labs(color = "Annulus \nDimension",
        x = "Number of Points",
-       y = "Execution Time",
-       title = "Run Times On 4D Sphere",
-       subtitle = "")
+       y = "Average Run Time",
+       title = "Rips vs Alpha Complex Run Times For Extracting \n1 Dimensional Features on N-dimensional Annuluses",
+       subtitle = "") + 
+  scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
+  scale_y_continuous(limits=c(-.02, 12))
 
 #Editing the colors (Making everything blank)
-fig.4 <- fig.4 + theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_blank(),
-                       strip.background = element_blank(),
-                       panel.border = element_rect(color = "black", fill = NA, size = 1),
-                       legend.key = element_blank(),
-                       plot.title = element_text(hjust = 0.5),
-                       axis.line = element_blank())
+fig.4 <- fig.4 + theme_classic() +
+                  theme_update(legend.position = c(0.95, 0.50),
+                               legend.title = element_text(size = 9),
+                               legend.text = element_text(size = 7),
+                               plot.title = element_text(hjust = 0.5),
+                               legend.text.align = 0,
+                               legend.title.align = 0,
+                               axis.text.x = element_text(angle=0, hjust=.025),
+                               strip.background = element_rect(),
+                               strip.text.x = element_text())
 
 fig.4
 
-####Figure 5: Memory use of Rips complex vs alpha complex. Engine = GUDHI(alpha). 
+####Figure 5: Object Size use of Rips complex vs alpha complex. Engine = GUDHI(alpha).#### 
 #Goal: compare memory
-data.fig.5 <- subset(data.mem, point.cloud.dim == 3 & feat.dim == 2)
+data.fig.5a <- subset(data.mem, point.cloud.dim == 3 & feat.dim == 2)
 
 #Point graph facet; X: Num.points; Y: Memory; Color: Library; Facet: Pointcloud
-fig.5 <- ggplot(data.fig.5, aes(x=num.points, y=memory, color=library)) + 
-  geom_point() + facet_grid(cols = vars(point.cloud)) + 
-  labs(color = "library",
+fig.5a <- ggplot(data.fig.5a, aes(x=num.points, y=memory, color=library)) + 
+  geom_point() + facet_wrap(~point.cloud, scales = "free") + 
+  labs(color = "Complex",
        x = "Number of Points",
        y = "Object Size",
        title = "Object Size of Boundary Matrix",
-       subtitle = "")
+       subtitle = "")+ 
+  scale_x_continuous(limits=c(50,550), breaks = c(100, 200, 300, 400, 500)) + 
+  scale_y_continuous(limits=c(0, 1.8e10), breaks = c(1e5, 5e9, 1e10, 1.5e10)) 
 
 #Editing the colors (Making everything blank)
-fig.5 <- fig.5 + theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_blank(),
-                       strip.background = element_blank(),
-                       panel.border = element_rect(color = "black", fill = NA, size = 1),
-                       legend.key = element_blank(),
-                       plot.title = element_text(hjust = 0.5),
-                       axis.line = element_blank())
+fig.5a <- fig.5a + theme_classic() +
+                    theme_update(legend.position = c(1.05, 0.550),
+                                 legend.title = element_text(size = 9),
+                                 legend.text = element_text(size = 7),
+                                 plot.title = element_text(hjust = 0.5),
+                                 legend.text.align = 0,
+                                 legend.title.align = 0,
+                                 axis.text.x = element_text(angle=0, hjust=.025),
+                                 strip.background = element_blank(),
+                                 plot.margin = unit(c(1,3,1,1), "cm"),
+                                 strip.text.x = element_blank())
 
-fig.5
+fig.5a
+
+#Show what Rips Object Size depends on
+data.fig.5b <- subset(data.mem, library == "GUDHI Rips")
+data.fig.5b$feat.dim <- as.factor(data.fig.5b$feat.dim)
+
+#Point graph facet; X: Num.points; Y: Memory; Color: Feat.Dim; 
+fig.5b <- ggplot(data.fig.5b, aes(x=num.points, y=memory, color=feat.dim)) + 
+  geom_point() + 
+  labs(color = "Feature \n Dimension",
+       x = "Number of Points",
+       y = "Object Size",
+       title = "Object Size of Rips Complex Boundary Matrix",
+       subtitle = "")+ 
+  scale_x_continuous(limits=c(50,550), breaks = c(100, 200, 300, 400, 500)) + 
+  scale_y_continuous(limits=c(0, 1.8e10), 
+                     labels = function(x) format(x, scientific = TRUE))
+
+#Editing the colors (Making everything blank)
+fig.5b <- fig.5b + theme_classic() +
+  theme_update(legend.position = c(0.85, 0.550),
+               legend.title = element_text(size = 9),
+               legend.text = element_text(size = 7),
+               plot.title = element_text(hjust = 0.5),
+               legend.text.align = 0,
+               legend.title.align = 0,
+               axis.text.x = element_text(angle=0, hjust=.025),
+               strip.background = element_blank(),
+               strip.text.x = element_blank())
+
+fig.5b
+
+#Show what Alpha Complex Object Size depends on
+data.fig.5c <- subset(data.mem, library == "GUDHI Alpha")
+#This is necessary since Alpha Complex Object Size Function Did Not
+#Calculate Feat Dimensions lower than Point Cloud Dim - 1 in all cases
+#This subset is necessary to remove the extraneous conditions that
+#were not passed on to the alpha complex object size
+data.fig.5c <- subset(data.fig.5c, point.cloud.dim - feat.dim == 1)
+
+data.fig.5c$feat.dim <- as.factor(data.fig.5c$feat.dim)
 
 
+#Point graph facet; X: Num.points; Y: Memory; Color: Feat.Dim; 
+fig.5c <- ggplot(data.fig.5c, aes(x=num.points, y=memory, color=feat.dim)) + 
+  geom_point() + facet_wrap(~point.cloud, scales = "free") +
+  labs(color = "Feature \n Dimension",
+       x = "Number of Points",
+       y = "Object Size",
+       title = "Object Size of Alpha Complex Boundary Matrix",
+       subtitle = "")+ 
+  scale_x_continuous(limits=c(50,550), breaks = c(100, 200, 300, 400, 500)) + 
+  scale_y_continuous(limits=c(0, 1.24e6), 
+                     labels = function(x) format(x, scientific = TRUE))
+
+#Editing the colors (Making everything blank)
+fig.5c <- fig.5c + theme_classic()
+fig.5c <- fig.5c + theme_update(
+              legend.position = c(1.05, 0.550),
+              legend.title = element_text(size = 9),
+              legend.text = element_text(size = 7),
+              plot.title = element_text(hjust = 0.5),
+              legend.text.align = 0,
+              legend.title.align = 0,
+               #plot.title = element_text(hjust = 0.5),
+               axis.text.x = element_text(angle=0, hjust=.025),
+               strip.background = element_blank(),
+               strip.text.x = element_blank(), 
+               plot.margin = unit(c(1,3,1,1), "cm"),
+                panel.spacing = unit(2, "lines"))
+
+fig.5c
 
 
-#####Figure 6: Same as Figure 5, but TDAstats vs GUDHIalpha for runtime.
-data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 & (library == "stats" | library == "GUDHIalpha"))
+#####Figure 6 (for discussion) TDAstats vs GUDHIalpha for runtime.####
+data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 & 
+                       (library == "TDAstats" | library == "GUDHI Alpha"))
 
 #Point graph facet; X: Num.points; Y: time; Color: Library; Facet: Pointcloud
-fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=exec.time, color=library)) + 
-  geom_point() + facet_wrap(~point.cloud) + 
+fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=avg.time, color=library)) + 
+  geom_point() + facet_wrap(~point.cloud, scales = "free") + 
+  geom_errorbar(data.fig.6, mapping = aes(x=num.points, 
+                                          ymin=avg.time - std, 
+                                          ymax=avg.time + std)) +
   labs(color = "library",
        x = "Number of Points",
-       y = "Execution Time",
-       title = "TDAstats vs GUDHI Alpha Complex",
-       subtitle = "")
+       y = "Average Run Time",
+       title = "Rips (TDAstats) vs Alpha Complex (GUDHI) \nRun Times on 3D Point Clouds",
+       subtitle = "") + 
+  scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
+  scale_y_continuous(limits=c(-.05, 46))
 
 #Editing the colors (Making everything blank)
-fig.6 <- fig.6 + theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_blank(),
-                       strip.background = element_blank(),
-                       panel.border = element_rect(color = "black", fill = NA, size = 1),
-                       legend.key = element_blank(),
-                       plot.title = element_text(hjust = 0.5),
-                       axis.line = element_blank())
+fig.6 <- fig.6 + theme_classic()
+fig.6 <- fig.6 + theme_update(
+  legend.position = c(1.05, 0.550),
+  legend.title = element_text(size = 9),
+  legend.text = element_text(size = 7),
+  plot.title = element_text(hjust = 0.5),
+  legend.text.align = 0,
+  legend.title.align = 0,
+  #plot.title = element_text(hjust = 0.5),
+  axis.text.x = element_text(angle=0, hjust=.025),
+  strip.background = element_blank(),
+  strip.text.x = element_blank(), 
+  plot.margin = unit(c(1,3,1,1), "cm"),
+  panel.spacing = unit(2, "lines"))
 
 
 fig.6
-
-
-#####IntroFigures
-library(ggtda)
-source("Functions.R")
-
-# generate a noisy circle
-n <- 36; sd <- .2
-set.seed(0)
-t <- stats::runif(n = n, min = 0, max = 2*pi)
-d <- data.frame(
-  x = cos(t) + stats::rnorm(n = n, mean = 0, sd = sd),
-  y = sin(t) + stats::rnorm(n = n, mean = 0, sd = sd)
-)
-# compute the persistent homology
-ph <- as.data.frame(TDAstats::calculate_homology(as.matrix(d), dim = 1))
-print(head(ph, n = 12))
-#>    dimension birth      death
-#> 1          0     0 0.02903148
-#> 2          0     0 0.05579919
-#> 3          0     0 0.05754819
-#> 4          0     0 0.06145429
-#> 5          0     0 0.10973364
-#> 6          0     0 0.11006440
-#> 7          0     0 0.11076601
-#> 8          0     0 0.12968679
-#> 9          0     0 0.14783527
-#> 10         0     0 0.15895889
-#> 11         0     0 0.16171041
-#> 12         0     0 0.16548606
-ph <- transform(ph, dim = as.factor(dimension))
-
-# attach *ggtda*
-library(ggtda)
-#> Loading required package: ggplot2
-# visualize disks of fixed radii and the Vietoris complex for this proximity
-p_d <- ggplot(d, aes(x = x, y = y)) +
-  theme_bw() +
-  coord_fixed() +
-  stat_disk(radius = prox/2, fill = "aquamarine3", alpha = .15) +
-  geom_point()
-p_sc <- ggplot(d, aes(x = x, y = y)) +
-  theme_bw() +
-  coord_fixed() +
-  stat_vietoris2(diameter = prox, fill = "darkgoldenrod", alpha = .1) +
-  stat_vietoris1(diameter = prox, alpha = .25) +
-  stat_vietoris0()
-# combine the plots
-gridExtra::grid.arrange(
-  p_d, p_sc,
-  layout_matrix = matrix(c(1, 2), nrow = 1)
-)
-
-#####test 
-library(ggplot2)
-library(TDAstats)
-library(cowplot)
-
-circle <- circle2d
-
-mydata <- as.data.frame(circle)
-
-ggplot(mydata, aes(x = V1, y = V2))  + 
-  geom_point(size = I(25), alpha = .1, color = "aquamarine") +
-  geom_point(color = I("black")) +
-  theme_cowplot()
-
-
-
-
-phom <- calculate_homology(mydata)
 
 
 
