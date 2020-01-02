@@ -56,7 +56,7 @@ fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=avg.time, color=library)) +
 
 #Editing the colors (Making everything blank)
 fig.1 <- fig.1 + theme_classic() +
-                 theme_update(legend.position = c(0.85, 0.5),
+                 theme(legend.position = c(0.85, 0.5),
                               legend.title = element_text(size = 9),
                               legend.text = element_text(size = 7),
                               plot.title = element_text(hjust = 0.5),
@@ -65,6 +65,11 @@ fig.1 <- fig.1 + theme_classic() +
                               legend.title.align = 0)
 
 fig.1 
+
+ggsave("./Figures/Unrasterized_Images/fig1.png", plot = fig.1,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
+
 
 
 ####Figure_2####
@@ -93,7 +98,7 @@ scale_y_continuous(limits=c(-50,1800))
 
 #Editing the colors (Making everything blank)
 fig.2 <- fig.2 + theme_classic() +
-                 theme_update(legend.position = c(0.95, 0.50),
+                 theme(legend.position = c(0.93, 0.50),
                               legend.title = element_text(size = 9),
                               legend.text = element_text(size = 7),
                               plot.title = element_text(hjust = 0.5),
@@ -106,8 +111,12 @@ fig.2 <- fig.2 + theme_classic() +
 
 fig.2
 
-####Figure 3: Runtime of persistent homology calculation as a function of feature dimension####
+ggsave("./Figures/Unrasterized_Images/fig2.png", plot = fig.2,
+       scale = 1, width = 8, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
 
+
+####Figure 3: Runtime of persistent homology calculation as a function of feature dimension####
 #Select all annulus data for all dimension point cloud and n-1 dim features
 data.fig.3 <- subset(data.time, point.cloud == "uniform" & 
                        point.cloud.dim == 8 & library != "GUDHI Alpha" & 
@@ -125,21 +134,24 @@ fig.3 <- ggplot(data.fig.3, aes(x=feat.dim, y=avg.time, color=num.points)) +
        y = "Average Run Time",
        title = "Run Times For Extracting Dimensional Features 
        on an 8 Dimensional Box",
-       subtitle = "") + xlim(0, 8)
+       subtitle = "") + scale_x_continuous(limits=c(0, 8), breaks=seq(0,8,1))
 
 #Editing the colors (Making everything blank)
 fig.3 <- fig.3 + theme_classic() +
-                 theme_update(legend.position = c(0.85, 0.80),
+                 theme(legend.position = c(0.93, 0.50),
                              legend.title = element_text(size = 9),
                              legend.text = element_text(size = 7),
                              plot.title = element_text(hjust = 0.5),
                              legend.text.align = 0,
                              legend.title.align = 0,
-                             #strip.background = element_blank(),
-                             #strip.text.x = element_blank(),
+                             strip.background = element_blank(),
+                             strip.text.x = element_blank(),
                              axis.text.x = element_text(angle=0, hjust=.025))
 fig.3
-#Continue here
+ggsave("./Figures/Unrasterized_Images/fig3.png", plot = fig.3,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
+
 
 ####Figure 4: Runtime of persistent homology calculation as a function of point cloud####
 #Goal: show how increasing dimension slows down the calculation time.
@@ -166,17 +178,20 @@ fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=avg.time, color=point.cloud.dim)
 
 #Editing the colors (Making everything blank)
 fig.4 <- fig.4 + theme_classic() +
-                  theme_update(legend.position = c(0.95, 0.50),
+                  theme(legend.position = c(0.95, 0.50),
                                legend.title = element_text(size = 9),
                                legend.text = element_text(size = 7),
                                plot.title = element_text(hjust = 0.5),
                                legend.text.align = 0,
                                legend.title.align = 0,
                                axis.text.x = element_text(angle=0, hjust=.025),
-                               strip.background = element_rect(),
+                               strip.background = element_blank(),
                                strip.text.x = element_text())
 
 fig.4
+ggsave("./Figures/Unrasterized_Images/fig4.png", plot = fig.4,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
 
 ####Figure 5: Object Size use of Rips complex vs alpha complex. Engine = GUDHI(alpha).#### 
 #Goal: compare memory
@@ -195,7 +210,7 @@ fig.5a <- ggplot(data.fig.5a, aes(x=num.points, y=memory, color=library)) +
 
 #Editing the colors (Making everything blank)
 fig.5a <- fig.5a + theme_classic() +
-                    theme_update(legend.position = c(1.05, 0.550),
+                    theme(legend.position = c(1.10, 0.550),
                                  legend.title = element_text(size = 9),
                                  legend.text = element_text(size = 7),
                                  plot.title = element_text(hjust = 0.5),
@@ -207,6 +222,9 @@ fig.5a <- fig.5a + theme_classic() +
                                  strip.text.x = element_blank())
 
 fig.5a
+ggsave("./Figures/Unrasterized_Images/fig5a.png", plot = fig.5a,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
 
 #Show what Rips Object Size depends on
 data.fig.5b <- subset(data.mem, library == "GUDHI Rips")
@@ -226,7 +244,7 @@ fig.5b <- ggplot(data.fig.5b, aes(x=num.points, y=memory, color=feat.dim)) +
 
 #Editing the colors (Making everything blank)
 fig.5b <- fig.5b + theme_classic() +
-  theme_update(legend.position = c(0.85, 0.550),
+  theme(legend.position = c(0.92, 0.550),
                legend.title = element_text(size = 9),
                legend.text = element_text(size = 7),
                plot.title = element_text(hjust = 0.5),
@@ -237,6 +255,9 @@ fig.5b <- fig.5b + theme_classic() +
                strip.text.x = element_blank())
 
 fig.5b
+ggsave("./Figures/Unrasterized_Images/fig5b.png", plot = fig.5b,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
 
 #Show what Alpha Complex Object Size depends on
 data.fig.5c <- subset(data.mem, library == "GUDHI Alpha")
@@ -262,9 +283,8 @@ fig.5c <- ggplot(data.fig.5c, aes(x=num.points, y=memory, color=feat.dim)) +
                      labels = function(x) format(x, scientific = TRUE))
 
 #Editing the colors (Making everything blank)
-fig.5c <- fig.5c + theme_classic()
-fig.5c <- fig.5c + theme_update(
-              legend.position = c(1.05, 0.550),
+fig.5c <- fig.5c + theme_classic() + theme(
+              legend.position = c(1.16, 0.550),
               legend.title = element_text(size = 9),
               legend.text = element_text(size = 7),
               plot.title = element_text(hjust = 0.5),
@@ -278,6 +298,9 @@ fig.5c <- fig.5c + theme_update(
                 panel.spacing = unit(2, "lines"))
 
 fig.5c
+ggsave("./Figures/Unrasterized_Images/fig5c.png", plot = fig.5c,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
 
 
 #####Figure 6 (for discussion) TDAstats vs GUDHIalpha for runtime.####
@@ -286,22 +309,22 @@ data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 &
 
 #Point graph facet; X: Num.points; Y: time; Color: Library; Facet: Pointcloud
 fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=avg.time, color=library)) + 
-  geom_point() + facet_wrap(~point.cloud, scales = "free") + 
+  facet_wrap(~point.cloud, scales = "free") + 
   geom_errorbar(data.fig.6, mapping = aes(x=num.points, 
                                           ymin=avg.time - std, 
-                                          ymax=avg.time + std)) +
-  labs(color = "library",
+                                          ymax=avg.time + std)) + geom_point() +
+  labs(color = "Library",
        x = "Number of Points",
-       y = "Average Run Time",
+       y = "Average Run Time (s)",
        title = "Rips (TDAstats) vs Alpha Complex (GUDHI) \nRun Times on 3D Point Clouds",
        subtitle = "") + 
-  scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
+  scale_x_continuous(limits=c(5,550), breaks = c(100, 200, 300, 400, 500)) + 
   scale_y_continuous(limits=c(-.05, 46))
 
 #Editing the colors (Making everything blank)
 fig.6 <- fig.6 + theme_classic()
-fig.6 <- fig.6 + theme_update(
-  legend.position = c(1.05, 0.550),
+fig.6 <- fig.6 + theme(
+  legend.position = c(1.18, 0.550),
   legend.title = element_text(size = 9),
   legend.text = element_text(size = 7),
   plot.title = element_text(hjust = 0.5),
@@ -313,9 +336,11 @@ fig.6 <- fig.6 + theme_update(
   strip.text.x = element_blank(), 
   plot.margin = unit(c(1,3,1,1), "cm"),
   panel.spacing = unit(2, "lines"))
-
-
 fig.6
+
+ggsave("./Figures/Unrasterized_Images/fig6.png", plot = fig.6,
+       scale = 1, width = 6, height = 4, units = "in",
+       dpi = 400, limitsize = TRUE)
 
 
 
