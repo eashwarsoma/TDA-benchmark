@@ -4,13 +4,20 @@ library(reshape)
 library(ggforce)
 
 #Reading in the time data
-data.time <- read.csv("/Users/Soma/Downloads/temp_incomp_data.csv", header = TRUE)
+data.time <- rbind(read.csv("./Cluster_data/annulus.csv", header = TRUE),
+                   read.csv("./Cluster_data/circle.csv", header = TRUE),
+                   read.csv("./Cluster_data/torus.csv", header = TRUE),
+                   read.csv("./Cluster_data/uniform.csv", header = TRUE))
 #Adding Column Names
-colnames(data.time) <- c("measure.type", "point.cloud", "point.cloud.dim", 
+colnames(data.time) <- c("row", "measure.type", "point.cloud", "point.cloud.dim", 
                          "num.points", "feat.dim", "library", 
                          "time1", "time2", "time3", "time4", 
                          "time5", "time6", "time7",
                          "time8", "time9", "time10")
+
+#Remove extraneaous row variable
+data.time <- data.time %>% select(-"row")
+
 #Creating average and standard deviation columns for time data
 data.time$avg.time <- apply(data.time[,7:16],1,mean)
 data.time$std <- apply(data.time[,7:16],1,sd)
@@ -93,7 +100,7 @@ fig.2 <- ggplot(data.fig.2, aes(x=num.points, y=avg.time, color=library)) +
        title = "Rips Complex Run Times For n-Dimensional Spheres",
        subtitle = "") +
 scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
-scale_y_continuous(limits=c(-50,1800))
+scale_y_continuous(limits=c(-30,2100))
 
 
 #Editing the colors (Making everything blank)
@@ -125,29 +132,30 @@ data.fig.3$num.points <- as.factor(data.fig.3$num.points)
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Annulus
 fig.3 <- ggplot(data.fig.3, aes(x=feat.dim, y=avg.time, color=num.points)) + 
-  geom_point() + facet_wrap(~library, ncol = 2) + 
+  geom_point() + facet_wrap(~library, scales = "free") + 
   geom_errorbar(data.fig.3, mapping = aes(x=feat.dim, 
                                           ymin=avg.time - std, 
                                           ymax=avg.time + std)) +
   labs(color = "Number of \nPoints",
        x = "Feature Dimensions",
        y = "Average Run Time",
-       title = "Run Times For Extracting Dimensional Features 
-       on an 8 Dimensional Box",
-       subtitle = "") + scale_x_continuous(limits=c(0, 8), breaks=seq(0,8,1))
+       title = "Run Times For Extracting Dimensional \nFeatures on an 8 Dimensional Box",
+       subtitle = "") + scale_x_continuous(limits=c(0, 8), breaks=seq(0,8,1)) +
+                        scale_y_continuous(limits=c(0, 3))
 
 #Editing the colors (Making everything blank)
 fig.3 <- fig.3 + theme_classic() +
-                 theme(legend.position = c(0.93, 0.50),
+                 theme(legend.position = c(0.93, 0.60),
                              legend.title = element_text(size = 9),
                              legend.text = element_text(size = 7),
                              plot.title = element_text(hjust = 0.5),
                              legend.text.align = 0,
                              legend.title.align = 0,
                              strip.background = element_blank(),
-                             strip.text.x = element_blank(),
+                             #strip.text.x = element_blank(),
                              axis.text.x = element_text(angle=0, hjust=.025))
 fig.3
+
 ggsave("./Figures/Unrasterized_Images/fig3.png", plot = fig.3,
        scale = 1, width = 6, height = 4, units = "in",
        dpi = 400, limitsize = TRUE)
@@ -174,7 +182,7 @@ fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=avg.time, color=point.cloud.dim)
        title = "Rips vs Alpha Complex Run Times For Extracting \n1 Dimensional Features on N-dimensional Annuluses",
        subtitle = "") + 
   scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
-  scale_y_continuous(limits=c(-.02, 12))
+  scale_y_continuous(limits=c(-.02, 22))
 
 #Editing the colors (Making everything blank)
 fig.4 <- fig.4 + theme_classic() +
@@ -189,6 +197,7 @@ fig.4 <- fig.4 + theme_classic() +
                                strip.text.x = element_text())
 
 fig.4
+
 ggsave("./Figures/Unrasterized_Images/fig4.png", plot = fig.4,
        scale = 1, width = 6, height = 4, units = "in",
        dpi = 400, limitsize = TRUE)
@@ -319,12 +328,12 @@ fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=avg.time, color=library)) +
        title = "Rips (TDAstats) vs Alpha Complex (GUDHI) \nRun Times on 3D Point Clouds",
        subtitle = "") + 
   scale_x_continuous(limits=c(5,550), breaks = c(100, 200, 300, 400, 500)) + 
-  scale_y_continuous(limits=c(-.05, 46))
+  scale_y_continuous(limits=c(-.05, 84))
 
 #Editing the colors (Making everything blank)
 fig.6 <- fig.6 + theme_classic()
 fig.6 <- fig.6 + theme(
-  legend.position = c(1.18, 0.550),
+  legend.position = c(1.13, 0.550),
   legend.title = element_text(size = 9),
   legend.text = element_text(size = 7),
   plot.title = element_text(hjust = 0.5),
