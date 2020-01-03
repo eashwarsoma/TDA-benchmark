@@ -48,8 +48,6 @@ fig.1.rast <- image_composite(fig1.unrast, torus, offset = "+25+125", gravity = 
 image_write(fig.1.rast, path = './Figures/Final_Figures/fig1.png', format = 'png')
 
 
-
-
 ####Figure_2####
 #Read in Figure
 fig2.unrast <- image_read("./Figures/Unrasterized_Images/fig2.png")
@@ -84,7 +82,6 @@ fig5a.rast4 <- cube %>% image_scale("210") %>%
   image_composite(fig5a.rast3, ., offset = "+525+850", 
                   gravity = "northeast")
 
-fig5a.rast4
 
 #Write Out File
 image_write(fig5a.rast4, path = './Figures/Final_Figures/fig5a.png', format = 'png')
