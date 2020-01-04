@@ -74,8 +74,8 @@ vars.all <- vars.all[!(vars.all$num.points>125
                        & vars.all$feature.dimensions ==3
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>300 
+#Remove 2D analysis over 280 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>280 
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
