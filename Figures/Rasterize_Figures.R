@@ -36,7 +36,6 @@ square <- image_read("./Figures/Unrasterized_Images/square.png") %>%
 cube <- image_read("./Figures/Unrasterized_Images/cube.png") %>% 
   image_scale("1000") %>% 
   image_crop("525x475+225+200")
-cube
 
 
 ####Figure_1####
@@ -156,6 +155,68 @@ image_write(fig4, path = './Figures/Final_Figures/fig4.png', format = 'png')
 
 fig5b <- image_read("./Figures/Unrasterized_Images/fig5b.png") 
 image_write(fig5b, path = './Figures/Final_Figures/fig5b.png', format = 'png')
+
+
+####Mac Data Figure 1####
+#Read in Figure
+fig1.unrast <- image_read("./Figures/Unrasterized_Images/fig1mac.png")
+#Combine Figure and Image
+fig.1.rast <- image_composite(fig1.unrast, torus, offset = "+25+125", gravity = "northeast")
+#Write Out File
+image_write(fig.1.rast, path = './Figures/Final_Figures/fig1mac.png', format = 'png')
+
+####Mac Data Figure 2####
+#Read in Figure
+fig2.unrast <- image_read("./Figures/Unrasterized_Images/fig2mac.png")
+#Combine Figure and Image
+fig2.rast1 <- circle %>% image_scale("200") %>%
+  image_composite(fig2.unrast, ., offset = "+2125+205", 
+                  gravity = "northeast")
+
+fig2.rast2 <- sphere %>% image_scale("200") %>%
+  image_composite(fig2.rast1, ., offset = "+1100+205", 
+                  gravity = "northeast")
+
+#Write Out File
+image_write(fig2.rast2, path = './Figures/Final_Figures/fig2mac.png', format = 'png')
+
+####Mac Data Figure 3 and 4####
+fig3 <- image_read("./Figures/Unrasterized_Images/fig3mac.png") 
+image_write(fig3, path = './Figures/Final_Figures/fig3mac.png', format = 'png')
+
+
+fig4 <- image_read("./Figures/Unrasterized_Images/fig4mac.png") 
+image_write(fig4, path = './Figures/Final_Figures/fig4mac.png', format = 'png')
+
+####Mac Data Figure 6####
+fig6.unrast <- image_read("./Figures/Unrasterized_Images/fig6mac.png")
+#Combine Figure and Images
+fig6.rast1 <- annulus.3 %>% image_scale("185") %>%
+  image_composite(fig6.unrast, ., offset = "+1875+325", 
+                  gravity = "northeast")
+
+fig6.rast2 <- sphere %>% image_scale("185") %>%
+  image_composite(fig6.rast1, ., offset = "+940+325", 
+                  gravity = "northeast")
+
+fig6.rast3 <- torus %>% image_scale("185") %>%
+  image_composite(fig6.rast2, ., offset = "+1875+875", 
+                  gravity = "northeast")
+
+fig6.rast4 <- cube %>% image_scale("185") %>%
+  image_composite(fig6.rast3, ., offset = "+940+875", 
+                  gravity = "northeast")
+
+
+image_write(fig6.rast4, path = './Figures/Final_Figures/fig6mac.png', format = 'png')
+
+
+
+
+
+
+
+
 
 
 
