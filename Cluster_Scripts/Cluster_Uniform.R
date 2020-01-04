@@ -243,11 +243,17 @@ TDA_bench <- function(measure, data.type, data.dimensions, num.points,
 
 #Making Box Variables for time
 vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
-                                  data.dimensions = 2:8, num.points = seq(10, 500, 5),
-                                  feature.dimensions = 1:7, 
+                                  data.dimensions = 2:5, num.points = seq(10, 500, 5),
+                                  feature.dimensions = 1:4, 
                                   TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                   num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
+#These box variables are to test low point cloud but high dim features
+vars.box.spec <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
+                                  data.dimensions = 2:8, num.points = seq(10, 20, 5),
+                                  feature.dimensions = 1:7, 
+                                  TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
+                                  num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 ####
 
@@ -259,6 +265,9 @@ vars.all <- rbind(vars.box) %>%
   subset(feature.dimensions != 1 | num.points %% 25 == 0) %>%
   subset(feature.dimensions != 2 | num.points %% 20 == 0) %>%
   subset(feature.dimensions != 3 | num.points %% 10 == 0)
+
+#Add back in the high dim vars box
+vars.all <- rbind(vars.box, vars.box.spec) %>% distinct()
 
 #Remove 5+D analysis over 25
 vars.all <- vars.all[!(vars.all$num.points>25 
@@ -274,8 +283,8 @@ vars.all <- vars.all[!(vars.all$num.points>125
                        & vars.all$feature.dimensions ==3
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>300 
+#Remove 2D analysis over 280 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>280 
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
