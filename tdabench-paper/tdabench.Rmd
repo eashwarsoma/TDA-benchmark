@@ -5,7 +5,7 @@ author:
     affiliation: School of Medicine
     address:
     - Case Western Reserve University
-    - Cleveland, OH 44016, United States
+    - Cleveland, OH 44106, United States
     email: eashwar.somasundaram@case.edu
   - name: Shael E. Brown
     affiliation: Department of Quantitative Life Sciences
