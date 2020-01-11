@@ -18,7 +18,7 @@ author:
     address:
     - Cleveland Clinic Foundation
     - Cleveland, OH 44195, United States
-    email:  author@work
+    email:  adli4611@colorado.edu
   - name: Jacob G. Scott
     affiliation: Department of Translational Hematology and Oncology Research
     address:
@@ -57,6 +57,24 @@ Given that Ripser optimizes persistent homology calculation by avoiding calculat
 Fully reproducible code for all numerical results and figures in this report can be found at https://github.com/eashwarsoma/TDA-benchmark.
 
 ## Results
+
+### Runtime comparison between packages for calculation of V-R complex
+
+#### Prototype/Canonical dataset (Torus)
+
+#### Runtime as a function of data dimension (feature = n - 1)
+
+#### Runtime as a function of feature dimension
+
+### Comparison of alpha and Vietoris-Rips complexes within GUDHI
+
+#### Runtime as a function of data dimension (const feature)
+
+#### Memory benchmarks
+
+### Computational Limitations (advice/guidance for users)
+
+Include Ripser doesn't calcualte boundary matrix (in comparison of GUDHI rips vs. alpha)
 
 Figure 1: Comparison of persistent homology calculation runtimes across R packages for a torus. Panel 2. Horizontal axis: number of points in torus. Vertical axis: runtime. Point chart. Point color: underlying engine. Point shape: same as color. Panel 1. Torus showing users visual representation of dataset/point cloud. Goal: overview showing speed differences across engines on a canonical shape.
 
