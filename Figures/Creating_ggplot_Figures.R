@@ -564,11 +564,96 @@ ggsave("./Figures/Unrasterized_Images/fig6mac.png", plot = fig.6.mac,
        dpi = 400, limitsize = TRUE)
 
 
+####Intro Figures####
+####Rips Complex
+library("ggtda")
+
+n <- 5;
+set.seed(3)
+d <- data.frame(
+  x = runif(n, 0, .8),
+  y = runif(n, 0, .8)
+)
+# compute the persistent homology
+ph <- as.data.frame(TDAstats::calculate_homology(as.matrix(d), dim = 1))
+print(head(ph, n = 12))
+ph <- transform(ph, dim = as.factor(dimension))
+
+prox <- .25
+p_d1 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3") +
+  geom_point() +theme(axis.title = element_blank(),
+                      axis.text = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.line=element_blank())
+p_sc1 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod") +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0() + theme(axis.title = element_blank(),
+                            axis.text = element_blank(),
+                            axis.ticks = element_blank(),
+                            axis.line=element_blank())
+
+prox <- .5
+p_d2 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3") +
+  geom_point() +theme(axis.title = element_blank(),
+                      axis.text = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.line=element_blank())
+p_sc2 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod") +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0() + theme(axis.title = element_blank(),
+                           axis.text = element_blank(),
+                           axis.ticks = element_blank(),
+                           axis.line=element_blank())
+
+prox <- .75
+p_d3 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3") +
+  geom_point() +theme(axis.title = element_blank(),
+                      axis.text = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.line=element_blank())
+p_sc3 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod") +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0() + theme(axis.title = element_blank(),
+                           axis.text = element_blank(),
+                           axis.ticks = element_blank(),
+                           axis.line=element_blank())
+
+# combine the plots
 
 
+png(filename = "./Figures/Final_Figures/Intro_Rips.png",
+    width = 6, height = 4, units = "in", res = 450)
 
+gridExtra::grid.arrange(
+  p_d1, 
+  p_d2,
+  p_d2,
+  p_sc1, 
+  p_sc2,
+  p_sc3,
+  nrow = 2)
 
+dev.off()
 
+####Finish here!
 
 
 
