@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=somasue@ccf.org
+#SBATCH --job-name=eash_job_uniform
+#SBATCH --nodes=1-1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem-per-cpu=16000
+
+module load R
+
+cd
+
+srun R CMD BATCH ./Cluster_Uniform.R

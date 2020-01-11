@@ -39,6 +39,13 @@ vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
                                     feature.dimensions = 1:2, 
                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
                                     num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
+
+#Including low point counts for Rbox 
+vars.box.spec <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
+                                  data.dimensions = 2:8, num.points = seq(10, 20, 5),
+                                  feature.dimensions = 1:7, 
+                                  TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
+                                  num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
 ####
 
 ####Assemble variables for time...and delete the ones my laptop can't handle####
@@ -50,6 +57,8 @@ vars.all <- rbind(vars.circle, vars.noisycircle, vars.box, vars.torus) %>%
   subset(feature.dimensions != 1 | num.points %% 25 == 0) %>%
   subset(feature.dimensions != 2 | num.points %% 20 == 0) %>%
   subset(feature.dimensions != 3 | num.points %% 10 == 0)
+
+vars.all <- rbind(vars.all, vars.box.spec) %>% distinct()
 
 #Remove 5+D analysis over 25
 vars.all <- vars.all[!(vars.all$num.points>25 
@@ -65,8 +74,8 @@ vars.all <- vars.all[!(vars.all$num.points>125
                        & vars.all$feature.dimensions ==3
                        & vars.all$TDA.library == "GUDHI"), ]
 
-#Remove 2D analysis over 300 points for Gudhi
-vars.all <- vars.all[!(vars.all$num.points>300 
+#Remove 2D analysis over 280 points for Gudhi
+vars.all <- vars.all[!(vars.all$num.points>280 
                        & vars.all$feature.dimensions ==2
                        & vars.all$TDA.library == "GUDHI"), ]
 
