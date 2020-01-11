@@ -19,18 +19,18 @@ author:
     - Cleveland Clinic Foundation
     - Cleveland, OH 44195, United States
     email:  author@work
-  - name: Raoul R. Wadhwa
-    affiliation: Cleveland Clinic Lerner College of Medicine
-    address:
-    - Case Western Reserve University
-    - Cleveland, OH 44195, United States
-    email: raoul.wadhwa@case.edu
   - name: Jacob G. Scott
     affiliation: Department of Translational Hematology and Oncology Research
     address:
     - Cleveland Clinic Foundation
     - Cleveland, OH 44195, United States
     email: ScottJ10@ccf.org
+  - name: Raoul R. Wadhwa
+    affiliation: Cleveland Clinic Lerner College of Medicine
+    address:
+    - Case Western Reserve University
+    - Cleveland, OH 44195, United States
+    email: raoul.wadhwa@case.edu
 abstract: >
   An abstract of less than 150 words.
 output:
