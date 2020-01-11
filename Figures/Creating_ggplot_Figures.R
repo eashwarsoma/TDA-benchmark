@@ -636,9 +636,7 @@ p_sc3 <- ggplot(d, aes(x = x, y = y)) +
                            axis.ticks = element_blank(),
                            axis.line=element_blank())
 
-# combine the plots
-
-
+# combine and save the plots
 png(filename = "./Figures/Final_Figures/Intro_Rips.png",
     width = 6, height = 4, units = "in", res = 450)
 
@@ -653,19 +651,117 @@ gridExtra::grid.arrange(
 
 dev.off()
 
-####Finish here!
+####Alpha Complex
+library(deldir)
+library(ggplot2)
+
+df <- d
+
+#This creates the voronoi line segments
+voronoi <- deldir(d$x, d$y)
+voronoi$delsgs %>% mutate(
+  distance = sqrt((x1-x2)^2+(y1-y2)^2),
+)  -> voronoi$delsgs
 
 
+#Now we can make a plot
+alp.1 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+  #Plot the points
+  geom_point(
+    fill=rgb(70,130,180,255,maxColorValue=255),
+    pch=21,
+    size = 4,
+    color="#333333") +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = 1,
+    data = subset(voronoi$delsgs, distance <= .25),
+    linetype = 1,
+    color= "black") + 
+  geom_circle(data= df, aes(x0=x,y0=y, r = .25/2), fill = "aquamarine", alpha = .35, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                        axis.text = element_blank(),
+                        axis.ticks = element_blank(),
+                        axis.line=element_blank()) 
 
+alp.1
 
+alp.2 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+  #Plot the points
+  geom_point(
+    fill=rgb(70,130,180,255,maxColorValue=255),
+    pch=21,
+    size = 4,
+    color="#333333") +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = 1,
+    data = subset(voronoi$delsgs, distance <= .35),
+    linetype = 1,
+    color= "black") + 
+  geom_circle(data= df, aes(x0=x,y0=y, r = .35/2), fill = "aquamarine", alpha = .35, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                                          axis.text = element_blank(),
+                                          axis.ticks = element_blank(),
+                                          axis.line=element_blank()) 
 
+alp.2
 
+alp.3 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+  #Plot the points
+  geom_point(
+    fill=rgb(70,130,180,255,maxColorValue=255),
+    pch=21,
+    size = 4,
+    color="#333333") +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = 1,
+    data = subset(voronoi$delsgs, distance <= .45),
+    linetype = 1,
+    color= "black") + 
+  geom_circle(data= df, aes(x0=x,y0=y, r = .45/2), fill = "aquamarine", alpha = .35, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                                          axis.text = element_blank(),
+                                          axis.ticks = element_blank(),
+                                          axis.line=element_blank()) 
 
+alp.3
 
+# combine and save the plots
+png(filename = "./Figures/Final_Figures/Intro_Alpha.png",
+    width = 6, height = 3, units = "in", res = 450)
 
+gridExtra::grid.arrange(
+  alp.1, 
+  alp.2,
+  alp.3,
+  nrow = 1)
 
-
-
-
+dev.off()
 
 
