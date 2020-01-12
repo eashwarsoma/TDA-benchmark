@@ -66,6 +66,15 @@ fig.2.reg.rip <- reg.fit.rip(data = data.fig.2,
                          strat = c("library", "point.cloud.dim"),
                          y = "avg.time",
                          x = "num.points")
+rownames(fig.2.reg.rip) <- c("TDAstats Circle",
+                             "Dionysus Circle",
+                             "GUDHI Circle",
+                             "TDAstats Sphere",
+                             "Dionysus Sphere",
+                             "GUDHI Sphere",
+                             "TDAstats Hypersphere",
+                             "Dionysus Hypersphere",
+                             "GUDHI Hypersphere")
 kable(fig.2.reg.rip)
 
 #Figure 3 (#exclude, data set is too small to tell reliable)
@@ -75,11 +84,17 @@ fig.4.reg.rip <- reg.fit.rip(data = subset(data.fig.4, library == "GUDHI Rips"),
                          strat = "point.cloud.dim",
                          y = "avg.time",
                          x = "num.points")
+rownames(fig.4.reg.rip) <- c("2-annulus",
+                             "3-annulus",
+                             "4-annulus")
 
 fig.4.reg.alp <- reg.fit.alp(data = subset(data.fig.4, library == "GUDHI Alpha"),
                              strat = "point.cloud.dim",
                              y = "avg.time",
                              x = "num.points")
+rownames(fig.4.reg.alp) <- c("2-annulus",
+                             "3-annulus")
+
 kable(fig.4.reg.rip, digits = 9)
 kable(fig.4.reg.alp)
 
@@ -111,6 +126,13 @@ fig.5c.reg.alp <- reg.fit.alp(data = data.fig.5c,
                           strat = c("point.cloud", "point.cloud.dim"),
                           y = "memory",
                           x = "num.points")
+rownames(fig.5c.reg.alp) <- c("2-annulus",
+                             "Circle",
+                             "2-box",
+                             "3-annulus",
+                             "sphere",
+                             "torus",
+                             "3-box")
 
 kable(fig.5c.reg.alp)
 
@@ -152,3 +174,5 @@ names(all.reg.list) <- c("fig.1.reg.rip",
                            "fig.5c.reg.alp",
                            "fig.6.reg.rip",
                            "fig.6.reg.alp")
+
+lapply(all.reg.list, kable, format = "latex")
