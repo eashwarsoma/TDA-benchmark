@@ -666,35 +666,12 @@ voronoi$delsgs %>% mutate(
 
 #Now we can make a plot
 alp.1 <- ggplot(data=df, aes(x=x,y=y)) +
-  #Plot the voronoi lines
-  geom_segment(
-    aes(x = x1, y = y1, xend = x2, yend = y2),
-    size = .5,
-    data = voronoi$dirsgs,
-    linetype = 1,
-    color= "#FFB958") + 
-  #Plot the points
-  geom_point(
-    fill=rgb(70,130,180,255,maxColorValue=255),
-    pch=21,
-    size = 4,
-    color="#333333") +
-  #Plot the voronoi lines
-  geom_segment(
-    aes(x = x1, y = y1, xend = x2, yend = y2),
-    size = 1,
-    data = subset(voronoi$delsgs, distance <= .25),
-    linetype = 1,
-    color= "black") + 
-  geom_circle(data= df, aes(x0=x,y0=y, r = .25/2), fill = "aquamarine", alpha = .35, inherit.aes = FALSE, color = NA) + 
+  #Plot the union balls
+  geom_circle(data= df, aes(x0=x,y0=y, r = .25/2), fill = "aquamarine", alpha = 1.0, inherit.aes = FALSE, color = NA) + 
   coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
                         axis.text = element_blank(),
                         axis.ticks = element_blank(),
-                        axis.line=element_blank()) 
-
-alp.1
-
-alp.2 <- ggplot(data=df, aes(x=x,y=y)) +
+                        axis.line=element_blank()) +
   #Plot the voronoi lines
   geom_segment(
     aes(x = x1, y = y1, xend = x2, yend = y2),
@@ -702,28 +679,27 @@ alp.2 <- ggplot(data=df, aes(x=x,y=y)) +
     data = voronoi$dirsgs,
     linetype = 1,
     color= "#FFB958") + 
-  #Plot the points
-  geom_point(
-    fill=rgb(70,130,180,255,maxColorValue=255),
-    pch=21,
-    size = 4,
-    color="#333333") +
-  #Plot the voronoi lines
-  geom_segment(
-    aes(x = x1, y = y1, xend = x2, yend = y2),
-    size = 1,
-    data = subset(voronoi$delsgs, distance <= .35),
-    linetype = 1,
-    color= "black") + 
-  geom_circle(data= df, aes(x0=x,y0=y, r = .35/2), fill = "aquamarine", alpha = .35, inherit.aes = FALSE, color = NA) + 
+#Plot the simplicies
+geom_segment(
+  aes(x = x1, y = y1, xend = x2, yend = y2),
+  size = 1,
+  data = subset(voronoi$delsgs, distance <= .25),
+  linetype = 1,
+  color= "black") +
+#Plot the points
+geom_point(
+  fill=rgb(70,130,180,255,maxColorValue=255),
+  pch=21,
+  size = 2,
+  color="#333333") 
+
+alp.2 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot the union balls
+  geom_circle(data= df, aes(x0=x,y0=y, r = .35/2), fill = "aquamarine", alpha = 1.0, inherit.aes = FALSE, color = NA) + 
   coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
                                           axis.text = element_blank(),
                                           axis.ticks = element_blank(),
-                                          axis.line=element_blank()) 
-
-alp.2
-
-alp.3 <- ggplot(data=df, aes(x=x,y=y)) +
+                                          axis.line=element_blank()) +
   #Plot the voronoi lines
   geom_segment(
     aes(x = x1, y = y1, xend = x2, yend = y2),
@@ -731,26 +707,50 @@ alp.3 <- ggplot(data=df, aes(x=x,y=y)) +
     data = voronoi$dirsgs,
     linetype = 1,
     color= "#FFB958") + 
-  #Plot the points
-  geom_point(
-    fill=rgb(70,130,180,255,maxColorValue=255),
-    pch=21,
-    size = 4,
-    color="#333333") +
+#Plot the simplices
+geom_segment(
+  aes(x = x1, y = y1, xend = x2, yend = y2),
+  size = 1,
+  data = subset(voronoi$delsgs, distance <= .35),
+  linetype = 1,
+  color= "black") +
+#Plot the points
+geom_point(
+  fill=rgb(70,130,180,255,maxColorValue=255),
+  pch=21,
+  size = 2,
+  color="#333333") 
+
+
+
+alp.3 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot union balls
+  geom_circle(data= df, aes(x0=x,y0=y, r = .45/2), fill = "aquamarine", alpha = 1.0, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                                          axis.text = element_blank(),
+                                          axis.ticks = element_blank(),
+                                          axis.line=element_blank()) +
   #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+  #Plot the simplices
   geom_segment(
     aes(x = x1, y = y1, xend = x2, yend = y2),
     size = 1,
     data = subset(voronoi$delsgs, distance <= .45),
     linetype = 1,
-    color= "black") + 
-  geom_circle(data= df, aes(x0=x,y0=y, r = .45/2), fill = "aquamarine", alpha = .35, inherit.aes = FALSE, color = NA) + 
-  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
-                                          axis.text = element_blank(),
-                                          axis.ticks = element_blank(),
-                                          axis.line=element_blank()) 
+    color= "black")  + 
+  #Plot the points
+geom_point(
+  fill=rgb(70,130,180,255,maxColorValue=255),
+  pch=21,
+  size = 2,
+  color="#333333")
 
-alp.3
 
 # combine and save the plots
 png(filename = "./Figures/Final_Figures/Intro_Alpha.png",
