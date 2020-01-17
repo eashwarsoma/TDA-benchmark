@@ -1,0 +1,71 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bauer(2019)]{Ripser}
+U.~Bauer.
+\newblock Ripser: efficient computation of vietoris-rips persistence barcodes,
+  2019.
+
+\bibitem[Fasy et~al.(2019)Fasy, Kim, Lecci, Maria, Millman, and Rouvreau]{TDA}
+B.~T. Fasy, J.~Kim, F.~Lecci, C.~Maria, D.~L. Millman, and V.~Rouvreau.
+\newblock \emph{TDA: Statistical Tools for Topological Data Analysis}, 2019.
+\newblock URL \url{https://CRAN.R-project.org/package=TDA}.
+\newblock R package version 1.6.5.
+
+\bibitem[Hester(2019)]{bench}
+J.~Hester.
+\newblock \emph{bench: High Precision Timing of R Expressions}, 2019.
+\newblock URL \url{https://CRAN.R-project.org/package=bench}.
+\newblock R package version 1.0.4.
+
+\bibitem[Maria et~al.(2016)Maria, Dlotko, Rouvreau, and Glisse]{gudhi}
+C.~Maria, P.~Dlotko, V.~Rouvreau, and M.~Glisse.
+\newblock Rips complex.
+\newblock In \emph{{G}{U}{D}{H}{I} User and Reference Manual}. GUDHI Editorial
+  Board, 2016.
+\newblock URL \url{http://gudhi.gforge.inria.fr/doc/latest/}.
+
+\bibitem[Morozov(2018)]{Dionysus}
+D.~Morozov.
+\newblock \emph{Dionysus}, 2018.
+\newblock URL \url{http://mrzv.org/software/dionysus2}.
+
+\bibitem[Ooms(2019)]{magick}
+J.~Ooms.
+\newblock \emph{magick: Advanced Graphics and Image-Processing in R}, 2019.
+\newblock URL \url{https://CRAN.R-project.org/package=magick}.
+\newblock R package version 2.2.
+
+\bibitem[Wadhwa et~al.(2018)Wadhwa, Williamson, Dhawan, and Scott]{TDAstats}
+R.~R. Wadhwa, D.~F. Williamson, A.~Dhawan, and J.~G. Scott.
+\newblock {T}{D}{A}stats: {R} pipeline for computing persistent homology in
+  topological data analysis.
+\newblock \emph{Journal of Open Source Software}, 3\penalty0 (28):\penalty0
+  860, 2018.
+\newblock \doi{10.21105/joss.00860}.
+\newblock URL \url{https://doi.org/10.21105/joss.00860}.
+
+\bibitem[Wickham(2016)]{ggplot2}
+H.~Wickham.
+\newblock \emph{ggplot2: Elegant Graphics for Data Analysis}.
+\newblock Springer-Verlag New York, 2016.
+\newblock ISBN 978-3-319-24277-4.
+\newblock URL \url{https://ggplot2.tidyverse.org}.
+
+\bibitem[Wickham(2018)]{pryr}
+H.~Wickham.
+\newblock \emph{pryr: Tools for Computing on the Language}, 2018.
+\newblock URL \url{https://CRAN.R-project.org/package=pryr}.
+\newblock R package version 0.1.4.
+
+\bibitem[Wickham et~al.(2018)Wickham, Hester, and Francois]{readr}
+H.~Wickham, J.~Hester, and R.~Francois.
+\newblock \emph{readr: Read Rectangular Text Data}, 2018.
+\newblock URL \url{https://CRAN.R-project.org/package=readr}.
+\newblock R package version 1.3.1.
+
+\end{thebibliography}
