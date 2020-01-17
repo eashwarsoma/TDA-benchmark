@@ -156,6 +156,28 @@ image_write(fig4, path = './Figures/Final_Figures/fig4.png', format = 'png')
 fig5b <- image_read("./Figures/Unrasterized_Images/fig5b.png") 
 image_write(fig5b, path = './Figures/Final_Figures/fig5b.png', format = 'png')
 
+####Combine Figure 5 into one grid
+library(png)
+library(grid)
+library(gridExtra)
+
+plot1 <- readPNG('./Figures/Final_Figures/fig5a.png')
+plot2 <- readPNG('./Figures/Final_Figures/fig5b.png')
+plot3 <- readPNG('./Figures/Final_Figures/fig5c.png')
+
+png("./Figures/Final_Figures/fig5t.png", width = 6, height = 4, 
+    units = "in", res = 450)
+grid.arrange(rasterGrob(plot1, interpolate = T),
+             rasterGrob(plot2, interpolate = T), 
+             rasterGrob(plot3, interpolate = T), 
+             layout_matrix = rbind(c(1,2), c(3, 2)),
+             heights=c(2,2, 1))
+dev.off()
+
+#Crop white space
+fig5 <- image_read("./Figures/Final_Figures/fig5t.png") 
+fig5 <- image_crop(fig5, "2700x1400", gravity = "North")
+image_write(fig5, path = './Figures/Final_Figures/fig5.png', format = 'png')
 
 ####Mac Data Figure 1####
 #Read in Figure
