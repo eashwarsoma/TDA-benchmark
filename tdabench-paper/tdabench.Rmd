@@ -47,7 +47,7 @@ Within the umbrella of TDA, persistent homology represents an algebraic approach
 In the basic workflow of persistent homology, a series of simplicial complexes are generated on point clouds to characterize the topological features. 
 Simplicial complexes are connected sets of points, lines, and n-dimensional shapes.
 There are several methods to generate these complexes on point clouds. 
-In this paper, we are using the Rips and Alpha Complex for our persistent homology calculations. 
+In this paper, we are using the Rips and Alpha complex for our persistent homology calculations. 
 In both methods, a series of data structures, called simplicial complexes, are built on top of a point cloud.
 These complexes can be viewed as approximating real topologic relationships in the data.
 The exact method of constructing these complexes is described in the Mathematics section. 
@@ -62,13 +62,13 @@ There are several C++ libraries that calculate Alpha and Rips complexes.
 Dionysus provides Alpha and Rips complex functionality \cite{Dionysus}.
 GUDHI is another C++ library that also provides both functionalities as well as other TDA methodologies \cite{gudhi}. These libraries have been implemented in R with the TDA package \cite{TDA} providing an easier interface to utilize persistent homology calculations.
 
-A new C++ library, Ripser, was developed as a more efficient way to calculate Rips Complexes. The code is supposed to outperform other similar libraries (e.g. Dionysus and GUDHI) by a factor over 40 in runtime \cite{Ripser}. 
+A new C++ library, Ripser, was developed as a more efficient way to calculate Rips complexes. The code is supposed to outperform other similar libraries (e.g. Dionysus and GUDHI) by a factor over 40 in runtime \cite{Ripser}. 
 This library was given an R interface in the package TDAstats \cite{TDAstats}. 
 TDAstats represents a more specialized package for topological data analysis compared to the TDA package.
 It calculates persistent homology using the more efficient Ripser algorithm and provides data visualization with integration of ggplot. While Ripser is known to be faster than the other libraries for Rips complex calculations in C++, how this translates in the R interface is not clear.
 While C++ generally runs faster than R, R provides higher level functionality, and appeals to a broad audience of data science users.
 
-Topological data analysis has had a broad range of usage from viral evolution to physical chemistry~\cite{TDA-Viral,TDA-PChem}. 
+Topological data analysis has had a broad range of usage from viral evolution to physical chemistry\cite{TDA-Viral,TDA-PChem}. 
 Given that persistent homology can apply to any n-dimensional data set, it has wide ranging applicability. 
 Its main limiting factor is computational for calculating high dimensional features in large multi-dimensional data sets. 
 We believe lack of analysis of these higher dimensional features may under utilize persistent homology's analysis potential.
@@ -81,10 +81,10 @@ This section summarizes the mathematics behind generating simplicial complexes o
 An n-dimensional simplex is the convex hull of n+1 vertices.
 More intuitively, n-dimensional simplex is the simplest n-dimensional object (e.g. a 1 simplex is a line, a 2-simplex is a triangle, 3-simplex is a tetrahedron, etc.).
 These simplices can be glued together on a common subsimplices to form a simplicial complex (e.g. two triangles sharing a common side).
-In a simplicial complex, certain features will arise that can be characterized by dimension number (Betti number): 0-dimensional features refer to connected components, 1-dimensional features refer to holes, 2-dimensional features refer to cavities, etc. ~\cite{phom-survey}
+In a simplicial complex, certain features will arise that can be characterized by dimension number (Betti number): 0-dimensional features refer to connected components, 1-dimensional features refer to holes, 2-dimensional features refer to cavities, etc. \cite{phom-survey}
 
-There are several different methods to construct a simplicial complex on a given point cloud S, but this paper focuses on the Rips complex and Alpha complex. 
-The Rips complex is perhaps the most common method for constructing a simplicial complex under persistent homology ~\cite{Rips-Complex}.
+There are several different methods to construct a simplicial complex on a given point cloud S, but this paper focuses on the Rips and Alpha complexes. 
+The Rips complex is perhaps the most common method for constructing a simplicial complex under persistent homology \cite{Rips-Complex}.
 In a point cloud of k points, a distance parameter, $\delta$, can be used to draw a circle of diameter $\delta$ around every single point in S.
 If the distance parameter is non-zero, then some of the resulting circles may intersect.
 If they intersect, a line is drawn to connect the points (which represent the centers of the growing circles).
@@ -92,7 +92,7 @@ This group of points and lines form a simplicial complex.
 For each distance parameter, $\delta$, there will be some simplicial complex associated with it.
 As $\delta$ increases, different topological features may appear, persist, then disappear once $\delta$ has reached a threshold.
 Eventually, once $\delta$ reaches the maximum euclidean distance between any pair of points in the point cloud, a convex hull will form around all k points creating a (k-1)-dimensional simplex.
-By this stage, all features should have disappeared.
+At this stage, all features should have disappeared.
 A three column matrix can be created recording the Betti number of a certain feature, the distance, $\delta$, at which that feature appeared, and the $\delta$ at which that feature disappeared.
 This matrix characterizes the persistent homology of that point cloud. 
 
@@ -105,12 +105,12 @@ This matrix characterizes the persistent homology of that point cloud.
 Alpha complexes provide another method to generate simplicial complexes on the point cloud S.
 Alpha complexes are closely linked with Voronoi diagrams and Delaunay triangulations.
 The Voronoi diagram gives each point in S a cell such that each every point in the cell is closest to that point in S.
-The nerve of a Voronoi diagram is equivalent to the Delaunay Triangulation~\cite{alpha-complex}.
+The nerve of a Voronoi diagram is equivalent to the Delaunay Triangulation\cite{alpha-complex}.
 Alpha complexes are simplicial complexes that are subsets of the Delaunay Triangulation.
-The parameter, $\alpha$, can describe the radius of a ball of each point in the point cloud S much like $\delta$ describes the diameter of a circle in the Rips Complex.
-An alpha complex at radius $\alpha$ is formed through connecting centers of intersecting regions formed by the intersection of $\alpha$ radius balls and the Voronoi diagrams. 
-Eventually, once $\alpha$ is large enough, the full Delaunay complex is formed.
-In between these stages, the birth and death of features at certain values of $\alpha$ can be captured in a three column persistent homology matrix much like the Rips Complex.
+The parameter, $\alpha$, can describe the radius of a ball of each point in the point cloud S much like $\delta$ describes the diameter of a circle in the Rips complex.
+An Alpha complex at radius $\alpha$ is formed through connecting centers of intersecting regions formed by intersecting the union of $\alpha$ radius balls and the Voronoi diagram. 
+Eventually, once $\alpha$ is large enough, the full Delaunay Triangulation is formed.
+In between these stages, the birth and death of features at certain values of $\alpha$ can be captured in a three column persistent homology matrix much like the Rips complex.
 
 In both methods, the boundary matrix records all simplicial complexes for a given parameter value. 
 From this matrix, the persistent homology matrix is calculated. 
@@ -131,7 +131,7 @@ Datasets were generated by sampling functions in base R to generate points unifo
 The number of points per point cloud varied from 25 to 500 along intervals of 25 points, which were empiric limits chosen after pragmatic considerations of available computational resources.
 For consistency, the minimum and maximum simplicial complex radii were predetermined for each point cloud and provided as parameters to the \CRANpkg{TDA} and \CRANpkg{TDAstats} R packages.
 Within the \CRANpkg{TDA} package, benchmark data was collected for the GUDHI \citep{gudhi} and Dionysus \citep{Dionysus} libraries; within the \CRANpkg{TDAstats} package, benchmark data was collected for the Ripser \citep{Ripser} library.
-As alpha complex calculation was only implemented in GUDHI, alpha complex benchmark data was naturally only collected for the single library.
+As Alpha complex calculation was only implemented in GUDHI, Alpha complex benchmark data was naturally only collected for the single library.
 Measuring memory usage proved challenging since all the libraries calculating persistent homology were implemented in another programming language and then wrapped in R.
 Thus, memory burden was indirectly measured by using boundary matrix size as a proxy.
 Given that Ripser optimizes persistent homology calculation by avoiding calculation of a boundary matrix, memory use benchmarks are not provided for Ripser and, consequently, \CRANpkg{TDAstats}.
@@ -140,31 +140,31 @@ Fully reproducible code for all numerical results and figures in this report can
 \section{Results}
 
 \subsection{Runtime comparison between packages for calculation of V-R complex}
-In our analysis, we first compare the three Rips complexes libraries among each other. 
-We examine the run time performance of persistence homology calculation under different conditions. 
-We then focus our analysis on comparing Rips complexes with Alpha complexes using the GUDHI package.
-In all runtime calculations, 10 iterations were performed and data are presented as mean +/- standard deviation. 
+In our analysis, we compare runtime performances of the three Rips complexes libraries for persistence homology calculation under different conditions. We then focus our analysis on comparing Rips complexes with Alpha complexes using the GUDHI package.
 
 \subsubsection{Prototype/Canonical dataset (Torus)}
 The torus point cloud is a classical shape used to demonstrate persistent homology calculations. 
-A persistent homology calculation of a uniformly distributed torus would reveal a large 2 dimensional feature (void) in the middle representing the “hole” of the torus. 
-In figure \ref{fig:tor}, we calculated up to 2 dimensional features of a torus 3d point cloud for an increasing number of points across all TDA libraries. 
+A persistent homology calculation of a uniformly distributed torus would reveal a large 1 dimensional feature representing the middle circle of the torus. There would also be a large 2 dimensional feature representing the inner cavity of the torus. 
+In figure \ref{fig:tor}, we calculated up to 2 dimensional features of torus 3d points cloud for an increasing number of points across all TDA libraries. 
 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig1.png}
-  \caption{Comparison of Rips Complex persistent homology calculation runtimes across R packages for a torus. The x-axis represents the number of points in a 3D torus point cloud, and y-axis represents average run time. For these given parameters, the Rips libraries show a polynomial growth curve for increasing point dimension. Further details about regression parameters is found in supplemental material.}
+  \caption{Comparison of Rips complex persistent homology calculation runtimes across R packages for a torus. The x-axis represents the number of points in a 3D torus point cloud, and y-axis represents average run time. For these given parameters, the Rips libraries show a polynomial growth curve for increasing point dimension. Further details about regression parameters is found in supplemental material.}
 \label{fig:tor}
 \end{figure}
 
 \subsubsection{Runtime as a function of data dimension (feature = n - 1)}
-From the torus comparison, we see a clear difference in performance between the three Rips libraries. 
-We wanted to see if this performance difference changed with more complex point clouds. 
+For small point cloud numbers, Gudhi and TDAstats performed similarly while Dionysus lagged behind. 
+At larger point clouds, TDAstats outperforms Gudhi, and the difference among the Rips libraries is more visible.
+This result is especially true for calculating higher feature dimensions on large point clouds. 
+While the runtime values changed for each point cloud condition, the growth pattern with respect to increasing number of points was similar for all Rips complex libraries. 
+For the conditions tested in our analysis, all Rips libraries resulted in an apparent polynomial growth for run time. 
+The exact values for the log-log regression of this growth pattern is provided in supplemental data. 
+
 Each panel in figure \ref{fig:cir} corresponds to an n-dimensional circle (circle, sphere, and hypersphere). 
 For each point cloud, n-1 dimensional features were calculated.
-
-A similar growth pattern was seen among the TDA libraries. 
-As the sphere dimensions and feature dimensions increased, the execution time growth becomes apparent sooner. 
+As the sphere dimensions and feature dimensions increased, the polynomial time growth becomes apparent sooner. 
 At these higher dimensional features, some of the curves seem to cut off. 
 This is due to certain point cloud sizes not being computable on our devices. 
 These limitations are laid out in the "Computation Limits" section.
@@ -179,58 +179,59 @@ These limitations are laid out in the "Computation Limits" section.
 \subsubsection{Runtime as a function of feature dimension}
 For an n-dimensional point cloud, up to n-1 feature dimensions can be calculated. 
 In the field, most work has only included calculations up to 1 or 2 feature dimensions. 
-Perhaps this due to difficulty of conceptualizing what very high dimensional features represent. 
-High dimensional feature calculations are also very taxing computationally. 
+Perhaps this is due to difficulty of conceptualizing what high dimensional features represent. 
+However, it might also be due to computational restrictions of calculating high dimensional features. 
 For Figure \ref{fig:box}, we restricted the calculations to very small point clouds due to computational limits.  
 
 As feature dimension increased, Rips complexes show a significant rise in run time with increasing feature dimension within an 8 dimensional point cloud. 
-With this small sample set, it is not clear whether the growth is exponential or polynomial. 
+With this small sample set, it is not clear whether the growth is exponential or polynomial, so no regression values are provided in the supplement. 
 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig3.png}
-  \caption{Comparison of Rips Complex persistent homology calculation as a function of feature dimension. Panel 1. Comparing run times for TDAstats. Panel 2. Comparing run times for Dionysus. Panel 3. Comparing run times for GUDHI. Limited point clouds were tested for high dimensional features due to computational limits.}
+  \caption{Comparison of Rips complex persistent homology calculation as a function of feature dimension. Panel 1. Comparing run times for TDAstats. Panel 2. Comparing run times for Dionysus. Panel 3. Comparing run times for GUDHI. Limited point clouds were tested for high dimensional features due to computational limits.}
 \label{fig:box}
 \end{figure}
 
 \subsection{Comparison of alpha and Vietoris-Rips complexes within GUDHI}
-
-The GUDHI library provided functionality to calculate persistent homology with Rips complexes and with Alpha complexes. 
-The next set of results use only GUDHI to focus the comparison on alpha vs rips complex usage. 
+The GUDHI library provided functionality to calculate persistent homology with Rips and Alpha complexes. 
+Therefore, we only used the GUDHI library to compare performance between Rips and Alpha complexes. 
 
 \subsubsection{Runtime as a function of data dimension (const feature)}
+In our study, our computers could not calculate persistent homology for Alpha complexes when the point cloud dimension exceeded 3. 
+This is understandable as Alpha complex theoretical complexity increases exponentially for increasing point cloud dimension. 
 
-In our study, our computers could not calculate persistent homology for alpha complexes when the point cloud dimension exceeded 3. 
-This is understandable as alpha complex theoretical computational complexity increases exponentially for increasing point cloud dimension. 
+Changes in computational performance from changing point cloud dimension is one major difference between calculation of Rips and Alpha complexes. This difference can be seen when comparing run times as a function of changing point cloud dimension. 
+In figure \ref{fig:ann}, we show that Rips complexes  run time does not change for different dimensional point clouds as long as feature dimension is held constant. Even though Alpha complexes perform better overall, their computation time increases with increasing point cloud dimension even when calculating the same feature dimension. 
 
-This difference is seen when comparing run times as a function of changing point cloud dimension. 
-For calculating a 1 dimensional feature with Rips Complexes, the run time does not change for different dimensional point clouds. Even though alpha complexes perform better overall, their computation time increases with increasing point cloud dimension even for calculating the same feature dimension. This is shown in figure \ref{fig:ann}
+Another key difference is that Alpha complex runtime seems to have an apparent linear rise in the conditions for our analysis. 
+We provide the linear regression coefficients in the supplemental data. 
 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig4.png}
-  \caption{Comparing homology calculation as a function of point cloud dimension for Rips vs Alpha Complexes. Panel 1 = Comparing run times using GUDHI's Rips Complex library. Panel 2 = Comparing run times using GUDHI's Alpha Complex library. In all calculations, only 1 dimensional features were calculated. For our parameters, Alpha Complex run times are more linear in contrast to Rips more polynomial run times. Exact regression data is provided in Supplemental material.}
+  \caption{Comparing homology calculation as a function of point cloud dimension for Rips vs Alpha complexes. Panel 1 = Comparing run times using GUDHI's Rips complex library. Panel 2 = Comparing run times using GUDHI's Alpha complex library. In all calculations, only 1 dimensional features were calculated. For our parameters, Alpha complex run times are more linear in contrast to Rips more polynomial run times. Exact regression data is provided in Supplemental material.}
 \label{fig:ann}
 \end{figure}
 
 \subsubsection{Memory Benchmarks}
-As point cloud number increases, Rips complexes show a more dramatic rise in run time than alpha complexes. 
-This is predicted by Rips theoretical exponential complexity and alpha complex's theoretical polynomial complexity. 
-In both complexes, we use the boundary matrix to calculate of persistent homology. 
+As point cloud number increases, Rips complexes show a more dramatic rise in run time than Alpha complexes. 
+This is predicted by Rips theoretical exponential complexity and Alpha complex's theoretical polynomial complexity. 
+In both complexes, the boundary matrix is used to calculate persistent homology (explained in detail in the Mathematics section). 
 The library GUDHI provides functions to return the boundary matrix, which allows us to measure object size. 
 
 Rips complexes show a rapid growth in object size as the point cloud number increases in figure \label{fig:mem}, panel 1. 
 The growth pattern differences mirror our findings for run time growth with increasing point cloud size. 
 Alpha complexes show a linear growth in memory complexity whereas Rips complexes show a polynomial growth. 
-However, calculating the object size reveals some interesting differences in what parameters determine the object size of Rips vs Alpha Complexes. 
+However, calculating the object size reveals some interesting differences in what parameters determine the object size of Rips vs Alpha complexes. 
 
-Figure \label{fig:mem}, panel 2 shows that Alpha Complex object size depends on the feature dimension, point cloud size, and point cloud shape with torus and uniform shapes having the higher object size. 
+Figure \label{fig:mem}, panel 2 shows that Alpha complex object size depends on the feature dimension, point cloud size, and point cloud shape with torus and uniform shapes having the higher object size. Noisier shapes like the box and annulus increase object size compared to more uniform shapes like the sphere. 
 Figure \label{fig:mem}, panel 3 shows that Rips complex object size depends only on the point cloud size and feature dimensions. 
 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5.png}
-  \caption{Persistent Homology Boundary Matrix for Rips vs Alpha Complex. Shape of used point cloud is demonstrated by each image. Panel 1 = Rips Complex vs Alpha Complex for object size. Panel 2 = Alpha Complex object size depends on feature size, point cloud number, and point cloud shape. Panel 3 = Rips Complex object size depends on feature size and point cloud number alone. Point cloud shape is not defined as it had no impact on boundary matrix size. For a given n point cloud, n-1 dimension features were calculated in these examples.}
+  \caption{Persistent Homology Boundary Matrix for Rips vs Alpha complex. Shape of used point cloud is demonstrated by each image. Panel 1 = Rips complex vs Alpha complex for object size. Panel 2 = Alpha complex object size depends on feature size, point cloud number, and point cloud shape. Panel 3 = Rips complex object size depends on feature size and point cloud number alone. Point cloud shape is not defined as it had no impact on boundary matrix size. For a given n point cloud, n-1 dimension features were calculated in these examples.}
 \label{fig:mem}
 \end{figure}
 
@@ -246,7 +247,7 @@ Alpha complex's limitation is better described as the point cloud dimension bein
 \small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Feature & TDA Stats & Dionysus & Gudhi Rips & Gudhi Complex \\
+Feature & TDA Stats & Dionysus & Gudhi Rips & Gudhi Alpha \\
 Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit\\
 \hline
 1 & Not Reached & Not Reached & Not Reached & Not Reached \\ 
@@ -262,18 +263,21 @@ Alpha complexes were not computable for any point cloud greater than 3 dimension
 \end{table}
 
 \section{Discussion}
-As persistent homology calculations continue to become a more popular tool to analyze complex multidimensional data, it will be important to understand from a computing perspective which method to use. 
-In this paper, we examined two forms of persistent homology complexes: Vietoris Rips and Alpha Complexes. 
+As persistent homology calculations continue to become a more popular tool to analyze complex multidimensional data, it will be important to understand from a computational perspective which method to use. 
+In this paper, we examined two forms of persistent homology complexes: Vietoris Rips and Alpha complexes. 
 Both algorithms describe the topological features through the generation of simplicial complexes. 
 The advantage in saving computational time in choosing a particular algorithm depends on the point cloud characteristics.
 
-Figure \ref{fig:fin} shows that at high point cloud sizes, GUDHI’s alpha complex calculations outperforms TDAstats. 
-Alpha complexes gain polynomial complexity as the number of points increases whereas Rips complexes gain exponentially. 
-Specifically, alpha complexes are $O(n^\frac{d}{2})$ and Rips complexes are $O(2^n)$ where n is the number of points on a point cloud and d is the dimensions on the point cloud. 
+Figure \ref{fig:fin} shows that at high point cloud sizes, GUDHI’s Alpha complex calculations outperforms TDAstats. 
+Theoritically, Alpha complexes gain polynomial complexity as the number of points increases whereas Rips complexes gain exponentially. 
+Specifically, Alpha complexes are $O(n^\frac{d}{2})$ and Rips complexes are $O(2^n)$ where n is the number of points on a point cloud and d is the dimensions on the point cloud. 
+For the conditions in our paper, Rips and Alpha complexes both performed better than their theoritical maximums. 
+Rips complex calculations consistently had a polynomial growth for both runtime and boundary matrix size while Alpha complexes had linear growth.  
 
-Based on this theoretical complexity and our results, alpha complexes are superior for small dimensional point clouds (3 dimensions and below). 
-This advantage becomes markedly clear at high number of points. 
-If data is more than three dimensions, then it should be dimensionally reduced by a procedure such as PCA for efficient alpha complex usage. 
+Based on this theoretical complexity and our results, Alpha complexes are superior for small dimensional point clouds (3 dimensions and below). 
+This advantage becomes especially clear at high number of points.
+However, with out computational resources, Alpha complexes were not usable for point cloud dimensions greater than 3. 
+If data is more than three dimensions, then it should be dimensionally reduced by a procedure such as PCA for before using Alpha complexes. 
 
 However, if data dimension cannot be reduced, then Rips complexes should be used. Among the different libraries, TDAstats has the fastest calculation time. 
 GUDHI and Dionysus significantly fall behind for high feature dimension calculations and high numbers of points. 
@@ -282,20 +286,21 @@ GUDHI and Dionysus libraries, however, do have the option of returning the bound
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig6.png}
-  \caption{TDAstats Rips Complexes vs GUDHI Alpha Complex average run times across all 3D shapes for 2D features. Panel 1 = Execution time on annulus. Panel 2 = Execution time on sphere. Panel 3 = Execution time on torus. Panel 4 = Execution time on uniform box}
+  \caption{TDAstats Rips complexes vs GUDHI Alpha complex average run times across all 3D shapes for 2D features. Panel 1 = Execution time on annulus. Panel 2 = Execution time on sphere. Panel 3 = Execution time on torus. Panel 4 = Execution time on uniform box}
 \label{fig:fin}
 \end{figure}
 
-While Rips Complexes can handle high dimensional data well, it still significantly slows down when looking for higher dimensional topological features. 
+While Rips complexes can handle high dimensional data well, it still significantly slows down when looking for higher dimensional topological features. 
 The size of the boundary matrix rapidly increases and saturates the RAM even for small numbers of points (e.g. ~100 points when looking for 4 dimensional features). 
 Looking for high dimensional features in a large high dimensional point cloud remains a challenge. 
 Other persistent homology complex methods exist such as the Delaunay complex, Witness complex, etc. but they are not currently implemented in R [cite]. 
 Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R. 
 
-Need to make a better version of this figure, but essential idea remains the same (recommendation for which R package to use depending on what you want to do).
 \begin{figure}
   \centering
-  \includegraphics[height=2.5in]{decision}
+  \includegraphics[height=2.5in]{decision.png}
+    \caption{Basic decision chart for choosing TDA library based on dataset.}
+\label{decision}
 \end{figure}
 
 \section{Acknowledgements}
