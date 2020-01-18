@@ -1,39 +1,37 @@
 #####DECISION FLOW DIAGRAM#####
 library("DiagrammeR")
 
-decision <- create_graph() %>%
-  add_node(label = "TDA method?",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 1.1)) %>%               # 1
-  add_node(label = "GUDHI",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 0.65)) %>%                     # 2
-  add_node(label = "Approx?",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 0.75)) %>%      # 3
-  add_node(label = "TDAstats",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 0.8)) %>%                  # 4
-  add_node(label = "Dim?",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 0.5)) %>%           # 5
-  add_node(label = "GUDHI",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 0.65)) %>%                     # 6
-  add_node(label = "TDAstats",
-           node_aes = node_aes(shape = "rectangle",
-                               width = 0.8)) %>%                  # 7
-  add_edge(from = 1, to = 2,
-           edge_aes = edge_aes(label = "Other")) %>%
-  add_edge(from = 1, to = 3,
-           edge_aes = edge_aes(label = "PHom")) %>%
-  add_edge(from = 3, to = 4,
-           edge_aes = edge_aes(label = "No")) %>%
-  add_edge(from = 3, to = 5,
-           edge_aes = edge_aes(label = "Yes")) %>%
-  add_edge(from = 5, to = 6,
-           edge_aes = edge_aes(label = "<= 3")) %>%
-  add_edge(from = 5, to = 7,
-           edge_aes = edge_aes(label = "> 3"))
 
-decision %>% render_graph(layout = "tree")
+diagram <- DiagrammeR::grViz("
+digraph graph2 {
+
+graph [layout = dot]
+
+# node definitions with substituted label text
+node [shape = ellipse, width = 2, height = 1, fillcolor = Biege]
+a [label = 'TDA method']
+b [label = 'Data set \u2264 3 dim']
+c [label = 'Data dim reducible']
+d [label = 'TDAstats \n(Rips Complex)']
+
+x [label = 'GUDHI']
+y [label = 'GUDHI \n(Alpha Complex)']
+z [label = 'GUDHI \n(Alpha Complex)']
+
+a -> x [taillabel = 'Other', labeldistance = 3.5, labelangle = 27]
+b -> y [taillabel = 'Yes', labeldistance = 3, labelangle = 20]
+c -> z [taillabel = 'Yes', labeldistance = 3, labelangle = 20]
+
+a -> b [taillabel = 'Persistent \nHomology', labeldistance = 5.5, labelangle = -40]
+b -> c [taillabel = 'No', labeldistance = 3, labelangle = -25]
+c -> d [taillabel = 'No', labeldistance = 3, labelangle = -20]
+
+
+}")
+
+
+png(filename = "decision.png")
+
+diagram
+
+dev.off()
