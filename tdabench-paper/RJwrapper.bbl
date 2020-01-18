@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,11 +10,40 @@ U.~Bauer.
 \newblock Ripser: efficient computation of vietoris-rips persistence barcodes,
   2019.
 
+\bibitem[Chan et~al.(2013)Chan, Carlsson, and Rabadan]{TDA-Viral}
+J.~M. Chan, G.~Carlsson, and R.~Rabadan.
+\newblock Topology of viral evolution.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 110\penalty0
+  (46):\penalty0 18566–--18571, 2013.
+\newblock \doi{10.1073/pnas.1313480110}.
+
+\bibitem[Edelsbrunner and Harer(2008)]{phom-survey}
+H.~Edelsbrunner and J.~Harer.
+\newblock Persistent homology — a survey.
+\newblock \emph{Discrete \& Computational Geometry}, 453, 1 2008.
+\newblock \doi{10.1090/conm/453/08802}.
+
+\bibitem[Edelsbrunner and Mücke(1994)]{alpha-complex}
+H.~Edelsbrunner and E.~P. Mücke.
+\newblock Three-dimensional alpha shapes.
+\newblock \emph{ACM Transactions on Graphics}, 13\penalty0 (1):\penalty0
+  43--72, Jan 1994.
+\newblock \doi{10.1145/174462.156635}.
+
 \bibitem[Fasy et~al.(2019)Fasy, Kim, Lecci, Maria, Millman, and Rouvreau]{TDA}
 B.~T. Fasy, J.~Kim, F.~Lecci, C.~Maria, D.~L. Millman, and V.~Rouvreau.
 \newblock \emph{TDA: Statistical Tools for Topological Data Analysis}, 2019.
 \newblock URL \url{https://CRAN.R-project.org/package=TDA}.
 \newblock R package version 1.6.5.
+
+\bibitem[Hausmann(1996)]{Rips-Complex}
+J.-C. Hausmann.
+\newblock On the vietoris-rips complexes and a cohomology theory for metric
+  spaces.
+\newblock In F.~Quinn, editor, \emph{Prospects in Topology (AM-138):
+  Proceedings of a Conference in Honor of William Browder}, pages 175--188.
+  Princeton University Press, Princeton, NJ, 1996.
+\newblock \doi{10.1515/9781400882588-013}.
 
 \bibitem[Hester(2019)]{bench}
 J.~Hester.
@@ -33,6 +62,13 @@ C.~Maria, P.~Dlotko, V.~Rouvreau, and M.~Glisse.
 D.~Morozov.
 \newblock \emph{Dionysus}, 2018.
 \newblock URL \url{http://mrzv.org/software/dionysus2}.
+
+\bibitem[Offroy and Duponchel(2016)]{TDA-PChem}
+M.~Offroy and L.~Duponchel.
+\newblock Topological data analysis: A promising big data exploration tool in
+  biology, analytical chemistry and physical chemistry.
+\newblock \emph{Analytica Chimica Acta}, 910:\penalty0 1--11, 2016.
+\newblock \doi{10.1016/j.aca.2015.12.037}.
 
 \bibitem[Ooms(2019)]{magick}
 J.~Ooms.
