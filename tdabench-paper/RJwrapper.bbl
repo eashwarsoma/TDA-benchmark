@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -75,6 +75,13 @@ J.~Ooms.
 \newblock \emph{magick: Advanced Graphics and Image-Processing in R}, 2019.
 \newblock URL \url{https://CRAN.R-project.org/package=magick}.
 \newblock R package version 2.2.
+
+\bibitem[Otter et~al.(2017)Otter, Porter, Tillmann, Grindrod, and
+  Harrington]{roadmap}
+N.~Otter, M.~A. Porter, U.~Tillmann, P.~Grindrod, and H.~A. Harrington.
+\newblock A roadmap for the computation of persistent homology.
+\newblock \emph{EPJ Data Science}, 6\penalty0 (1), Sep 2017.
+\newblock \doi{10.1140/epjds/s13688-017-0109-5}.
 
 \bibitem[Wadhwa et~al.(2018)Wadhwa, Williamson, Dhawan, and Scott]{TDAstats}
 R.~R. Wadhwa, D.~F. Williamson, A.~Dhawan, and J.~G. Scott.
