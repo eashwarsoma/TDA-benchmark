@@ -564,23 +564,204 @@ ggsave("./Figures/Unrasterized_Images/fig6mac.png", plot = fig.6.mac,
        dpi = 400, limitsize = TRUE)
 
 
+####Intro Figures####
+####Rips Complex
+library("ggtda")
+
+n <- 5;
+set.seed(3)
+d <- data.frame(
+  x = runif(n, 0, .8),
+  y = runif(n, 0, .8)
+)
+# compute the persistent homology
+ph <- as.data.frame(TDAstats::calculate_homology(as.matrix(d), dim = 1))
+print(head(ph, n = 12))
+ph <- transform(ph, dim = as.factor(dimension))
+
+prox <- .25
+p_d1 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3") +
+  geom_point() +theme(axis.title = element_blank(),
+                      axis.text = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.line=element_blank())
+p_sc1 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod") +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0() + theme(axis.title = element_blank(),
+                            axis.text = element_blank(),
+                            axis.ticks = element_blank(),
+                            axis.line=element_blank())
+
+prox <- .5
+p_d2 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3") +
+  geom_point() +theme(axis.title = element_blank(),
+                      axis.text = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.line=element_blank())
+p_sc2 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod") +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0() + theme(axis.title = element_blank(),
+                           axis.text = element_blank(),
+                           axis.ticks = element_blank(),
+                           axis.line=element_blank())
+
+prox <- .75
+p_d3 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_disk(radius = prox/2, fill = "aquamarine3") +
+  geom_point() +theme(axis.title = element_blank(),
+                      axis.text = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.line=element_blank())
+p_sc3 <- ggplot(d, aes(x = x, y = y)) +
+  theme_classic() +
+  coord_fixed() +
+  stat_vietoris2(diameter = prox, fill = "darkgoldenrod") +
+  stat_vietoris1(diameter = prox, alpha = .25) +
+  stat_vietoris0() + theme(axis.title = element_blank(),
+                           axis.text = element_blank(),
+                           axis.ticks = element_blank(),
+                           axis.line=element_blank())
+
+# combine and save the plots
+png(filename = "./Figures/Final_Figures/Intro_Rips.png",
+    width = 6, height = 4, units = "in", res = 450)
+
+gridExtra::grid.arrange(
+  p_d1, 
+  p_d2,
+  p_d2,
+  p_sc1, 
+  p_sc2,
+  p_sc3,
+  nrow = 2)
+
+dev.off()
+
+####Alpha Complex
+library(deldir)
+library(ggplot2)
+
+df <- d
+
+#This creates the voronoi line segments
+voronoi <- deldir(d$x, d$y)
+voronoi$delsgs %>% mutate(
+  distance = sqrt((x1-x2)^2+(y1-y2)^2),
+)  -> voronoi$delsgs
+
+
+#Now we can make a plot
+alp.1 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot the union balls
+  geom_circle(data= df, aes(x0=x,y0=y, r = .25/2), fill = "aquamarine", alpha = 1.0, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                        axis.text = element_blank(),
+                        axis.ticks = element_blank(),
+                        axis.line=element_blank()) +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+#Plot the simplicies
+geom_segment(
+  aes(x = x1, y = y1, xend = x2, yend = y2),
+  size = 1,
+  data = subset(voronoi$delsgs, distance <= .25),
+  linetype = 1,
+  color= "black") +
+#Plot the points
+geom_point(
+  fill=rgb(70,130,180,255,maxColorValue=255),
+  pch=21,
+  size = 2,
+  color="#333333") 
+
+alp.2 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot the union balls
+  geom_circle(data= df, aes(x0=x,y0=y, r = .35/2), fill = "aquamarine", alpha = 1.0, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                                          axis.text = element_blank(),
+                                          axis.ticks = element_blank(),
+                                          axis.line=element_blank()) +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+#Plot the simplices
+geom_segment(
+  aes(x = x1, y = y1, xend = x2, yend = y2),
+  size = 1,
+  data = subset(voronoi$delsgs, distance <= .35),
+  linetype = 1,
+  color= "black") +
+#Plot the points
+geom_point(
+  fill=rgb(70,130,180,255,maxColorValue=255),
+  pch=21,
+  size = 2,
+  color="#333333") 
 
 
 
+alp.3 <- ggplot(data=df, aes(x=x,y=y)) +
+  #Plot union balls
+  geom_circle(data= df, aes(x0=x,y0=y, r = .45/2), fill = "aquamarine", alpha = 1.0, inherit.aes = FALSE, color = NA) + 
+  coord_fixed() + theme_classic() + theme(axis.title = element_blank(),
+                                          axis.text = element_blank(),
+                                          axis.ticks = element_blank(),
+                                          axis.line=element_blank()) +
+  #Plot the voronoi lines
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = .5,
+    data = voronoi$dirsgs,
+    linetype = 1,
+    color= "#FFB958") + 
+  #Plot the simplices
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = 1,
+    data = subset(voronoi$delsgs, distance <= .45),
+    linetype = 1,
+    color= "black")  + 
+  #Plot the points
+geom_point(
+  fill=rgb(70,130,180,255,maxColorValue=255),
+  pch=21,
+  size = 2,
+  color="#333333")
 
 
+# combine and save the plots
+png(filename = "./Figures/Final_Figures/Intro_Alpha.png",
+    width = 6, height = 3, units = "in", res = 450)
 
+gridExtra::grid.arrange(
+  alp.1, 
+  alp.2,
+  alp.3,
+  nrow = 1)
 
-
-
-
-
-
-
-
-
-
-
-
+dev.off()
 
 

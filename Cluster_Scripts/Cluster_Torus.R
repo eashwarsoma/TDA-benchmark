@@ -304,7 +304,7 @@ vars.all <- vars.all[!(vars.all$data.dimensions > 3
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
 ####Set Up Parallel####
-sfInit(parallel=TRUE, cpus=8, type = "SOCK")
+sfInit(parallel=TRUE, cpus=4, type = "SOCK")
 sfExport( "vars.all", "bench", "memory", "noisycircle", "TDA_bench", "torus",
           "unifbox", "unifcircle")
 sfLibrary(plyr)

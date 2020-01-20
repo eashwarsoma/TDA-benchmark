@@ -10,3 +10,7 @@ timeccf.csv
 *.log
 *.pdf
 *.tex
+
+#Bibtex
+*.brf
+*.bbl
