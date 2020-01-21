@@ -176,6 +176,7 @@ These limitations are laid out in the "Computation Limits" section.
 \label{fig:cir}
 \end{figure}
 
+
 \subsubsection{Runtime as a function of feature dimension}
 For an n-dimensional point cloud, up to n-1 feature dimensions can be calculated. 
 In the field, most work has only included calculations up to 1 or 2 feature dimensions. 
@@ -220,19 +221,26 @@ This is predicted by Rips theoretical exponential complexity and Alpha complex's
 In both complexes, the boundary matrix is used to calculate persistent homology (explained in detail in the Mathematics section). 
 The library GUDHI provides functions to return the boundary matrix, which allows us to measure object size. 
 
-Rips complexes show a rapid growth in object size as the point cloud number increases in figure \label{fig:mem}, panel 1. 
+Rips complexes show a rapid growth in object size as the point cloud number increases in figure \label{fig:mem1}. 
 The growth pattern differences mirror our findings for run time growth with increasing point cloud size. 
 Alpha complexes show a linear growth in memory complexity whereas Rips complexes show a polynomial growth. 
 However, calculating the object size reveals some interesting differences in what parameters determine the object size of Rips vs Alpha complexes. 
 
-Figure \label{fig:mem}, panel 2 shows that Alpha complex object size depends on the feature dimension, point cloud size, and point cloud shape with torus and uniform shapes having the higher object size. Noisier shapes like the box and annulus increase object size compared to more uniform shapes like the sphere. 
-Figure \label{fig:mem}, panel 3 shows that Rips complex object size depends only on the point cloud size and feature dimensions. 
+Figure \label{fig:mem2}, panel 2 shows that Alpha complex object size depends on the feature dimension, point cloud size, and point cloud shape with torus and uniform shapes having the higher object size. Noisier shapes like the box and annulus increase object size compared to more uniform shapes like the sphere. 
+Figure \label{fig:mem2}, panel 1 shows that Rips complex object size depends only on the point cloud size and feature dimensions. 
 
 \begin{figure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5.png}
-  \caption{Persistent Homology Boundary Matrix for Rips vs Alpha complex. Shape of used point cloud is demonstrated by each image. Panel 1 = Rips complex vs Alpha complex for object size. Panel 2 = Alpha complex object size depends on feature size, point cloud number, and point cloud shape. Panel 3 = Rips complex object size depends on feature size and point cloud number alone. Point cloud shape is not defined as it had no impact on boundary matrix size. For a given n point cloud, n-1 dimension features were calculated in these examples.}
-\label{fig:mem}
+  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5a.png}
+  \caption{Persistent Homology Boundary Matrix for Rips vs Alpha complex. Shape of used point cloud is demonstrated by each image. Rips complex vs Alpha complex for object size.}
+\label{fig:mem1}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5t.png}
+  \caption{Different factors change boundary matrix size for each complex. Panel 1 = Rips complex object size depends on feature size and point cloud number alone. Panel 2 = Alpha complex object size depends on feature size, point cloud number, and point cloud shape. Point cloud shape is not defined as it had no impact on boundary matrix size. For a given n point cloud, n-1 dimension features were calculated in these examples.}
+\label{fig:mem2}
 \end{figure}
 
 \subsubsection{Computational Limitations (advice/guidance for users)}
