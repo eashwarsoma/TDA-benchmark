@@ -52,12 +52,14 @@ image_write(fig.1.rast, path = './Figures/Final_Figures/fig1.png', format = 'png
 fig2.unrast <- image_read("./Figures/Unrasterized_Images/fig2.png")
 #Combine Figure and Image
 fig2.rast1 <- circle %>% image_scale("200") %>%
-                         image_composite(fig2.unrast, ., offset = "+2125+205", 
+                         image_composite(fig2.unrast, ., offset = "+3225+205", 
                               gravity = "northeast")
 
 fig2.rast2 <- sphere %>% image_scale("200") %>%
-                         image_composite(fig2.rast1, ., offset = "+1100+205", 
+                         image_composite(fig2.rast1, ., offset = "+1700+205", 
                   gravity = "northeast")
+
+fig2.rast2
 
 #Write Out File
 image_write(fig2.rast2, path = './Figures/Final_Figures/fig2.png', format = 'png')
@@ -66,22 +68,22 @@ image_write(fig2.rast2, path = './Figures/Final_Figures/fig2.png', format = 'png
 fig5a.unrast <- image_read("./Figures/Unrasterized_Images/fig5a.png")
 #Combine Figure and Images
 fig5a.rast1 <- annulus.3 %>% image_scale("200") %>%
-  image_composite(fig5a.unrast, ., offset = "+1325+300", 
+  image_composite(fig5a.unrast, ., offset = "+1875+175", 
                   gravity = "northeast")
 
 fig5a.rast2 <- sphere %>% image_scale("190") %>%
-  image_composite(fig5a.rast1, ., offset = "+525+300", 
+  image_composite(fig5a.rast1, ., offset = "+720+175", 
                   gravity = "northeast")
 
 fig5a.rast3 <- torus %>% image_scale("210") %>%
-  image_composite(fig5a.rast2, ., offset = "+1325+850", 
+  image_composite(fig5a.rast2, ., offset = "+1865+850", 
                   gravity = "northeast")
 
 fig5a.rast4 <- cube %>% image_scale("210") %>%
-  image_composite(fig5a.rast3, ., offset = "+525+850", 
+  image_composite(fig5a.rast3, ., offset = "+710+850", 
                   gravity = "northeast")
 
-
+fig5a.rast4
 #Write Out File
 image_write(fig5a.rast4, path = './Figures/Final_Figures/fig5a.png', format = 'png')
 
@@ -89,32 +91,32 @@ image_write(fig5a.rast4, path = './Figures/Final_Figures/fig5a.png', format = 'p
 ####Figure_5c####
 fig5c.unrast <- image_read("./Figures/Unrasterized_Images/fig5c.png")
 #Combine Figure and Images
-fig5c.rast1 <- annulus.3 %>% image_scale("100") %>%
-  image_composite(fig5c.unrast, ., offset = "+1410+280", 
+fig5c.rast1 <- annulus.3 %>% image_scale("150") %>%
+  image_composite(fig5c.unrast, ., offset = "+1850+280", 
                   gravity = "northeast")
 
-fig5c.rast2 <- sphere %>% image_scale("100") %>%
-  image_composite(fig5c.rast1, ., offset = "+525+380", 
+fig5c.rast2 <- sphere %>% image_scale("150") %>%
+  image_composite(fig5c.rast1, ., offset = "+410+550", 
                   gravity = "northeast")
 
-fig5c.rast3 <- torus %>% image_scale("100") %>%
-  image_composite(fig5c.rast2, ., offset = "+1425+850", 
+fig5c.rast3 <- torus %>% image_scale("150") %>%
+  image_composite(fig5c.rast2, ., offset = "+1875+1300", 
                   gravity = "northeast")
 
-fig5c.rast4 <- cube %>% image_scale("100") %>%
-  image_composite(fig5c.rast3, ., offset = "+525+875", 
+fig5c.rast4 <- cube %>% image_scale("150") %>%
+  image_composite(fig5c.rast3, ., offset = "+325+1375", 
                   gravity = "northeast")
 
-fig5c.rast5 <- annulus.2 %>% image_scale("100") %>%
-  image_composite(fig5c.rast4, ., offset = "+1410+510", 
+fig5c.rast5 <- annulus.2 %>% image_scale("150") %>%
+  image_composite(fig5c.rast4, ., offset = "+1850+775", 
                   gravity = "northeast")
 
-fig5c.rast6 <- circle %>% image_scale("100") %>%
-  image_composite(fig5c.rast5, ., offset = "+425+580", 
+fig5c.rast6 <- circle %>% image_scale("150") %>%
+  image_composite(fig5c.rast5, ., offset = "+400+830", 
                   gravity = "northeast")
 
-fig5c.rast7 <- square %>% image_scale("100") %>%
-  image_composite(fig5c.rast6, ., offset = "+525+1120", 
+fig5c.rast7 <- square %>% image_scale("150") %>%
+  image_composite(fig5c.rast6, ., offset = "+325+1910", 
                   gravity = "northeast")
 
 image_write(fig5c.rast7, path = './Figures/Final_Figures/fig5c.png', format = 'png')
@@ -123,21 +125,21 @@ image_write(fig5c.rast7, path = './Figures/Final_Figures/fig5c.png', format = 'p
 fig6.unrast <- image_read("./Figures/Unrasterized_Images/fig6.png")
 #Combine Figure and Images
 fig6.rast1 <- annulus.3 %>% image_scale("185") %>%
-  image_composite(fig6.unrast, ., offset = "+1875+325", 
+  image_composite(fig6.unrast, ., offset = "+1975+225", 
                   gravity = "northeast")
 
 fig6.rast2 <- sphere %>% image_scale("185") %>%
-  image_composite(fig6.rast1, ., offset = "+940+325", 
+  image_composite(fig6.rast1, ., offset = "+820+225", 
                   gravity = "northeast")
 
 fig6.rast3 <- torus %>% image_scale("185") %>%
-  image_composite(fig6.rast2, ., offset = "+1875+875", 
+  image_composite(fig6.rast2, ., offset = "+1965+900", 
                   gravity = "northeast")
 
 fig6.rast4 <- cube %>% image_scale("185") %>%
-  image_composite(fig6.rast3, ., offset = "+940+875", 
+  image_composite(fig6.rast3, ., offset = "+810+900", 
                   gravity = "northeast")
-
+fig6.rast4
 
 image_write(fig6.rast4, path = './Figures/Final_Figures/fig6.png', format = 'png')
 
@@ -161,23 +163,34 @@ library(png)
 library(grid)
 library(gridExtra)
 
+
 plot1 <- readPNG('./Figures/Final_Figures/fig5a.png')
 plot2 <- readPNG('./Figures/Final_Figures/fig5b.png')
 plot3 <- readPNG('./Figures/Final_Figures/fig5c.png')
 
 png("./Figures/Final_Figures/fig5t.png", width = 6, height = 4, 
     units = "in", res = 450)
-grid.arrange(rasterGrob(plot1, interpolate = T),
+grid.arrange(
              rasterGrob(plot2, interpolate = T), 
              rasterGrob(plot3, interpolate = T), 
-             layout_matrix = rbind(c(1,2), c(3, 2)),
-             heights=c(2,2, 1))
+             nrow=1)
 dev.off()
 
-#Crop white space
+####Cropping White Space####
+#Crop white space for Intro Alpha
+alpha <- image_read("./Figures/Final_Figures/Intro_Alpha.png") 
+alpha <- image_crop(alpha, "2700x1040", gravity = "North")
+alpha <- image_crop(alpha, "2700x710", gravity = "South")
+image_write(alpha, path = './Figures/Final_Figures/Intro_Alpha.png', format = 'png')
+
+#Crop white space for Figure 5t
 fig5 <- image_read("./Figures/Final_Figures/fig5t.png") 
 fig5 <- image_crop(fig5, "2700x1400", gravity = "North")
-image_write(fig5, path = './Figures/Final_Figures/fig5.png', format = 'png')
+fig5 <- image_crop(fig5, "2700x1020", gravity = "South")
+image_write(fig5, path = './Figures/Final_Figures/fig5t.png', format = 'png')
+
+
+
 
 ####Mac Data Figure 1####
 #Read in Figure

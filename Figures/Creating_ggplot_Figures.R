@@ -119,7 +119,7 @@ fig.2 <- fig.2 + theme_classic() +
 fig.2
 
 ggsave("./Figures/Unrasterized_Images/fig2.png", plot = fig.2,
-       scale = 1, width = 8, height = 4, units = "in",
+       scale = 1, width = 12, height = 4, units = "in",
        dpi = 400, limitsize = TRUE)
 
 
@@ -157,7 +157,7 @@ fig.3 <- fig.3 + theme_classic() +
 fig.3
 
 ggsave("./Figures/Unrasterized_Images/fig3.png", plot = fig.3,
-       scale = 1, width = 6, height = 4, units = "in",
+       scale = 1, width = 12, height = 4, units = "in",
        dpi = 400, limitsize = TRUE)
 
 
@@ -199,7 +199,7 @@ fig.4 <- fig.4 + theme_classic() +
 fig.4
 
 ggsave("./Figures/Unrasterized_Images/fig4.png", plot = fig.4,
-       scale = 1, width = 6, height = 4, units = "in",
+       scale = 1, width = 8, height = 4, units = "in",
        dpi = 400, limitsize = TRUE)
 
 ####Figure 5: Object Size use of Rips complex vs alpha complex. Engine = GUDHI(alpha).#### 
@@ -219,15 +219,15 @@ fig.5a <- ggplot(data.fig.5a, aes(x=num.points, y=memory, color=library)) +
 
 #Editing the colors (Making everything blank)
 fig.5a <- fig.5a + theme_classic() +
-                    theme(legend.position = c(1.10, 0.550),
+                    theme(legend.position = c(.915, 0.915),
                                  legend.title = element_text(size = 9),
                                  legend.text = element_text(size = 7),
                                  plot.title = element_text(hjust = 0.5),
                                  legend.text.align = 0,
-                                 legend.title.align = 0,
+                                 legend.title.align = 0.8,
                                  axis.text.x = element_text(angle=0, hjust=.025),
                                  strip.background = element_blank(),
-                                 plot.margin = unit(c(1,3,1,1), "cm"),
+                                 #plot.margin = unit(c(1,3,1,1), "cm"),
                                  strip.text.x = element_blank())
 
 fig.5a
@@ -261,11 +261,12 @@ fig.5b <- fig.5b + theme_classic() +
                legend.title.align = 0,
                axis.text.x = element_text(angle=0, hjust=.025),
                strip.background = element_blank(),
+               #plot.margin = unit(c(1,3,1,1), "cm"),
                strip.text.x = element_blank())
 
 fig.5b
 ggsave("./Figures/Unrasterized_Images/fig5b.png", plot = fig.5b,
-       scale = 1, width = 6, height = 4, units = "in",
+       scale = 1, width = 8, height = 6, units = "in",
        dpi = 400, limitsize = TRUE)
 
 #Show what Alpha Complex Object Size depends on
@@ -293,7 +294,7 @@ fig.5c <- ggplot(data.fig.5c, aes(x=num.points, y=memory, color=feat.dim)) +
 
 #Editing the colors (Making everything blank)
 fig.5c <- fig.5c + theme_classic() + theme(
-              legend.position = c(1.16, 0.550),
+              legend.position = c(.915, 0.915),
               legend.title = element_text(size = 9),
               legend.text = element_text(size = 7),
               plot.title = element_text(hjust = 0.5),
@@ -303,12 +304,12 @@ fig.5c <- fig.5c + theme_classic() + theme(
                axis.text.x = element_text(angle=0, hjust=.025),
                strip.background = element_blank(),
                strip.text.x = element_blank(), 
-               plot.margin = unit(c(1,3,1,1), "cm"),
+               #plot.margin = unit(c(1,3,1,1), "cm"),
                 panel.spacing = unit(2, "lines"))
 
 fig.5c
 ggsave("./Figures/Unrasterized_Images/fig5c.png", plot = fig.5c,
-       scale = 1, width = 6, height = 4, units = "in",
+       scale = 1, width = 8, height = 6, units = "in",
        dpi = 400, limitsize = TRUE)
 
 
@@ -333,18 +334,18 @@ fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=avg.time, color=library)) +
 #Editing the colors (Making everything blank)
 fig.6 <- fig.6 + theme_classic()
 fig.6 <- fig.6 + theme(
-  legend.position = c(1.13, 0.550),
+  legend.position = c(.915, 1.12),
   legend.title = element_text(size = 9),
   legend.text = element_text(size = 7),
   plot.title = element_text(hjust = 0.5),
   legend.text.align = 0,
-  legend.title.align = 0,
+  legend.title.align = 0.9,
   #plot.title = element_text(hjust = 0.5),
   axis.text.x = element_text(angle=0, hjust=.025),
   strip.background = element_blank(),
-  strip.text.x = element_blank(), 
-  plot.margin = unit(c(1,3,1,1), "cm"),
-  panel.spacing = unit(2, "lines"))
+  strip.text.x = element_blank())
+  #plot.margin = unit(c(1,3,1,1), "cm"),
+  #panel.spacing = unit(2, "lines"))
 fig.6
 
 ggsave("./Figures/Unrasterized_Images/fig6.png", plot = fig.6,
