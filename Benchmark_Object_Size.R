@@ -16,14 +16,14 @@ vars.circle <- as_tibble(expand.grid(measure = "memory", data.type = "circle",
                                      data.dimensions = 2:4, num.points = seq(50, 500, 25),
                                      feature.dimensions = 1:3, 
                                      TDA.library = c("GUDHI", "GUDHIalpha"),
-                                     num.iteration = 1, file.name = "mem_CCF.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                     num.iteration = 1, file.name = "mem.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Making Annulus Variables for time
 vars.noisycircle <- as_tibble(expand.grid(measure = "memory", data.type = "annulus",
                                           data.dimensions = 2:4, num.points = seq(50, 500, 25),
                                           feature.dimensions = 1:3, 
                                           TDA.library = c("GUDHI", "GUDHIalpha"),
-                                          num.iteration = 1, file.name = "mem_CCF.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                          num.iteration = 1, file.name = "mem.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 
 #Making Box Variables for time
@@ -31,14 +31,14 @@ vars.box <- as_tibble(expand.grid(measure = "memory", data.type = "uniform",
                                   data.dimensions = 2:5, num.points = seq(50, 500, 25),
                                   feature.dimensions = 1:4, 
                                   TDA.library = c("GUDHI", "GUDHIalpha"),
-                                  num.iteration = 1, file.name = "mem_CCF.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                  num.iteration = 1, file.name = "mem.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Making Torus Variables for time
 vars.torus <- as_tibble(expand.grid(measure = "memory", data.type = "torus",
                                     data.dimensions = 3, num.points = seq(50, 500, 25),
                                     feature.dimensions = 1:2, 
                                     TDA.library = c("GUDHI", "GUDHIalpha"),
-                                    num.iteration = 1, file.name = "mem_CCF.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                    num.iteration = 1, file.name = "mem.csv")) %>% subset(feature.dimensions < data.dimensions)
 ####
 
 ####Assemble variables for time...and delete the ones my laptop can't handle####
@@ -66,7 +66,7 @@ vars.all <- vars.all[!(vars.all$data.dimensions > 3
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
 #Reads in collected data so far
-vars.tested <- read.csv("mem_CCF.csv")
+vars.tested <- read.csv("mem.csv")
 colnames(vars.tested) <- c("measure", "data.type", "data.dimensions",
                            "num.points", "feature.dimensions", "TDA.library", "memory")
 
@@ -83,15 +83,6 @@ print("done")
 
 
 
-####
-
-####Run Function for all variables ####
-#For real deal, uncomment this section
-#mapply(TDA_bench, vars.all$measure, vars.all$data.type,
-#       vars.all$data.dimensions, vars.all$num.points,
-#       vars.all$feature.dimensions, vars.all$TDA.library,
-#       vars.all$num.iteration, vars.all$file.name)
-####
 
 
 

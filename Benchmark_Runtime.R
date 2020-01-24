@@ -16,14 +16,14 @@ vars.circle <- as_tibble(expand.grid(measure = "time", data.type = "circle",
                                      data.dimensions = 2:4, num.points = seq(10, 500, 5),
                                      feature.dimensions = 1:3, 
                                      TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                     num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                     num.iteration = 10, file.name = "time.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Making Annulus Variables for time
 vars.noisycircle <- as_tibble(expand.grid(measure = "time", data.type = "annulus",
                                           data.dimensions = 2:4, num.points = seq(10, 500, 5),
                                           feature.dimensions = 1:3, 
                                           TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                          num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                          num.iteration = 10, file.name = "time.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 
 #Making Box Variables for time
@@ -31,14 +31,14 @@ vars.box <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
                                   data.dimensions = 2:8, num.points = seq(10, 500, 5),
                                   feature.dimensions = 1:7, 
                                   TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                  num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                  num.iteration = 10, file.name = "time.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Making Torus Variables for time
 vars.torus <- as_tibble(expand.grid(measure = "time", data.type = "torus",
                                     data.dimensions = 3, num.points = seq(10, 500, 5),
                                     feature.dimensions = 1:2, 
                                     TDA.library = c("stats", "Dionysus", "GUDHI", "GUDHIalpha"),
-                                    num.iteration = 10, file.name = "timeccf.csv")) %>% subset(feature.dimensions < data.dimensions)
+                                    num.iteration = 10, file.name = "time.csv")) %>% subset(feature.dimensions < data.dimensions)
 
 #Including low point counts for Rbox 
 vars.box.spec <- as_tibble(expand.grid(measure = "time", data.type = "uniform",
@@ -109,7 +109,7 @@ vars.all <- vars.all[!(vars.all$data.dimensions > 3
                        & vars.all$TDA.library == "GUDHIalpha"), ]
 
 #Reads in collected data so far
-vars.tested <- read.csv("timeccf.csv")
+vars.tested <- read.csv("time.csv")
 colnames(vars.tested) <- c("measure", "data.type", "data.dimensions",
                            "num.points", "feature.dimensions", "TDA.library", "time1",
                           "time2", "time3", "time4", "time5", "time6", "time7", "time8",
