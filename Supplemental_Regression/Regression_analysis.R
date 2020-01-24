@@ -4,9 +4,75 @@ library(reshape)
 library(ggforce)
 library(knitr)
 
-source("./Figures/Creating_ggplot_Figures.R")
+####Reading in Data####
+#Reading in the time data
+data.time <- rbind(read.csv("./Cluster_data/annulus.csv", header = TRUE),
+                   read.csv("./Cluster_data/circle.csv", header = TRUE),
+                   read.csv("./Cluster_data/torus.csv", header = TRUE),
+                   read.csv("./Cluster_data/uniform.csv", header = TRUE))
+#Adding Column Names
+colnames(data.time) <- c("row", "measure.type", "point.cloud", "point.cloud.dim", 
+                         "num.points", "feat.dim", "library", 
+                         "time1", "time2", "time3", "time4", 
+                         "time5", "time6", "time7",
+                         "time8", "time9", "time10")
+
+#Remove extraneaous row variable
+data.time <- data.time %>% select(-"row")
+
+#Creating average and standard deviation columns for time data
+data.time$avg.time <- apply(data.time[,7:16],1,mean)
+data.time$std <- apply(data.time[,7:16],1,sd)
+data.time$min.time <- apply(data.time[,7:16],1,min)
+data.time$max.time <- apply(data.time[,7:16],1,max)
+
+#Create Factor labels for libraries
+data.time$library <- factor(data.time$library,
+                            levels = c("stats","Dionysus","GUDHI", "GUDHIalpha"),
+                            labels = c("TDAstats", "Dionysus", "GUDHI Rips", "GUDHI Alpha"))
+
+#Read in object size data
+data.mem <- read.csv("./mem1.csv", header = FALSE)
+
+#Name columns
+colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim", 
+                        "num.points", "feat.dim", "library", "memory")
+
+#Create Factor labels for libraries
+data.mem$library <- factor(data.mem$library,
+                           levels = c("stats","Dionysus","GUDHI", "GUDHIalpha"),
+                           labels = c("TDAstats", "Dionysus", "GUDHI Rips", "GUDHI Alpha"))
+
+####Making Data Subsets####
+#Data subsets identical to the data subset for each figure
+data.fig.1 <- subset(data.time, point.cloud == "torus" & feat.dim == 2 & 
+                       library != "GUDHI Alpha") 
+
+data.fig.2 <- subset(data.time, point.cloud == "circle" & library != "GUDHI Alpha")
+data.fig.2 <- data.fig.2[(data.fig.2$point.cloud.dim - 1 == data.fig.2$feat.dim), ]
+
+data.fig.3 <- subset(data.time, point.cloud == "uniform" & 
+                       point.cloud.dim == 8 & library != "GUDHI Alpha" & 
+                       (num.points == 10 | num.points == 15| num.points == 20))
+data.fig.3$num.points <- as.factor(data.fig.3$num.points)
+
+data.fig.4 <- subset(data.time, point.cloud == "annulus" & feat.dim == 1 & 
+                       (library == "GUDHI Rips" | library == "GUDHI Alpha"))
+data.fig.4$point.cloud.dim <- as.factor(data.fig.4$point.cloud.dim)
+data.fig.4 <- as.data.frame(data.fig.4)
+
+data.fig.5a <- subset(data.mem, point.cloud.dim == 3 & feat.dim == 2)
+data.fig.5b <- subset(data.mem, library == "GUDHI Rips")
+data.fig.5b$feat.dim <- as.factor(data.fig.5b$feat.dim)
+data.fig.5c <- subset(data.mem, library == "GUDHI Alpha")
+data.fig.5c$feat.dim <- as.factor(data.fig.5c$feat.dim)
+
+data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 & 
+                       (library == "TDAstats" | library == "GUDHI Alpha"))
 
 
+
+####Regression####
 #Create Rips Power Reg Function
 #Returns coefficient, exponent, and R^2 from log log linear regression
 reg.fit.rip <- function (data, strat, y, x) {
@@ -175,4 +241,22 @@ names(all.reg.list) <- c("fig.1.reg.rip",
                            "fig.6.reg.rip",
                            "fig.6.reg.alp")
 
-lapply(all.reg.list, kable, format = "latex")
+#Converting everything to kable
+list.reg <- lapply(all.reg.list, kable, format = "html")
+
+#Writing to html
+cat(list.reg[[1]], file = "./Supplemental_Regression/fig.1.reg.rip.html")
+cat(list.reg[[2]], file = "./Supplemental_Regression/fig.2.reg.rip.html")
+cat(list.reg[[3]], file = "./Supplemental_Regression/fig.4.reg.rip.html")
+cat(list.reg[[4]], file = "./Supplemental_Regression/fig.4.reg.alp.html")
+cat(list.reg[[5]], file = "./Supplemental_Regression/fig.5a.reg.rip.html")
+cat(list.reg[[6]], file = "./Supplemental_Regression/fig.5a.reg.alp.html")
+cat(list.reg[[7]], file = "./Supplemental_Regression/fig.5b.reg.rip.html")
+cat(list.reg[[8]], file = "./Supplemental_Regression/fig.5c.reg.alp.html")
+cat(list.reg[[9]], file = "./Supplemental_Regression/fig.6.reg.rip.html")
+cat(list.reg[[10]], file = "./Supplemental_Regression/fig.6.reg.alp.html")
+
+
+
+
+
