@@ -13,7 +13,7 @@ library(ggforce)
 #Figure 5 was left out since object size is invariant and always the same  
 
 #Reading in the time data
-data.time.mac <- read.csv("./time_mac_desktop.csv", header = FALSE)
+data.time.mac <- read.csv("./Mac_data/time_mac_desktop.csv", header = FALSE)
 #Adding Column Names
 colnames(data.time.mac) <- c("measure.type", "point.cloud", "point.cloud.dim", 
                          "num.points", "feat.dim", "library", 
