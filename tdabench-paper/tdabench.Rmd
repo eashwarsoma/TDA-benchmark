@@ -99,7 +99,7 @@ This matrix characterizes the persistent homology of that point cloud.
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/Intro_Rips.png}
-  \caption{As $\delta$ continues to grow, more circles intersect filling out the simplicial complex. Features on the simplicial complex appear and die as $\delta$ increases. Eventually, the full convex hull is drawn ending the "filtration" process.}
+  \caption{Basic Visualization of the Rips Complex. For a given parameter, $\delta$, $\delta$ diameter circles are drawn around each point. If two circles intersect, a point is drawn between their centers. As $\delta$ continues to grow, more circles intersect filling out the simplicial complex. Features on the simplicial complex appear and die as $\delta$ increases. These features' dimensions, birth, and death are recorded in an n x 3 matrix. Eventually, the full convex hull is drawn ending the "filtration" process.}
 \end{figure}
 
 Alpha complexes provide another method to generate simplicial complexes on the point cloud S.
@@ -119,8 +119,8 @@ We compare this memory complexity between Alpha and Rips complexes for this proj
 
 \begin{figure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/Intro_Alpha.png}
-  \caption{As $\alpha$ continues to grow, more circles fill out the Voronoi cells. Once two circles in adjacent Voronoi cells fill out the cell, a connecting segment can be drawn. Eventually, once $\alpha$ is large enough, the Delaunay Triangulation is formed.}
+  \includegraphics[height=1.5in]{../Figures/Final_Figures/Intro_Alpha.png}
+  \caption{Basic visualization of the Alpha complex. For a given $\alpha$, $\alpha$ radius balls are drawn around each point, and the union is taken. Then an intersection between this union of $\alpha$ balls and the Vornoi diagram is taken. A connecting segment is drawn between points in adjacent voronoi cells once the $\alpha$ ball "fills" out the Voronoi diagram. As $\alpha$ continues to grow, more circles fill out the Voronoi cells. Eventually, once $\alpha$ is large enough, the Delaunay Triangulation is formed.}
 \end{figure}
 
 \section{Methods}
@@ -150,7 +150,7 @@ In figure \ref{fig:tor}, we calculated up to 2 dimensional features of torus 3d 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig1.png}
-  \caption{Comparison of Rips complex persistent homology calculation runtimes across R packages for a torus. The x-axis represents the number of points in a 3D torus point cloud, and y-axis represents average run time. For these given parameters, the Rips libraries show a polynomial growth curve for increasing point dimension. Further details about regression parameters is found in supplemental material.}
+  \caption{Comparison of Rips complex persistent homology calculation runtimes across R packages for a torus. The x-axis represents the number of points in a 3D torus point cloud, and y-axis represents average run time. Each library that calculated the Rips complex is differentiated by point color. All calculations calculated up to two dimensional features. Average runtime is presented as mean +/- standard deviation over 10 iterations. ALl three Rips libraries exhibit a polynomial time growth for these parameters. Further details about regression parameters is found in supplemental material on the paper Github. Some libraries are not calculated for all points due to computational limitations, which are described more in the Computational Limitations section.}
 \label{fig:tor}
 \end{figure}
 
@@ -160,7 +160,7 @@ At larger point clouds, TDAstats outperforms Gudhi, and the difference among the
 This result is especially true for calculating higher feature dimensions on large point clouds. 
 While the runtime values changed for each point cloud condition, the growth pattern with respect to increasing number of points was similar for all Rips complex libraries. 
 For the conditions tested in our analysis, all Rips libraries resulted in an apparent polynomial growth for run time. 
-The exact values for the log-log regression of this growth pattern is provided in supplemental data. 
+The exact values for the log-log regression of this growth pattern is provided in supplemental data on the paper Github. 
 
 Each panel in figure \ref{fig:cir} corresponds to an n-dimensional circle (circle, sphere, and hypersphere). 
 For each point cloud, n-1 dimensional features were calculated.
@@ -169,12 +169,12 @@ At these higher dimensional features, some of the curves seem to cut off.
 This is due to certain point cloud sizes not being computable on our devices. 
 These limitations are laid out in the "Computation Limits" section.
 
-\begin{figure}
+\begin{widefigure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig2.png}
-  \caption{Runtime of persistent homology calculation as a function of underlying engine for different dimension circles. Panel 1. Comparing persistent homology calculation run times for a 2D circle. Panel 2. Comparing persistent homology calculation run times for a 3D sphere. Panel 3. Comparing persistent homology calculation run times for a 4D hypersphere. Maximum feature dimensions were calculated for each point cloud.}
+  \includegraphics[height=2in]{../Figures/Final_Figures/fig2.png}
+  \caption{Runtime of persistent homology calculation as a function of underlying engine for different dimension circles. The x-axis represents the number of points in the point cloud, and y-axis represents average run time. Each library that calculated the Rips complex is differentiated by point color. All calculations calculated up to two dimensional features.Panel 1. Comparing persistent homology calculation run times for a 2D circle. Panel 2. Comparing persistent homology calculation run times for a 3D sphere. Panel 3. Comparing persistent homology calculation run times for a 4D hypersphere. Maximum feature dimensions were calculated for each point cloud. Average runtime is presented as mean +/- standard deviation over 10 iterations.}
 \label{fig:cir}
-\end{figure}
+\end{widefigure}
 
 
 \subsubsection{Runtime as a function of feature dimension}
@@ -187,12 +187,12 @@ For Figure \ref{fig:box}, we restricted the calculations to very small point clo
 As feature dimension increased, Rips complexes show a significant rise in run time with increasing feature dimension within an 8 dimensional point cloud. 
 With this small sample set, it is not clear whether the growth is exponential or polynomial, so no regression values are provided in the supplement. 
 
-\begin{figure}
+\begin{widefigure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig3.png}
-  \caption{Comparison of Rips complex persistent homology calculation as a function of feature dimension. Panel 1. Comparing run times for TDAstats. Panel 2. Comparing run times for Dionysus. Panel 3. Comparing run times for GUDHI. Limited point clouds were tested for high dimensional features due to computational limits.}
+  \includegraphics[height=2in]{../Figures/Final_Figures/fig3.png}
+  \caption{Comparison of Rips complex persistent homology calculation as a function of feature dimension. The x-axis represents the number of features in the point cloud, and y-axis represents average run time. Point cloud number was held constant and indicated by color. All Rips complexes were calculated on an 8 dimensional box. Panel 1. Comparing run times for TDAstats. Panel 2. Comparing run times for Dionysus. Panel 3. Comparing run times for GUDHI. Limited point clouds were tested for high dimensional features due to computational limits. Average runtime is presented as mean +/- standard deviation over 10 iterations.}
 \label{fig:box}
-\end{figure}
+\end{widefigure}
 
 \subsection{Comparison of alpha and Vietoris-Rips complexes within GUDHI}
 The GUDHI library provided functionality to calculate persistent homology with Rips and Alpha complexes. 
@@ -206,12 +206,12 @@ Changes in computational performance from changing point cloud dimension is one 
 In figure \ref{fig:ann}, we show that Rips complexes  run time does not change for different dimensional point clouds as long as feature dimension is held constant. Even though Alpha complexes perform better overall, their computation time increases with increasing point cloud dimension even when calculating the same feature dimension. 
 
 Another key difference is that Alpha complex runtime seems to have an apparent linear rise in the conditions for our analysis. 
-We provide the linear regression coefficients in the supplemental data. 
+We provide the linear regression coefficients in the supplemental data on the paper Github. 
 
 \begin{figure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig4.png}
-  \caption{Comparing homology calculation as a function of point cloud dimension for Rips vs Alpha complexes. Panel 1 = Comparing run times using GUDHI's Rips complex library. Panel 2 = Comparing run times using GUDHI's Alpha complex library. In all calculations, only 1 dimensional features were calculated. For our parameters, Alpha complex run times are more linear in contrast to Rips more polynomial run times. Exact regression data is provided in Supplemental material.}
+  \includegraphics[height=2in]{../Figures/Final_Figures/fig4.png}
+  \caption{Comparing homology calculation as a function of point cloud dimension for Rips vs Alpha complexes. The x-axis represents the number of points in the point cloud, and y-axis represents average run time. Different dimensional annulus point clouds are indicaed by color. Panel 1 = Comparing run times using GUDHI's Rips complex library. Panel 2 = Comparing run times using GUDHI's Alpha complex library. In all calculations, only 1 dimensional features were calculated. For our parameters, Alpha complex run times are more linear in contrast to Rips more polynomial run times. Exact regression data is provided in supplemental material on the paper Github. Average runtime is presented as mean +/- standard deviation over 10 iterations.}
 \label{fig:ann}
 \end{figure}
 
@@ -232,16 +232,16 @@ Figure \label{fig:mem2}, panel 1 shows that Rips complex object size depends onl
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5a.png}
-  \caption{Persistent Homology Boundary Matrix for Rips vs Alpha complex. Shape of used point cloud is demonstrated by each image. Rips complex vs Alpha complex for object size.}
+  \caption{Persistent Homology Boundary Matrix for Rips vs Alpha complex. The x-axis represents the number of points in the point cloud, and y-axis represents object size. The type of complex is indicated by color. Maximum feature dimensions were calculated. Panel 1 = Comparing object size on 3D annulus. Panel 2 = Comparing object size on sphere. Panel 3 = Comparing object size on torus. Panel 4 = Comparing object size on 3D box. Similar to runtime growth, Alpha complex showed a linear pattern and Rips complex showed a log-log linear pattern. Regression results can be found in supplemental data on the paper Github}
 \label{fig:mem1}
 \end{figure}
 
-\begin{figure}
+\begin{widefigure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5t.png}
-  \caption{Different factors change boundary matrix size for each complex. Panel 1 = Rips complex object size depends on feature size and point cloud number alone. Panel 2 = Alpha complex object size depends on feature size, point cloud number, and point cloud shape. Point cloud shape is not defined as it had no impact on boundary matrix size. For a given n point cloud, n-1 dimension features were calculated in these examples.}
+  \caption{Different factors change boundary matrix size for each complex. The x-axis represents the number of points in the point cloud, and y-axis represents object size. Panel 1 = Rips complex object size depends on feature size and point cloud number alone. For Rips complex, the decreasing number of data points for each calculated feature dimension reflects the computational limits of large point cloud sizes. Point cloud shape is not defined as it had no impact on boundary matrix size. Panel 2 = Alpha complex object size depends on feature size, point cloud number, and point cloud shape. Point cloud shape was indicated as it impacted object size.}
 \label{fig:mem2}
-\end{figure}
+\end{widefigure}
 
 \subsubsection{Computational Limitations (advice/guidance for users)}
 In benchmarking all of our parameters, each point cloud was given up to 16 GB of RAM. 
@@ -294,7 +294,7 @@ GUDHI and Dionysus libraries, however, do have the option of returning the bound
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig6.png}
-  \caption{TDAstats Rips complexes vs GUDHI Alpha complex average run times across all 3D shapes for 2D features. Panel 1 = Execution time on annulus. Panel 2 = Execution time on sphere. Panel 3 = Execution time on torus. Panel 4 = Execution time on uniform box}
+  \caption{TDAstats Rips complexes vs GUDHI Alpha complex average run times across all 3D shapes for 2D features. The x-axis represents the number of points in the point cloud, and y-axis represents average run time. The type of complex is indicated by color. Panel 1 = Execution time on annulus. Panel 2 = Execution time on sphere. Panel 3 = Execution time on torus. Panel 4 = Execution time on uniform box. Data is presented as mean +/- standard deviation}
 \label{fig:fin}
 \end{figure}
 

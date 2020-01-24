@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -51,6 +51,13 @@ J.~Hester.
 \newblock URL \url{https://CRAN.R-project.org/package=bench}.
 \newblock R package version 1.0.4.
 
+\bibitem[Ligges and M{\"a}chler(2003)]{scatterplot3d}
+U.~Ligges and M.~M{\"a}chler.
+\newblock Scatterplot3d - an r package for visualizing multivariate data.
+\newblock \emph{Journal of Statistical Software}, 8\penalty0 (11):\penalty0
+  1--20, 2003.
+\newblock URL \url{http://www.jstatsoft.org}.
+
 \bibitem[Maria et~al.(2016)Maria, Dlotko, Rouvreau, and Glisse]{gudhi}
 C.~Maria, P.~Dlotko, V.~Rouvreau, and M.~Glisse.
 \newblock Rips complex.
@@ -82,6 +89,13 @@ N.~Otter, M.~A. Porter, U.~Tillmann, P.~Grindrod, and H.~A. Harrington.
 \newblock A roadmap for the computation of persistent homology.
 \newblock \emph{EPJ Data Science}, 6\penalty0 (1), Sep 2017.
 \newblock \doi{10.1140/epjds/s13688-017-0109-5}.
+
+\bibitem[Schmid and Serbe(2017)]{recexcavAAR}
+C.~Schmid and B.~Serbe.
+\newblock \emph{recexcavAAR: 3D Reconstruction of Archaeological Excavations},
+  2017.
+\newblock URL \url{https://CRAN.R-project.org/package=recexcavAAR}.
+\newblock R package version 0.3.0.
 
 \bibitem[Wadhwa et~al.(2018)Wadhwa, Williamson, Dhawan, and Scott]{TDAstats}
 R.~R. Wadhwa, D.~F. Williamson, A.~Dhawan, and J.~G. Scott.
