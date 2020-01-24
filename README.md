@@ -1,10 +1,10 @@
 This code measures execution time using the bench library and object size using the pryr library of persistent homology calculations using different TDA libraries. 
 
-The main benchmark function is found in "FullTDABench.R" However, you should clone the whole repository since it sources the other scripts. "generate-data.R" creates different geometrically distributed point clouds, "bench.R" measures median execution time of a persistent homology calculation, and "MemorySize.R" measures memory size of the returned persistent homology n x 3 matrix. 
+Benchmarking is performed on geometrically created point clouds. After creating the point clouds, they are benchmarked for time or object size. All of these functions are contained in the "Functions.R" script. 
 
-In the FullTDABench.R, the function is TDA_bench. It can take the following variables
+The main function to benchmark is TDA_bench. It can take the following variables
 TDA_bench(measure, data.type, data.dimensions, num.points,
-          feature.dimensions, TDA.library, num.iteration)
+          feature.dimensions, TDA.library, num.iteration). It is defined with the other functions in the Functions.R Script
 
 measure = "time" or "memory"
 Measures the median execution time of a persistent homology
@@ -33,3 +33,30 @@ alpha complexes instead of Rips complex.
 
 num.iterations = n
 How many iterations for median execution time calculation
+
+The Benchmark_Runtime.R script and Benchmark_Object_Size.R script enables one to reproduce our benchmarking scripts. The script will create a csv file (time.csv or mem.csv) in the home directory. After each benchmark is performed, a row of data is appended to the CSV. If the computer crashes, the code will read in the previously run data from the csv and not rerun the benchmark on already collected datasets. By default, the iteration number is set to 10. 
+
+The "default data" for these scripts collected on our lab computer is "mem1.csv" (found in main directory) and "time_mac_desktop.csv" (found in Mac_data). In our paper, we presented data run on a High Powered Cluster. We ran a special parallel script to accomplish this. The folder Cluster_Scripts and Cluster_data respectively contain the scripts and data from this run. A sample .sb SBATCH file is also provided if the user would like to replicate the cluster run (SBatch file may need to be modified for different HPCs). 
+
+The Folder Figures allows replication of the figures presented in the paper. Running the script "Final_Figures_Reproducible.R" allows for reproduction of the paper's figures. The code calls on the csv data from the Cluster. The folder Unrasterized_Images contains the raw ggplots. Further code in the Reproducible script uses raster functions to improve the appearance of the final figures, which are found in Final_Figures. The extra data from our lab mac run (which can be replicated by running the Benchmark_Runtime.R script) is processed in Extra_Mac_Figures.R and the figures are found in Extra_Mac_Figures folder. 
+
+The folder Supplemental Regression contains a script to create a power regression (log-log linear regression) for Rips complexes and linear regression for Alpha complexes. The regression data for each figure is shown in an html file. 
+
+The folder tda-bench paper contains the paper. 
+
+We strongly recommend cloning the entire directory to reproduce the code. In summary:
+Functions.R: Creates the functions used to generate point clouds and benchmark using persistent homology functions
+Benchmark_Object_Size.R: benchmark object size benchmark on your computer
+Benchmark_Runtime.R: benchmark average runtime on your computer
+
+Cluster_data: Raw data from our HPC Run
+Cluster_Scripts: Scripts run on the HPC
+
+Figures: Code to reproduce figures and folders of figures from paper 
+
+Mac_data: Runtime data from running Benchmark_Runtime.R on lab mac. Not shown in final paper
+mem1.csv: object size benchmark created from Benchmark_Object_Size.R. This data is identical no matter what computer it is run on
+
+Supplemental Regression: Code and Data to calculate regression constants for each figure
+
+
