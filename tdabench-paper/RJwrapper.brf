@@ -5,11 +5,11 @@
 \backcite {TDA}{{1}{2.1}{section.2.1}}
 \backcite {Ripser}{{1}{2.1}{section.2.1}}
 \backcite {TDAstats}{{1}{2.1}{section.2.1}}
-\backcite {TDA-Viral}{{1}{2.1}{section.2.1}}
-\backcite {TDA-PChem}{{1}{2.1}{section.2.1}}
+\backcite {TDA-Viral}{{2}{2.1}{section.2.1}}
+\backcite {TDA-PChem}{{2}{2.1}{section.2.1}}
 \backcite {phom-survey}{{2}{2.2}{section.2.2}}
 \backcite {Rips-Complex}{{2}{2.2}{section.2.2}}
-\backcite {alpha-complex}{{2}{2.2}{figure.caption.2}}
+\backcite {alpha-complex}{{3}{2.2}{figure.caption.2}}
 \backcite {readr}{{3}{2.3}{section.2.3}}
 \backcite {ggplot2}{{3}{2.3}{section.2.3}}
 \backcite {scatterplot3d}{{3}{2.3}{section.2.3}}
