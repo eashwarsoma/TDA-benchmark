@@ -145,7 +145,7 @@ Fully reproducible code for all numerical results and figures in this report can
 \section{Results}
 
 \subsubsection{Prototype/Canonical dataset (Torus)}
-The torus point cloud is a classical shape used to demonstrate persistent homology calculations. 
+The torus is a classical shape used to demonstrate persistent homology calculations. 
 A persistent homology calculation of a uniformly distributed torus would reveal a large 1 dimensional feature representing the middle circle of the torus. There would also be a large 2 dimensional feature representing the inner cavity of the torus. 
 In figure \ref{fig:tor}, we calculated up to 2 dimensional features of torus 3d points cloud for an increasing number of points across all TDA libraries. 
 
