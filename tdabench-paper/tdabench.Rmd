@@ -144,9 +144,8 @@ Fully reproducible code for all numerical results and figures in this report can
 
 \section{Results}
 
-\subsubsection{Prototype/Canonical dataset (Torus)}
-The torus is a classical shape in topological data analysis.
-A persistent homology calculation of a uniformly distributed torus would reveal a large 1 dimensional feature representing the middle circle of the torus. There would also be a large 2 dimensional feature representing the inner cavity of the torus. 
+Computing persistent homology of a canonical torus grants quick insight into efficiency of each library (Figure \ref{fig:tor}).
+Calculating persistent homology of points distributed on a torus should reveal a single 1-dimensional feature representing the middle circle of the torus. There would also be a large 2 dimensional feature representing the inner cavity of the torus. 
 In figure \ref{fig:tor}, we calculated up to 2 dimensional features of torus 3d points cloud for an increasing number of points across all TDA libraries. 
 
 \begin{figure}
