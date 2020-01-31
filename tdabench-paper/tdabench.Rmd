@@ -134,7 +134,7 @@ Within the \CRANpkg{TDA} package, benchmark data was collected for the GUDHI \ci
 As alpha complex calculation was only implemented in GUDHI, alpha complex benchmark data was naturally only collected for the single library.
 Measuring memory usage proved challenging since all the libraries calculating persistent homology were implemented in either C++ or Java and then wrapped in R as part of a CRAN package.
 Thus, memory burden was indirectly measured by using boundary matrix size as a proxy.
-Given that Ripser optimizes persistent homology calculation by avoiding calculation of a boundary matrix, memory use benchmarks are not provided for Ripser and, consequently, \CRANpkg{TDAstats}.
+Given that Ripser optimizes computation of persistent homology by avoiding calculation of a boundary matrix, memory use benchmarks are not provided for Ripser and, consequently, \CRANpkg{TDAstats}.
 Fully reproducible code for all numerical results and figures in this report can be found at https://github.com/eashwarsoma/TDA-benchmark.
 
 \section{Results}
