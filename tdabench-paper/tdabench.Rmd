@@ -144,9 +144,6 @@ Fully reproducible code for all numerical results and figures in this report can
 
 \section{Results}
 
-\subsection{Runtime comparison between packages for calculation of V-R complex}
-In our analysis, we compare runtime performances of the three Rips complexes libraries for persistence homology calculation under different conditions. We then focus our analysis on comparing Rips complexes with Alpha complexes using the GUDHI package.
-
 \subsubsection{Prototype/Canonical dataset (Torus)}
 The torus point cloud is a classical shape used to demonstrate persistent homology calculations. 
 A persistent homology calculation of a uniformly distributed torus would reveal a large 1 dimensional feature representing the middle circle of the torus. There would also be a large 2 dimensional feature representing the inner cavity of the torus. 
