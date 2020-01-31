@@ -135,6 +135,11 @@ As alpha complex calculation was only implemented in GUDHI, alpha complex benchm
 Measuring memory usage proved challenging since all the libraries calculating persistent homology were implemented in either C++ or Java and then wrapped in R as part of a CRAN package.
 Thus, memory burden was indirectly measured by using boundary matrix size as a proxy.
 Given that Ripser optimizes computation of persistent homology by avoiding calculation of a boundary matrix, memory use benchmarks are not provided for Ripser and, consequently, \CRANpkg{TDAstats}.
+
+Benchmark data was collected twice - once on a local machine and once on a remote computing node, each of which featured 16 GB random access memory.
+Both datasets were compared for consistency and are publicly available at the repository linked below.
+Data from the remote computing node is visualized in this report.
+The larger point clouds required more than 16 GB of RAM to calculate persistent homology using a subset of the libraries; attempts to compute results resulted in runtime errors, and the corresponding output is missing from the corresponding figures and tables.
 Fully reproducible code for all numerical results and figures in this report can be found at https://github.com/eashwarsoma/TDA-benchmark.
 
 \section{Results}
