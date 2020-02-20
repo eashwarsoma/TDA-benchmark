@@ -146,7 +146,7 @@ Fully reproducible code for all numerical results and figures in this report can
 
 Computing persistent homology of a canonical torus grants quick insight into efficiency of each library (Figure \ref{fig:tor}).
 Dionysus exhibits the longest average runtime, and, although Ripser and GUDHI have similar runtimes for smaller point clouds, as the number of points increases Ripser eventually has a significant lead.
-Next, we compare performance of these three libraries with multiple canonical datasets to ensure that the noted pattern generalizes.
+Next, we compare library performance with multiple canonical datasets to ensure that the noted pattern generalizes.
 
 \begin{figure}
   \centering
