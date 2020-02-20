@@ -161,20 +161,17 @@ Next, we compare library performance with multiple canonical datasets to ensure 
 \label{fig:tor}
 \end{figure}
 
-\subsubsection{Runtime as a function of data dimension (feature = n - 1)}
-For small point cloud numbers, Gudhi and TDAstats performed similarly while Dionysus lagged behind. 
-At larger point clouds, TDAstats outperforms Gudhi, and the difference among the Rips libraries is more visible.
-This result is especially true for calculating higher feature dimensions on large point clouds. 
-While the runtime values changed for each point cloud condition, the growth pattern with respect to increasing number of points was similar for all Rips complex libraries. 
-For the conditions tested in our analysis, all Rips libraries resulted in an apparent polynomial growth for run time. 
-The exact values for the log-log regression of this growth pattern is provided in supplemental data on the paper Github. 
+Tori do not trivially generalize to dimensions other than 3, but circles do.
+Benchmarking on a circular point cloud permits confirmation of the pattern in Figure \ref{fig:tor} while also revealing how the libraries compare as dataset dimension increases.
+Figure \ref{fig:cir} exhibits the resulting data for a 2-dimensional circle (panel A), 3-dimensional sphere (panel B), and 4-dimensional hypersphere (panel C).
+When the dataset dimension equals 2, GUDHI practically matches Ripser's performance in outpacing Dionysus.
+However, in the case of the 3-dimensional sphere, the pattern visualized in Figure \ref{fig:tor} for the 3-dimensional torus is again present.
+By the 4th dimension, the gap between Ripser and GUDHI widens.
+Of note, missing points for larger datasets in Figure \ref{fig:cir} are not plotted if and only if calculating persistent homology caused an error due to insufficient RAM.
+Thus, for the hypersphere, Ripser was able to calculate persistent homology for a dataset with approximately 3 times as many points as Dionysus and over 2 times as many as GUDHI.
+Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with respect to the number of points (see Supplement for regression details).
 
-Each panel in figure \ref{fig:cir} corresponds to an n-dimensional circle (circle, sphere, and hypersphere). 
-For each point cloud, n-1 dimensional features were calculated.
-As the sphere dimensions and feature dimensions increased, the polynomial time growth becomes apparent sooner. 
-At these higher dimensional features, some of the curves seem to cut off. 
-This is due to certain point cloud sizes not being computable on our devices. 
-These limitations are laid out in the "Computation Limits" section.
+For each point cloud, n-1 dimensional features were calculated. *previous sentence will be moved to figure caption*
 
 \begin{widefigure}
   \centering
