@@ -162,7 +162,7 @@ Next, we compare library performance with multiple canonical datasets to ensure 
 \label{fig:tor}
 \end{figure}
 
-Tori do not trivially generalize to dimensions other than 3, but circles do.
+Tori do not trivially generalize to other dimensions, but circles do.
 Benchmarking on a circular point cloud permits confirmation of the pattern in Figure \ref{fig:tor} while also revealing how the libraries compare as dataset dimension increases.
 Figure \ref{fig:cir} exhibits the resulting data for a 2-dimensional circle (panel A), 3-dimensional sphere (panel B), and 4-dimensional hypersphere (panel C).
 When the dataset dimension equals 2, GUDHI practically matches Ripser's performance in outpacing Dionysus.
