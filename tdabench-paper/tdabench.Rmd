@@ -144,18 +144,9 @@ Fully reproducible code for all numerical results and figures in this report can
 
 \section{Results}
 
-<<<<<<< HEAD
-\subsection{Runtime comparison between packages for calculation of V-R complex}
-In our analysis, we compare runtime performances of the three Rips complexes libraries for persistence homology calculation under different conditions. We then focus our analysis on comparing Rips complexes with Alpha complexes using the GUDHI package.
-
-\subsubsection{Prototype/Canonical dataset (Torus)}
-The torus point cloud is a classical shape used to demonstrate persistent homology calculations. 
-A persistent homology calculation of a uniformly distributed torus would reveal two large 1 dimensional features, which are the two circles defined by the major and minor radius. There would also be a large 2 dimensional feature representing the inner cavity of the torus. 
-In figure \ref{fig:tor}, we calculated up to 2 dimensional features of torus 3d points cloud for an increasing number of points across all TDA libraries. 
-=======
 Computing persistent homology of a canonical torus grants quick insight into efficiency of each library (Figure \ref{fig:tor}).
 Dionysus exhibits the longest average runtime, and, although Ripser and GUDHI have similar runtimes for smaller point clouds, as the number of points increases Ripser eventually has a significant lead.
->>>>>>> b0e4d5a5d0dae77c2c3d74cfd4bdb3464c7ff4d0
+Next, we compare performance of these three libraries with multiple canonical datasets to ensure that the noted pattern generalizes.
 
 \begin{figure}
   \centering
