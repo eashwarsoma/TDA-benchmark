@@ -151,12 +151,13 @@ Next, we compare library performance with multiple canonical datasets to ensure 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig1.png}
-  \caption{\textbf{Calculating persistent homology of a torus with three TDA libraries.}
-  Average runtime (mean $\pm$ SD) for each TDA library (denoted by color) is plotted against point cloud size.
-  Homological features up to 2 dimensions were calculated.
-  Time complexity follows a power law for all three libraries (see GitHub repo for regression details).
-  Although the libraries have similar runtimes for smaller point clouds, Dionysus has a clear disadvantage when the number of points exceeds 100.
-  When the number of points exceeds 200, Ripser has a clear advantage over GUDHI, which maintains its advantage over Dionysus.
+  \caption{
+    \textbf{Calculating persistent homology of a torus with three TDA libraries.}
+    Average runtime (mean $\pm$ SD) for each TDA library (denoted by color) is plotted against point cloud size.
+    Homological features up to 2 dimensions were calculated.
+    Time complexity follows a power law for all three libraries (see GitHub repo for regression details).
+    Although the libraries have similar runtimes for smaller point clouds, Dionysus has a clear disadvantage when the number of points exceeds 100.
+    When the number of points exceeds 200, Ripser has a clear advantage over GUDHI, which maintains its advantage over Dionysus.
   }
 \label{fig:tor}
 \end{figure}
