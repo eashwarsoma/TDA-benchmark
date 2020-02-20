@@ -153,7 +153,7 @@ Next, we compare library performance with multiple canonical datasets to ensure 
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig1.png}
   \caption{
     \textbf{Calculating persistent homology of a torus with three TDA libraries.}
-    Average runtime (mean $\pm$ SD) for each TDA library (denoted by color) is plotted against point cloud size.
+    Average runtime (mean $\pm$ SD, $n=10$) for each TDA library (denoted by color) is plotted against point cloud size.
     Homological features up to 2 dimensions were calculated.
     Time complexity follows a power law for all three libraries (see GitHub repo for regression details).
     Although the libraries have similar runtimes for smaller point clouds, Dionysus has a clear disadvantage when the number of points exceeds 100.
@@ -172,15 +172,21 @@ Of note, missing points for larger datasets in Figure \ref{fig:cir} are not plot
 Thus, for the hypersphere, Ripser was able to calculate persistent homology for a dataset with approximately 3 times as many points as Dionysus and over 2 times as many as GUDHI.
 Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with respect to the number of points (see Supplement for regression details).
 
-For each point cloud, n-1 dimensional features were calculated. *previous sentence will be moved to figure caption*
-
 \begin{widefigure}
   \centering
   \includegraphics[height=2in]{../Figures/Final_Figures/fig2.png}
-  \caption{Runtime of persistent homology calculation as a function of underlying engine for different dimension circles. The x-axis represents the number of points in the point cloud, and y-axis represents average run time. Each library that calculated the Rips complex is differentiated by point color. All calculations calculated up to two dimensional features.Panel 1. Comparing persistent homology calculation run times for a 2D circle. Panel 2. Comparing persistent homology calculation run times for a 3D sphere. Panel 3. Comparing persistent homology calculation run times for a 4D hypersphere. Maximum feature dimensions were calculated for each point cloud. Average runtime is presented as mean +/- standard deviation over 10 iterations.}
+  \caption{
+    \textbf{Calculating persistent homology of round point clouds of varying dimensions with three TDA libraries.}
+    Runtime of persistent homology calculation as a function of underlying engine for different dimension circles.
+    The x-axis represents the number of points in the point cloud, and y-axis represents average run time.
+    Each library that calculated the Rips complex is differentiated by point color.
+    All calculations calculated up to two dimensional features.
+    Panel 1 compares library performance for a 2-dimensional circular point cloud; panel 2 for a 3-dimensional spherical point cloud; and panel 3 for a 4-dimensional hyperspherical point cloud.
+    Maximum feature dimensions (one less than data dimension) were calculated for each point cloud.
+    Average runtime is presented as mean $\pm$ SD over 10 iterations.
+  }
 \label{fig:cir}
 \end{widefigure}
-
 
 \subsubsection{Runtime as a function of feature dimension}
 For an n-dimensional point cloud, up to n-1 feature dimensions can be calculated. 
