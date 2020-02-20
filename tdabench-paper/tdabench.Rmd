@@ -177,13 +177,9 @@ Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with
   \includegraphics[height=2in]{../Figures/Final_Figures/fig2.png}
   \caption{
     \textbf{Calculating persistent homology of round point clouds of varying dimensions with three TDA libraries.}
-    Runtime of persistent homology calculation as a function of underlying engine for different dimension circles.
-    The x-axis represents the number of points in the point cloud, and y-axis represents average run time.
-    Each library that calculated the Rips complex is differentiated by point color.
-    All calculations calculated up to two dimensional features.
+    Average runtime (mean $\pm$ SD, $n=10$) for each TDA library (denoted by color) is plotted against point cloud size and faceted by data dimension.
     Panel 1 compares library performance for a 2-dimensional circular point cloud; panel 2 for a 3-dimensional spherical point cloud; and panel 3 for a 4-dimensional hyperspherical point cloud.
-    Maximum feature dimensions (one less than data dimension) were calculated for each point cloud.
-    Average runtime is presented as mean $\pm$ SD over 10 iterations.
+    Maximum feature dimensions (one less than data dimension) were calculated in each case.
   }
 \label{fig:cir}
 \end{widefigure}
