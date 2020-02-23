@@ -59,4 +59,6 @@ mem1.csv: object size benchmark created from Benchmark_Object_Size.R. This data 
 
 Supplemental Regression: Code and Data to calculate regression constants for each figure
 
+To see video guides explaining the background and how to reproduce the figures and data, see this Youtube playlist: https://www.youtube.com/playlist?list=PLekORtkMHJMkETZVHzqaL9KWUl3peNmIk
+
 
