@@ -267,7 +267,7 @@ Alpha complex's limitation is better described as the point cloud dimension bein
 \small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Feature & TDA Stats & Dionysus & Gudhi Rips & Gudhi Alpha \\
+Feature & Ripser & Dionysus & Gudhi Rips & Gudhi Alpha \\
 Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit\\
 \hline
 1 & Not Reached & Not Reached & Not Reached & Not Reached \\ 
@@ -278,7 +278,7 @@ Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cl
 \end{tabular}
 \caption{During the benchmarking, certain libraries were not able to calculate persistent homology for sufficiently complex point clouds. 
 Limiting factors were point cloud number and feature dimension calculation. 
-For Rips complexes, TDA stats had the highest performing capacity among the three Rips libraries. 
+For Vietoris-Rips complices, Ripser had the best performing capacity among the three libraries. 
 Alpha complexes were not computable for any point cloud greater than 3 dimensions, so dimensional features 3 and higher could not be computed.}
 \end{table}
 
@@ -327,5 +327,3 @@ Future challenges would be creating and implementing algorithms that reduce the 
 Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
 
 \bibliography{tdabench}
-
-
