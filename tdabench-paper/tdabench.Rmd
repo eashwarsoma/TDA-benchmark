@@ -241,6 +241,7 @@ The growth pattern differences mirror findings for runtime growth (Figure \ref{f
 Interestingly, different factors determine memory usage in the two types of simplicial complex.
 Whereas memory use in calculation of a Vietoris-Rips complex is dependent on point cloud size and feature dimension, memory use for an analogous calculation with an alpha complex is also dependent on the structure of the point cloud itself (Figure \ref{fig:mem2}).
 Within the limited set of tested point cloud structures, the sphere requires the least memory.
+Table \ref{tbl:limit} lists the maximum point cloud size for which persistent homology calculations were completed for each library.
 
 <!--BELONGS IN DISCUSSION
 This is predicted by Vietoris-Rips theoretical exponential complexity and Alpha complex's theoretical polynomial complexity.-->
@@ -250,7 +251,7 @@ This is predicted by Vietoris-Rips theoretical exponential complexity and Alpha 
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5a.png}
   \caption{
     \textbf{Comparing memory usage of persistent homology calculation using a Vietoris-Rips versus an alpha complex.}
-    Mean boundary matrix object size, a proxy for memory usage, plotted against point cloud size varying by point cloud structure (facet) and simplicial complex type (color, shape).
+    Mean boundary matrix size, a proxy for memory usage, plotted against point cloud size varying by point cloud structure (facet) and simplicial complex type (color, shape).
     Data dimension and feature dimension were held constant at 3 and 2, respectively.
     Point cloud structures for which memory usage was calculated were 3-dimensional annulus (top-left), 3-dimensional sphere (top-right), torus (bottom-left), and 3-dimensional cube (bottom-right).
     Similar to runtime results, alpha complex calculation showed linear growth and Vietoris-Rips complex calculation showed polynomial growth (see Supplement for regression details).}
@@ -260,16 +261,13 @@ This is predicted by Vietoris-Rips theoretical exponential complexity and Alpha 
 \begin{widefigure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5t.png}
-  \caption{Different factors change boundary matrix size for each complex. The x-axis represents the number of points in the point cloud, and y-axis represents object size. Panel 1 = Rips complex object size depends on feature size and point cloud number alone. For Rips complex, the decreasing number of data points for each calculated feature dimension reflects the computational limits of large point cloud sizes. Point cloud shape is not defined as it had no impact on boundary matrix size. Panel 2 = Alpha complex object size depends on feature size, point cloud number, and point cloud shape. Point cloud shape was indicated as it impacted object size.}
+  \caption{
+    \textbf{Factors affecting boundary matrix size in Vietoris-Rips and alpha complices.}
+    Mean boundary matrix size plotted against point cloud size varying by point cloud structure (right, faceted), simplicial complex type (left, right), and feature dimension (color).
+    Whereas the boundary matrix for a Vietoris-Rips complex (left) is independent of point cloud structure, the same is not true for an alpha complex (right, faceted).
+    For the Vietoris-Rips complex, the decreasing number of data points plotted for successive feature dimensions reflects the computational requirements of increasing point cloud size.}
 \label{fig:mem2}
 \end{widefigure}
-
-\subsubsection{Computational Limitations (advice/guidance for users)}
-In benchmarking all of our parameters, each point cloud was given up to 16 GB of RAM. 
-However, memory allocation errors as reported by R caused several of our parameters to not run. 
-This table describes the point cloud size limit for calculating a given feature dimension. 
-Notably, TDAstats has a higher threshold for point cloud size at high dimensions when compared to TDA's GUDHI or Dionysus libraries. 
-Alpha complex's limitation is better described as the point cloud dimension being the limiting factor, which is why 3 and 4 dimensional features were not computable.
 
 \begin{table}
 \centering
@@ -285,6 +283,7 @@ Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cl
 4 & 100 points & 50 points & 75 points & Could Not Compute \\ 
 \hline
 \end{tabular}
+\label{tbl:limit}
 \caption{During the benchmarking, certain libraries were not able to calculate persistent homology for sufficiently complex point clouds. 
 Limiting factors were point cloud number and feature dimension calculation. 
 For Vietoris-Rips complices, Ripser had the best performing capacity among the three libraries. 
@@ -334,6 +333,8 @@ Ripser memory not measured here b/c R, but refer to Bauer Ripser memory measurem
 Rips complex memory more predictable, but alpha complex memory generally better (but what about Ripser?).
 
 Thoughts on why sphere alpha uses less memory than 3-d annulus alpha
+
+Weigh limitations and benefits of each library/complex type based on Table 1
 -->
 
 \begin{figure}
@@ -343,7 +344,7 @@ Thoughts on why sphere alpha uses less memory than 3-d annulus alpha
 \label{decision}
 \end{figure}
 
-\section{Acknowledgements}
+\section{Acknowledgments}
 Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
 
 \bibliography{tdabench}
