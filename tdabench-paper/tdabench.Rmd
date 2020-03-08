@@ -290,6 +290,9 @@ Alpha complexes were not computable for any point cloud greater than 3 dimension
 \label{tbl:limit}
 \end{table}
 
+In real life scenarios, practitioners likely care most about comparative performance of the fastest Vietoris-Rips complex library and the fastest alpha complex library.
+Figure \ref{fig:fin} illustrates this comparison, showing that for 3-dimensional point clouds, GUDHI's alpha complex library outpaces Ripser's Vietoris-Rips functionality.
+
 \section{Discussion}
 As persistent homology calculations continue to become a more popular tool to analyze complex multidimensional data, it will be important to understand from a computational perspective which method to use. 
 In this paper, we examined two forms of persistent homology complexes: Vietoris Rips and Alpha complexes. 
@@ -300,7 +303,18 @@ Figure \ref{fig:fin} shows that at high point cloud sizes, GUDHI’s Alpha compl
 Theoritically, Alpha complexes gain polynomial complexity as the number of points increases whereas Rips complexes gain exponentially. 
 Specifically, Alpha complexes are $O(n^\frac{d}{2})$ and Rips complexes are $O(2^n)$ where n is the number of points on a point cloud and d is the dimensions on the point cloud. 
 For the conditions in our paper, Rips and Alpha complexes both performed better than their theoritical maximums. 
-Rips complex calculations consistently had a polynomial growth for both runtime and boundary matrix size while Alpha complexes had linear growth.  
+Rips complex calculations consistently had a polynomial growth for both runtime and boundary matrix size while Alpha complexes had linear growth.
+
+\begin{figure}
+  \centering
+  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig6.png}
+  \caption{
+    \textbf{Runtime comparison of persistent homology calculation between Ripser's Vietoris-Rips and GUDHI's alpha complex functionality.}
+    Average runtime (mean $\pm$ SD, $n=10$ iterations per data point) for various 3-dimensional point cloud structures (facet) plotted against point cloud size for each library (color).
+    Benchmarking was conducted on an annulus (top-left), a sphere (top-right), a torus (bottom-left), and a cube (bottom-right).
+    Data was not collected for data dimensions greater than 3 due to computational limitations of calculating alpha complices.}
+\label{fig:fin}
+\end{figure}
 
 Based on this theoretical complexity and our results, Alpha complexes are superior for small dimensional point clouds (3 dimensions and below). 
 This advantage becomes especially clear at high number of points.
@@ -309,14 +323,7 @@ If data is more than three dimensions, then it should be dimensionally reduced b
 
 However, if data dimension cannot be reduced, then Rips complexes should be used. Among the different libraries, TDAstats has the fastest calculation time. 
 GUDHI and Dionysus significantly fall behind for high feature dimension calculations and high numbers of points. 
-GUDHI and Dionysus libraries, however, do have the option of returning the boundary matrix, which Ripser does not do as one of its time saving features. 
-
-\begin{figure}
-  \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig6.png}
-  \caption{TDAstats Rips complexes vs GUDHI Alpha complex average run times across all 3D shapes for 2D features. The x-axis represents the number of points in the point cloud, and y-axis represents average run time. The type of complex is indicated by color. Panel 1 = Execution time on annulus. Panel 2 = Execution time on sphere. Panel 3 = Execution time on torus. Panel 4 = Execution time on uniform box. Data is presented as mean +/- standard deviation}
-\label{fig:fin}
-\end{figure}
+GUDHI and Dionysus libraries, however, do have the option of returning the boundary matrix, which Ripser does not do as one of its time saving features.
 
 While Rips complexes can handle high dimensional data well, it still significantly slows down when looking for higher dimensional topological features. 
 The size of the boundary matrix rapidly increases and saturates the RAM even for small numbers of points (e.g. ~100 points when looking for 4 dimensional features). 
@@ -337,12 +344,13 @@ Thoughts on why sphere alpha uses less memory than 3-d annulus alpha
 Weigh limitations and benefits of each library/complex type based on Table 1
 -->
 
+<!--PUT AS TEXT INSTEAD
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{decision.png}
     \caption{Basic decision chart for choosing TDA library based on dataset.}
 \label{decision}
-\end{figure}
+\end{figure}-->
 
 \section{Acknowledgments}
 Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
