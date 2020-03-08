@@ -39,7 +39,6 @@ output:
       in_header: preamble.tex
 ---
 
-
 \section{Introduction}
 Topological data analysis (TDA) is a broad set of methodologies that characterize structural features of data sets inspired by topological principles.
 Within the umbrella of TDA, persistent homology represents an algebraic approach to understanding the number, characteristics, and persistence of structural features in an n-dimensional point cloud.
@@ -153,7 +152,7 @@ Next, we compare library performance with multiple canonical datasets to ensure 
   \includegraphics[height=2.5in]{../Figures/Final_Figures/fig1.png}
   \caption{
     \textbf{Calculating persistent homology of a torus with three TDA libraries.}
-    Average runtime (mean $\pm$ SD, $n=10$) for each TDA library (denoted by color) is plotted against point cloud size.
+    Average runtime (mean $\pm$ SD, $n=10$ iterations per data point) for each TDA library (denoted by color) is plotted against point cloud size.
     Homological features up to 2 dimensions were calculated.
     Time complexity follows a power law for all three libraries (see GitHub repo for regression details).
     Although the libraries have similar runtimes for smaller point clouds, Dionysus has a clear disadvantage when the number of points exceeds 100.
@@ -177,7 +176,7 @@ Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with
   \includegraphics[height=2in]{../Figures/Final_Figures/fig2.png}
   \caption{
     \textbf{Calculating persistent homology of round point clouds of varying dimensions with three TDA libraries.}
-    Average runtime (mean $\pm$ SD, $n=10$) for each TDA library (denoted by color) is plotted against point cloud size and faceted by data dimension.
+    Average runtime (mean $\pm$ SD, $n=10$ iterations per data point) for each TDA library (denoted by color) is plotted against point cloud size and faceted by data dimension.
     Left panel compares library performance for a 2-dimensional circular point cloud; center panel for a 3-dimensional spherical point cloud; and right panel for a 4-dimensional hyperspherical point cloud.
     Maximum feature dimensions (one less than data dimension) were calculated in each case.
   }
@@ -191,7 +190,7 @@ Perhaps this is due to difficulty of conceptualizing what high dimensional featu
 However, it might also be due to computational restrictions of calculating high dimensional features. 
 For Figure \ref{fig:box}, we restricted the calculations to very small point clouds due to computational limits.  
 
-As feature dimension increased, Rips complexes show a significant rise in run time with increasing feature dimension within an 8 dimensional point cloud. 
+As feature dimension increased, Rips complexes show a significant rise in run time with increasing feature dimension within an 8 dimensional point cloud.
 With this small sample set, it is not clear whether the growth is exponential or polynomial, so no regression values are provided in the supplement. 
 
 \begin{widefigure}
