@@ -183,20 +183,28 @@ Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with
 \label{fig:cir}
 \end{widefigure}
 
-\subsubsection{Runtime as a function of feature dimension}
+<!--FOLLOWING SENTENCES SHOULD GO IN DISCUSSION
 For an n-dimensional point cloud, up to n-1 feature dimensions can be calculated. 
-In the field, most work has only included calculations up to 1 or 2 feature dimensions. 
+In the field, most work has only included calculations up to 1 or 2 feature dimensions.
 Perhaps this is due to difficulty of conceptualizing what high dimensional features represent. 
-However, it might also be due to computational restrictions of calculating high dimensional features. 
-For Figure \ref{fig:box}, we restricted the calculations to very small point clouds due to computational limits.  
-
-As feature dimension increased, Rips complexes show a significant rise in run time with increasing feature dimension within an 8 dimensional point cloud.
-With this small sample set, it is not clear whether the growth is exponential or polynomial, so no regression values are provided in the supplement. 
+However, it might also be due to computational restrictions of calculating high dimensional features.-->
+Large data and feature dimensionality often restricts persistent homology calculations to small point clouds due to computational limits.
+When calculating persistent homology on a high-dimensional point cloud, as Vietoris-Rips feature dimension increases, there is a corresponding increase in runtime (Figure \ref{fig:box}).
+Due to the limited number of points, it is unclear whether runtime grows polynomially or exponentially.
 
 \begin{widefigure}
   \centering
   \includegraphics[height=2in]{../Figures/Final_Figures/fig3.png}
-  \caption{Comparison of Rips complex persistent homology calculation as a function of feature dimension. The x-axis represents the number of features in the point cloud, and y-axis represents average run time. Point cloud number was held constant and indicated by color. All Rips complexes were calculated on an 8 dimensional box. Panel 1. Comparing run times for TDAstats. Panel 2. Comparing run times for Dionysus. Panel 3. Comparing run times for GUDHI. Limited point clouds were tested for high dimensional features due to computational limits. Average runtime is presented as mean +/- standard deviation over 10 iterations.}
+  \caption{
+    \textbf{Comparison of Rips complex persistent homology calculation as a function of feature dimension.}
+    The x-axis represents the number of features in the point cloud, and y-axis represents average run time.
+    Point cloud number was held constant and indicated by color.
+    All Rips complexes were calculated on an 8 dimensional box.
+    Panel 1. Comparing run times for TDAstats.
+    Panel 2. Comparing run times for Dionysus.
+    Panel 3. Comparing run times for GUDHI.
+    Limited point clouds were tested for high dimensional features due to computational limits.
+    Average runtime is presented as mean +/- standard deviation over 10 iterations.}
 \label{fig:box}
 \end{widefigure}
 
