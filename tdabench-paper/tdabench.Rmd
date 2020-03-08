@@ -206,8 +206,9 @@ Due to the limited number of points, it is unclear whether runtime for each libr
 \end{widefigure}
 
 \subsection{Comparison of alpha and Vietoris-Rips complexes within GUDHI}
+<!--SHOULD BE IN METHODS
 The GUDHI library provided functionality to calculate persistent homology with Rips and Alpha complexes. 
-Therefore, we only used the GUDHI library to compare performance between Rips and Alpha complexes. 
+Therefore, we only used the GUDHI library to compare performance between Rips and Alpha complexes.-->
 
 \subsubsection{Runtime as a function of data dimension (const feature)}
 In our study, our computers could not calculate persistent homology for Alpha complexes when the point cloud dimension exceeded 3. 
@@ -323,7 +324,7 @@ Future challenges would be creating and implementing algorithms that reduce the 
 \end{figure}
 
 \section{Acknowledgements}
-Emily Dolson, PhD for assistance in using the HPC for collecting data
+Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
 
 \bibliography{tdabench}
 
