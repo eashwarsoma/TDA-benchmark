@@ -227,14 +227,9 @@ Changes in computational performance from changing point cloud dimension is one 
   \includegraphics[height=2in]{../Figures/Final_Figures/fig4.png}
   \caption{
     \textbf{Comparing persistent homology calculation between Vietoris-Rips and alpha complices.}
-    The x-axis represents the number of points in the point cloud, and y-axis represents average run time.
-    Different dimensional annulus point clouds are indicaed by color.
-    Panel 1 = Comparing run times using GUDHI's Rips complex library.
-    Panel 2 = Comparing run times using GUDHI's Alpha complex library.
-    In all calculations, only 1 dimensional features were calculated.
-    For our parameters, Alpha complex run times are more linear in contrast to Rips more polynomial run times.
-    Exact regression data is provided in supplemental material on the paper Github.
-    Average runtime is presented as mean +/- standard deviation over 10 iterations.}
+    Average runtime (mean $\pm$ SD, $n=10$ iterations per data point) for various data dimensions (denoted by color) are plotted against point cloud size and faceted by type of simplicial complex.
+    Maximum of feature dimension was kept constant at 1.
+    Alpha complex runtimes are linear, in contrast to polynomial Vietoris-Rips runtimes (see Supplement for regression details).}
 \label{fig:ann}
 \end{figure}
 
@@ -244,13 +239,13 @@ This is predicted by Rips theoretical exponential complexity and Alpha complex's
 In both complexes, the boundary matrix is used to calculate persistent homology (explained in detail in the Mathematics section). 
 The library GUDHI provides functions to return the boundary matrix, which allows us to measure object size. 
 
-Rips complexes show a rapid growth in object size as the point cloud number increases in figure \label{fig:mem1}. 
+Rips complexes show a rapid growth in object size as the point cloud number increases in figure \ref{fig:mem1}. 
 The growth pattern differences mirror our findings for run time growth with increasing point cloud size. 
 Alpha complexes show a linear growth in memory complexity whereas Rips complexes show a polynomial growth. 
 However, calculating the object size reveals some interesting differences in what parameters determine the object size of Rips vs Alpha complexes. 
 
-Figure \label{fig:mem2}, panel 2 shows that Alpha complex object size depends on the feature dimension, point cloud size, and point cloud shape with torus and uniform shapes having the higher object size. Noisier shapes like the box and annulus increase object size compared to more uniform shapes like the sphere. 
-Figure \label{fig:mem2}, panel 1 shows that Rips complex object size depends only on the point cloud size and feature dimensions. 
+Figure \ref{fig:mem2}, panel 2 shows that Alpha complex object size depends on the feature dimension, point cloud size, and point cloud shape with torus and uniform shapes having the higher object size. Noisier shapes like the box and annulus increase object size compared to more uniform shapes like the sphere. 
+Figure \ref{fig:mem2}, panel 1 shows that Rips complex object size depends only on the point cloud size and feature dimensions. 
 
 \begin{figure}
   \centering
