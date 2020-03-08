@@ -274,7 +274,7 @@ This is predicted by Vietoris-Rips theoretical exponential complexity and Alpha 
 \small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Feature & Ripser & Dionysus & Gudhi Rips & Gudhi Alpha \\
+Feature & Ripser & Dionysus & GUDHI Rips & GUDHI Alpha \\
 Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit\\
 \hline
 1 & Not Reached & Not Reached & Not Reached & Not Reached \\ 
