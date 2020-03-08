@@ -241,7 +241,7 @@ The growth pattern differences mirror findings for runtime growth (Figure \ref{f
 Interestingly, different factors determine memory usage in the two types of simplicial complex.
 Whereas memory use in calculation of a Vietoris-Rips complex is dependent on point cloud size and feature dimension, memory use for an analogous calculation with an alpha complex is also dependent on the structure of the point cloud itself (Figure \ref{fig:mem2}).
 Within the limited set of tested point cloud structures, the sphere requires the least memory.
-Table \ref{tbl:limit} lists the maximum point cloud size for which persistent homology calculations were completed for each library.
+Table \ref{tbl:limit} lists the maximum point cloud size for which persistent homology calculations could be completed for each library.
 
 <!--BELONGS IN DISCUSSION
 This is predicted by Vietoris-Rips theoretical exponential complexity and Alpha complex's theoretical polynomial complexity.-->
@@ -283,11 +283,11 @@ Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cl
 4 & 100 points & 50 points & 75 points & Could Not Compute \\ 
 \hline
 \end{tabular}
-\label{tbl:limit}
 \caption{During the benchmarking, certain libraries were not able to calculate persistent homology for sufficiently complex point clouds. 
 Limiting factors were point cloud number and feature dimension calculation. 
 For Vietoris-Rips complices, Ripser had the best performing capacity among the three libraries. 
 Alpha complexes were not computable for any point cloud greater than 3 dimensions, so dimensional features 3 and higher could not be computed.}
+\label{tbl:limit}
 \end{table}
 
 \section{Discussion}
