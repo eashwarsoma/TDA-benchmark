@@ -205,25 +205,36 @@ Due to the limited number of points, it is unclear whether runtime for each libr
 \label{fig:box}
 \end{widefigure}
 
-\subsection{Comparison of alpha and Vietoris-Rips complexes within GUDHI}
 <!--SHOULD BE IN METHODS
 The GUDHI library provided functionality to calculate persistent homology with Rips and Alpha complexes. 
 Therefore, we only used the GUDHI library to compare performance between Rips and Alpha complexes.-->
 
-\subsubsection{Runtime as a function of data dimension (const feature)}
-In our study, our computers could not calculate persistent homology for Alpha complexes when the point cloud dimension exceeded 3. 
-This is understandable as Alpha complex theoretical complexity increases exponentially for increasing point cloud dimension. 
-
-Changes in computational performance from changing point cloud dimension is one major difference between calculation of Rips and Alpha complexes. This difference can be seen when comparing run times as a function of changing point cloud dimension. 
-In figure \ref{fig:ann}, we show that Rips complexes  run time does not change for different dimensional point clouds as long as feature dimension is held constant. Even though Alpha complexes perform better overall, their computation time increases with increasing point cloud dimension even when calculating the same feature dimension. 
-
-Another key difference is that Alpha complex runtime seems to have an apparent linear rise in the conditions for our analysis. 
-We provide the linear regression coefficients in the supplemental data on the paper Github. 
+Even with a constant feature dimension, the underlying data dimension could play a role in runtime of persistent homology calculation.
+Figure \ref{fig:ann} compares handling of this issue by the Vietoris-Rips complex and the alpha complex.
+Since GUDHI is the only library implementing functionality with an alpha complex, we compare its implementations of the Vietoris-Rips and alpha complices.
+Due to computational limitations, an alpha complex could not be calculated for any point clouds with data dimension exceeding 3.
+Two notable aspects of Figure \ref{fig:ann} stand out.
+First, the alpha complex calculation clearly runs faster than the Vietoris-Rips complex calculation, a trend that becomes clearer as point cloud size increases.
+Second, although the Vietoris-Rips complex calculation runtime appears to be independent of underlying data dimension, alpha complex calculation is dependent on it.
+Figure \ref{fig:ann} shows a subtle difference between data dimensions 2 and 3 as point cloud size increases.
+Although unconcerning for a data dimension up to 3, failure to run any alpha complex calculations with a data dimension of 4 could be cause for concern.
+<!--SHOULD BE IN DISCUSSION
+This is understandable as Alpha complex theoretical complexity increases exponentially for increasing point cloud dimension.
+Changes in computational performance from changing point cloud dimension is one major difference between calculation of Rips and Alpha complexes.-->
 
 \begin{figure}
   \centering
   \includegraphics[height=2in]{../Figures/Final_Figures/fig4.png}
-  \caption{Comparing homology calculation as a function of point cloud dimension for Rips vs Alpha complexes. The x-axis represents the number of points in the point cloud, and y-axis represents average run time. Different dimensional annulus point clouds are indicaed by color. Panel 1 = Comparing run times using GUDHI's Rips complex library. Panel 2 = Comparing run times using GUDHI's Alpha complex library. In all calculations, only 1 dimensional features were calculated. For our parameters, Alpha complex run times are more linear in contrast to Rips more polynomial run times. Exact regression data is provided in supplemental material on the paper Github. Average runtime is presented as mean +/- standard deviation over 10 iterations.}
+  \caption{
+    \textbf{Comparing persistent homology calculation between Vietoris-Rips and alpha complices.}
+    The x-axis represents the number of points in the point cloud, and y-axis represents average run time.
+    Different dimensional annulus point clouds are indicaed by color.
+    Panel 1 = Comparing run times using GUDHI's Rips complex library.
+    Panel 2 = Comparing run times using GUDHI's Alpha complex library.
+    In all calculations, only 1 dimensional features were calculated.
+    For our parameters, Alpha complex run times are more linear in contrast to Rips more polynomial run times.
+    Exact regression data is provided in supplemental material on the paper Github.
+    Average runtime is presented as mean +/- standard deviation over 10 iterations.}
 \label{fig:ann}
 \end{figure}
 
@@ -315,6 +326,8 @@ The size of the boundary matrix rapidly increases and saturates the RAM even for
 Looking for high dimensional features in a large high dimensional point cloud remains a challenge. 
 Other persistent homology complex methods exist such as the Delaunay complex, Witness complex, etc. but they are not currently implemented in R [cite]. 
 Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R. 
+
+<!--Include somewhere that differences are b/n implementations (practical) not necessarily mathematical structures (theory), so results can change as implementations change (whether b/n libraries or b/n complices)-->
 
 \begin{figure}
   \centering
