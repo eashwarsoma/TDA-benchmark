@@ -179,7 +179,7 @@ fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=avg.time, color=point.cloud.dim,
   geom_point() + facet_wrap(~library, scales = "free") + 
   geom_errorbar(data.fig.4, mapping = aes(x=num.points, 
                                           ymin=avg.time - std, 
-                                          ymax=avg.time + std)) +
+                                          ymax=avg.time + std), width=28) +
   labs(color = "Annulus \nDimension",
        shape = "Annulus \nDimension",
        x = "Number of Points",
