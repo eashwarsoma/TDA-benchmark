@@ -314,6 +314,7 @@ However, if data dimension cannot be reduced without significant information los
 Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
 GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase. 
 GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not store for the sake of optimization.
+While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages ~\citep{Ripser}
 
 While Vietoris-Rips complexes can handle high-dimensional data well, calculation still significantly slows down when looking for higher dimension features. 
 Boundary matrix size rapidly increases and can overwhelm available random access memory even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
