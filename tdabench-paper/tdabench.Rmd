@@ -210,9 +210,6 @@ First, the alpha complex calculation clearly runs faster than the Vietoris-Rips 
 Second, although the Vietoris-Rips complex calculation runtime appears to be independent of underlying data dimension, alpha complex calculation is dependent on it.
 Figure \ref{fig:ann} shows a subtle difference between data dimensions 2 and 3 as point cloud size increases.
 Although unconcerning for a data dimension up to 3, failure to run any alpha complex calculations with a data dimension of 4 could be cause for concern.
-<!--SHOULD BE IN DISCUSSION
-This is understandable as Alpha complex theoretical complexity increases exponentially for increasing point cloud dimension.
-Changes in computational performance from changing point cloud dimension is one major difference between calculation of Rips and Alpha complexes.-->
 
 \begin{figure}
   \centering
