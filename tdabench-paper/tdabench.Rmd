@@ -308,9 +308,14 @@ Vietoris-Rips complex calculations consistently had a polynomial growth for both
 
 Based on the theoretical complexity and our results, alpha complexes are superior for point clouds with 3 or fewer dimensions.
 This advantage becomes especially clear at high number of points.
+This difference in performance is clear in both runtime and memory use. 
+Interestingly, while alpha complexes had overall less memory use, the memory use varied depending on the shape. 
+Alpha complexes seem to require more memory for noisier data sets such as the annulus when compared to the sphere. 
+
 However, without sufficient computational resources, alpha complexes were not usable for point cloud dimensions greater than 3.
 If a point cloud has more than 3 dimensions, then it could undergo pre-processing with dimension reduction before using alpha complexes.
 However, if data dimension cannot be reduced without significant information loss, then Vietoris-Rips complexes should be used.
+It should be stated that if a point cloud is compatible with both complexes, both analyses should be performed as there may be a variation the persistent homology matrix. 
 Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
 GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase. 
 GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not store for the sake of optimization.
