@@ -59,52 +59,62 @@ However, ignoring features in higher dimensions may cause significant informatio
 Here, we aim to benchmark two R packages - \CRANpkg{TDA} and \CRANpkg{TDAstats} - and enable researchers to most efficiently calculate persistent homology in R.
 
 \section{Mathematics of Persistent Homology}
+<!--change circles to more generalizable object, e.g. n-sphere or n-ball-->
+An $n$-dimensional simplex is the convex hull of $n+1$ vertices.
+More intuitively, an $n$-dimensional simplex is the simplest $n$-dimensional object (e.g. a 0-simplex is a point, a 1-simplex is a line, a 2-simplex is a triangle, 3-simplex is a tetrahedron).
+These simplices can be glued together on common sub-simplices to form a simplicial complex (e.g. two triangles sharing a common side).
+In a simplicial complex, certain features will arise that can be characterized by Betti number: 0-dimensional features refer to connected components, 1-dimensional features refer to loops, 2-dimensional features refer to voids, and so on \citep{phom-survey}.
 
-This section summarizes the mathematics behind generating simplicial complexes on point clouds in the workflow of persistent homology. 
-An n-dimensional simplex is the convex hull of n+1 vertices.
-More intuitively, n-dimensional simplex is the simplest n-dimensional object (e.g. a 1 simplex is a line, a 2-simplex is a triangle, 3-simplex is a tetrahedron, etc.).
-These simplices can be glued together on a common subsimplices to form a simplicial complex (e.g. two triangles sharing a common side).
-In a simplicial complex, certain features will arise that can be characterized by dimension number (Betti number): 0-dimensional features refer to connected components, 1-dimensional features refer to holes, 2-dimensional features refer to cavities, etc. \cite{phom-survey}
-
-There are several different methods to construct a simplicial complex on a given point cloud S, but this paper focuses on the Vietoris-Rips and alpha complexes. 
-The Vietoris-Rips complex is perhaps the most common method for constructing a simplicial complex under persistent homology \cite{Rips-Complex}.
-In a point cloud of k points, a distance parameter, $\delta$, can be used to draw a circle of diameter $\delta$ around every single point in S.
-If the distance parameter is non-zero, then some of the resulting circles may intersect.
-If they intersect, a line is drawn to connect the points (which represent the centers of the growing circles).
-This group of points and lines form a simplicial complex.
-For each distance parameter, $\delta$, there will be some simplicial complex associated with it.
-As $\delta$ increases, different topological features may appear, persist, then disappear once $\delta$ has reached a threshold.
-Eventually, once $\delta$ reaches the maximum euclidean distance between any pair of points in the point cloud, a convex hull will form around all k points creating a (k-1)-dimensional simplex.
-At this stage, all features should have disappeared.
-A three column matrix can be created recording the Betti number of a certain feature, the distance, $\delta$, at which that feature appeared, and the $\delta$ at which that feature disappeared.
+There are several different methods to construct a simplicial complex on a given point cloud $S$, but this paper focuses on the Vietoris-Rips and alpha complexes.
+The Vietoris-Rips complex is perhaps the most common method for constructing a simplicial complex to calculate persistent homology \citep{Rips-Complex}.
+In a point cloud of $k$ points, a distance parameter, $\delta$, can be used to draw a circle of diameter $\delta$ around every point in $S$.
+If $\delta$ is sufficiently large, then some of the resulting circles may intersect.
+In this case, a line is drawn to connect the points at the center of the intersecting circles.
+This group of points and lines form the skeleton of a simplicial complex.
+For each distance parameter, $\delta$, there will be a single simplicial complex associated with it.
+As $\delta$ increases, different topological features may appear, persist, and eventually disappear.
+<!--Is below theoretical max accurate phrasing?-->
+Once $\delta$ reaches the maximum Euclidean distance between any pair of points in the point cloud, a convex hull will form around all $k$ points creating a $(k-1)$-dimensional simplex.
+A 3-column matrix can be created recording the Betti number of each feature, the $\delta$ at which that feature appeared, and the $\delta$ at which it disappeared.
 This matrix characterizes the persistent homology of that point cloud. 
 
 \begin{figure}
   \centering
   \includegraphics[height=2.5in]{../Figures/Final_Figures/Intro_Rips.png}
-  \caption{Basic Visualization of the Vietoris-Rips Complex. For a given parameter, $\delta$, $\delta$ diameter circles are drawn around each point. If two circles intersect, a point is drawn between their centers. As $\delta$ continues to grow, more circles intersect filling out the simplicial complex. Features on the simplicial complex appear and die as $\delta$ increases. These features' dimensions, birth, and death are recorded in an n x 3 matrix. Eventually, the full convex hull is drawn ending the "filtration" process.}
+  \caption{\textbf{Basic Visualization of the Vietoris-Rips Complex.}
+  For a given parameter, $\delta$, $\delta$-diameter circles are drawn around each point.
+  If two circles intersect, a point is drawn between their centers.
+  As $\delta$ continues to grow, more circles intersect filling out the simplicial complex.
+  Features on the simplicial complex appear and die as $\delta$ increases.
+  These features' dimensions, birth, and death are recorded in an $n$x3 matrix.
+  Eventually, the full convex hull is drawn ending the "filtration" process.}
 \end{figure}
 
-Alpha complexes provide another method to generate simplicial complexes on the point cloud S.
+Alpha complexes provide another method to generate simplicial complexes on the point cloud $S$.
 Alpha complexes are closely linked with Voronoi diagrams and Delaunay triangulations.
-The Voronoi diagram gives each point in S a cell such that each every point in the cell is closest to that point in S.
-The nerve of a Voronoi diagram is equivalent to the Delaunay Triangulation\cite{alpha-complex}.
+The Voronoi diagram gives each point in $S$ a cell such that each every point in the cell is closest to that point in $S$.
+The nerve of a Voronoi diagram is equivalent to the Delaunay Triangulation \citep{alpha-complex}.
 Alpha complexes are simplicial complexes that are subsets of the Delaunay Triangulation.
-The parameter, $\alpha$, can describe the radius of a ball of each point in the point cloud S much like $\delta$ describes the diameter of a circle in the Vietoris-Rips complex.
-An Alpha complex at radius $\alpha$ is formed through connecting centers of intersecting regions formed by intersecting the union of $\alpha$ radius balls and the Voronoi diagram. 
-Eventually, once $\alpha$ is large enough, the full Delaunay Triangulation is formed.
-In between these stages, the birth and death of features at certain values of $\alpha$ can be captured in a three column persistent homology matrix much like the Vietoris-Rips complex.
+The parameter, $\alpha$, can describe the radius of a ball of each point in the point cloud $S$ much like $\delta$ describes the diameter of a circle in the Vietoris-Rips complex.
+An alpha complex at radius $\alpha$ is formed through connecting centers of intersecting regions formed by intersecting the union of $\alpha$-radius balls and the Voronoi diagram. 
+Once $\alpha$ is large enough, the full Delaunay Triangulation is formed.
+In between these stages, the birth and death of features at certain values of $\alpha$ can be captured in a 3-column persistent homology matrix much like the Vietoris-Rips complex.
 
 In both methods, the boundary matrix records all simplicial complexes for a given parameter value. 
 From this matrix, the persistent homology matrix is calculated. 
-The size of the boundary matrix can describe the memory complexity on the RAM for persistent homology calculations. 
-We compare this memory complexity between alpha and Vietoris-Rips complexes for this project.
-Alpha complex calculations have a complexity of $O(n^\frac{d}{2})$ and Vietoris-Rips complex calculations have a complexity of $O(2^n)$ where n is the number of points and d is the dimension of the point cloud \citep{roadmap}.
+The size of the boundary matrix can describe the memory complexity on the random access memory (RAM) for persistent homology calculations. 
+We compare memory complexity between alpha and Vietoris-Rips complexes in this paper.
+Alpha complex calculations have a complexity of $O(n^{d/2})$ and Vietoris-Rips complex calculations have a complexity of $O(2^n)$ where $n$ is the number of points and $d$ is the point cloud dimension \citep{roadmap}.
 
 \begin{figure}
   \centering
   \includegraphics[height=1.5in]{../Figures/Final_Figures/Intro_Alpha.png}
-  \caption{Basic visualization of the Alpha complex. For a given $\alpha$, $\alpha$ radius balls are drawn around each point, and the union is taken. Then an intersection between this union of $\alpha$ balls and the Vornoi diagram is taken. A connecting segment is drawn between points in adjacent voronoi cells once the $\alpha$ ball "fills" out the Voronoi diagram. As $\alpha$ continues to grow, more circles fill out the Voronoi cells. Eventually, once $\alpha$ is large enough, the Delaunay Triangulation is formed.}
+  \caption{\textbf{Basic visualization of the Alpha complex.}
+  For a given $\alpha$, $\alpha$-radius balls are drawn around each point, and the union of the balls is taken.
+  Then, an intersection between this union of $\alpha$-balls and the Vornoi diagram is taken.
+  A connecting segment is drawn between points in adjacent Voronoi cells once the $\alpha$-ball fills out the Voronoi diagram.
+  As $\alpha$ grows, more circles fill out the Voronoi cells.
+  Once $\alpha$ is large enough, the Delaunay Triangulation is formed.}
 \end{figure}
 
 \section{Methods}
@@ -120,7 +130,7 @@ Measuring memory usage proved challenging since all the libraries calculating pe
 Thus, memory burden was indirectly measured by using boundary matrix size as a proxy.
 Given that Ripser optimizes computation of persistent homology by avoiding calculation of a boundary matrix, memory use benchmarks are not provided for Ripser and, consequently, \CRANpkg{TDAstats}.
 
-Benchmark data was collected twice - once on a local machine and once on a remote computing node, each of which featured 16 GB random access memory.
+Benchmark data was collected twice - once on a local machine and once on a remote computing node, each of which featured 16 GB RAM.
 Both datasets were compared for consistency and are publicly available at the repository linked below.
 Data from the remote computing node is visualized in this report.
 The larger point clouds required more than 16 GB of RAM to calculate persistent homology using a subset of the libraries; attempts to compute results resulted in runtime errors, and the corresponding output is missing from the corresponding figures and tables.
@@ -304,7 +314,7 @@ GUDHI and Dionysus, however, do have the option of returning the boundary matrix
 While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages ~\citep{Ripser}
 
 While Vietoris-Rips complexes can handle high-dimensional data well, calculation still significantly slows down when looking for higher dimension features. 
-Boundary matrix size rapidly increases and can overwhelm available random access memory even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
+Boundary matrix size rapidly increases and can overwhelm available RAM even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
 Looking for high-dimensional features in a large, high-dimensional point clouds remains a challenge. 
 Methods to calculate persistent homology do exist for other simplicial complexes, such as the Delaunay complex and the Witness complex, but, to our knowledge, they are not currently implemented in CRAN packages.
 Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R.
