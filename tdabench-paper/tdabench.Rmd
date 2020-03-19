@@ -141,6 +141,7 @@ Both datasets were compared for consistency and are publicly available at the re
 Data from the remote computing node is visualized in this report.
 The larger point clouds required more than 16 GB of RAM to calculate persistent homology using a subset of the libraries; attempts to compute results resulted in runtime errors, and the corresponding output is missing from the corresponding figures and tables.
 Fully reproducible code for all numerical results and figures can be found at https://github.com/eashwarsoma/TDA-benchmark.
+Video explanations of TDA concepts and reproducing all results in this report can be found at https://tinyurl.com/TDABench.
 
 \section{Results}
 
