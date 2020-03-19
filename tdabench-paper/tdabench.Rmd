@@ -201,10 +201,6 @@ Due to the limited number of points, it is unclear whether runtime for each libr
 \label{fig:box}
 \end{widefigure}
 
-<!--SHOULD BE IN METHODS
-The GUDHI library provided functionality to calculate persistent homology with Rips and Alpha complexes. 
-Therefore, we only used the GUDHI library to compare performance between Rips and Alpha complexes.-->
-
 Even with a constant feature dimension, the underlying data dimension could play a role in runtime of persistent homology calculation.
 Figure \ref{fig:ann} compares handling of this issue by the Vietoris-Rips complex and the alpha complex.
 Since GUDHI is the only library implementing functionality with an alpha complex, we compare its implementations of the Vietoris-Rips and alpha complices.
