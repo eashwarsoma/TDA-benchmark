@@ -188,8 +188,7 @@ Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with
 Large data and feature dimensionality often restricts persistent homology calculations to small point clouds due to computational limits.
 When calculating persistent homology on a high-dimensional point cloud, as Vietoris-Rips feature dimension increases, there is a corresponding increase in runtime (Figure \ref{fig:box}).
 Dionysus is clearly outmatched by GUDHI and Ripser as feature dimension increases, with the difference being clearest for larger point clouds; by feature dimension 5, Ripser outpaces GUDHI as well (Figure \ref{fig:box}).
-Due to the limited number of points, it is unclear whether runtime for each library grows polynomially or exponentially.
-<!--RECHECK, should be enough data point to regress on-->
+It is unclear whether runtime for each library grows polynomially or exponentially (see Supplement).
 
 \begin{widefigure}
   \centering
