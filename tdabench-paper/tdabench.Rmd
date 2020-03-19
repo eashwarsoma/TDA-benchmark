@@ -313,7 +313,7 @@ If a point cloud has more than 3 dimensions, then it could undergo pre-processin
 However, if data dimension cannot be reduced without significant information loss, then Vietoris-Rips complexes should be used.
 Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
 GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase. 
-GUDHI and Dionysus libraries, however, do have the option of returning the boundary matrix, which Ripser does not do as one of its time saving features.
+GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not calculate for the sake of optimization.
 
 While Vietoris-Rips complexes can handle high dimensional data well, it still significantly slows down when looking for higher dimensional topological features. 
 The size of the boundary matrix rapidly increases and saturates the RAM even for small numbers of points (e.g. ~100 points when looking for 4 dimensional features). 
