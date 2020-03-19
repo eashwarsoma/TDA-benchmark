@@ -327,8 +327,6 @@ differences are b/n implementations (practical) not necessarily mathematical str
 
 Ripser memory not measured here b/c R, but refer to Bauer Ripser memory measurements.
 
-Vietoris-Rips complex memory more predictable, but alpha complex memory generally better (but what about Ripser?).
-
 Thoughts on why sphere alpha uses less memory than 3-d annulus alpha
 
 Weigh limitations and benefits of each library/complex type based on Table 1
@@ -343,6 +341,6 @@ Weigh limitations and benefits of each library/complex type based on Table 1
 \end{figure}-->
 
 \section{Acknowledgments}
-Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
+The authors thank Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
 
 \bibliography{tdabench}
