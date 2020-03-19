@@ -314,7 +314,7 @@ Alpha complexes seem to require more memory for noisier data sets such as the an
 
 However, without sufficient computational resources, alpha complexes were not usable for point cloud dimensions greater than 3.
 If a point cloud has more than 3 dimensions, then it could undergo pre-processing with dimension reduction before using alpha complexes.
-Note, it is possible an algorithm will eventually be developed to enable alpha complex computation of higher dimensional data (limitation is computational rather than mathematical). 
+Note, it is possible an algorithm will eventually be developed to enable alpha complex computation of higher dimensional data. 
 However, if data dimension cannot be reduced without significant information loss, then Vietoris-Rips complexes should be used.
 It should be stated that if a point cloud is compatible with both complexes, both analyses should be performed as there may be a variation the persistent homology matrix. 
 Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
