@@ -29,5 +29,11 @@ The following R packages (see report for version details) were used in this repo
 
 Video explanations can be found [here](https://tinyurl.com/TDABench). Video 1-4 describe the background and theory for persistent homology. Video 5 explains how to reproduce the figures and analysis using our data. Video 6 explains how to generate the data by performing the benchmarking on your machine. 
 
+Summarized Steps:
+1. Clone whole repository to your local machine
+2. To reproduce figures, open the Final_Figures_Reproducible.R script. Running the whole script reproduces the figures. Detailed comments are provided in the script to explain each step. 
+3. To reproduce data for execution time, open the "Benchmark_Runtime.R" script. Detailed comments are provided in the script that explain how to select which point clouds you would like to benchmark. Running the whole script will generate a csv file that the script will append benchmark new data to as the script finishes each benchmark. 
+4. To reproduce data for object size, perform the same steps except in the "Benchmark_Object_Size.R" script. 
+
 
 
