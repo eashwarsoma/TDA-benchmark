@@ -1,4 +1,4 @@
-\begin{thebibliography}{18}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -9,6 +9,13 @@
 U.~Bauer.
 \newblock Ripser: efficient computation of vietoris-rips persistence barcodes,
   2019.
+
+\bibitem[Brunson et~al.(2020)Brunson, Wadhwa, and Scott]{ggtda}
+J.~C. Brunson, R.~Wadhwa, and J.~Scott.
+\newblock \emph{ggtda: ggplot2-Compatible Visualization of Persistent
+  Homology}, 2020.
+\newblock URL \url{https://github.com/rrrlw/ggtda}.
+\newblock R package version 0.1.0.
 
 \bibitem[Chan et~al.(2013)Chan, Carlsson, and Rabadan]{TDA-Viral}
 J.~M. Chan, G.~Carlsson, and R.~Rabadan.
@@ -96,6 +103,13 @@ C.~Schmid and B.~Serbe.
   2017.
 \newblock URL \url{https://CRAN.R-project.org/package=recexcavAAR}.
 \newblock R package version 0.3.0.
+
+\bibitem[Turner(2020)]{deldir}
+R.~Turner.
+\newblock \emph{deldir: Delaunay Triangulation and Dirichlet (Voronoi)
+  Tessellation}, 2020.
+\newblock URL \url{https://CRAN.R-project.org/package=deldir}.
+\newblock R package version 0.1-25.
 
 \bibitem[Wadhwa et~al.(2018)Wadhwa, Williamson, Dhawan, and Scott]{TDAstats}
 R.~R. Wadhwa, D.~F. Williamson, A.~Dhawan, and J.~G. Scott.
