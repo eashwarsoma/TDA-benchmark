@@ -48,7 +48,7 @@ dimensions. Uniform can take on any n dimensions. Torus can only
 have 3 dimensions
 
 num.points = n
-\nNumber of data set points. It can be any number n
+Number of data set points. It can be any number n
 
 feature.dimensions = 0, 1, 2, ... n-1
 Dimensional features to calculate
