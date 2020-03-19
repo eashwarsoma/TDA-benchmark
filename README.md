@@ -34,6 +34,7 @@ TDA_bench(measure, data.type, data.dimensions, num.points,
           feature.dimensions, TDA.library, num.iteration). It is defined with the other functions in the Functions.R Script
 
 measure = "time" or "memory"
+
 Measures the median execution time of a persistent homology
 calculation or object size of returned persistent homology
 matrix
