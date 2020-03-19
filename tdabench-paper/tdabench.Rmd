@@ -318,8 +318,8 @@ GUDHI and Dionysus, however, do have the option of returning the boundary matrix
 While Vietoris-Rips complexes can handle high-dimensional data well, calculation still significantly slows down when looking for higher dimension features. 
 Boundary matrix size rapidly increases and can overwhelm available random access memory even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
 Looking for high-dimensional features in a large, high-dimensional point clouds remains a challenge. 
-Other persistent homology complex methods exist such as the Delaunay complex, Witness complex, etc. but they are not currently implemented in R. 
-Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R. 
+Methods to calculate persistent homology do exist for other simplicial complexes, such as the Delaunay complex and the Witness complex, but, to our knowledge, they are not currently implemented in CRAN packages.
+Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R.
 
 <!--Include somewhere: 
 
