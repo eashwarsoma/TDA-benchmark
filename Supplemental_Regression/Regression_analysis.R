@@ -143,7 +143,16 @@ rownames(fig.2.reg.rip) <- c("TDAstats Circle",
                              "GUDHI Hypersphere")
 kable(fig.2.reg.rip)
 
+
 #Figure 3 (#exclude, data set is too small to tell reliable)
+#This ggplot shows log(time) vs feat dim, does not follow exponential pattern
+ggplot(data.fig.3, aes(x=feat.dim, y=log(avg.time), color=num.points, shape=num.points)) + 
+  geom_point() + facet_wrap( ~ library)
+
+#This ggplot shows log(time) vs log(feat dim), does not follow polynomial pattern either
+ggplot(data.fig.3, aes(x=log(feat.dim), y=log(avg.time), color=num.points, shape=num.points)) + 
+  geom_point() + facet_wrap( ~ library)
+#For this reason, no regression is shown for this data
 
 #Figure 4
 fig.4.reg.rip <- reg.fit.rip(data = subset(data.fig.4, library == "GUDHI Rips"),
