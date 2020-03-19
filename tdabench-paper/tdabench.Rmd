@@ -290,8 +290,8 @@ Both algorithms describe topological features through the generation of simplici
 The advantage in saving computational time by choosing a particular algorithm depends on point cloud characteristics.
 
 Figure \ref{fig:fin} shows that at high point cloud sizes, GUDHI’s alpha complex outperforms Ripser. 
-Theoretically, alpha complexes gain polynomial complexity as the number of points increases whereas Vietoris-Rips complexes gain exponentially. 
-Specifically, alpha complexes are $O(n^\frac{d}{2})$ and Vietoris-Rips complexes are $O(2^n)$ where n is the number of points on a point cloud and d is the dimensions on the point cloud. 
+Theoretically, alpha complexes gain polynomial complexity as the number of points increases whereas Vietoris-Rips complexes gain exponentially \citep{roadmap}.
+Specifically, alpha complexes are $O(n^{d/2})$ and Vietoris-Rips complexes are $O(2^n)$ where n is the number of points on a point cloud and d is the dimensions on the point cloud. 
 For the conditions in our paper, Vietoris-Rips and alpha complexes both performed better than their theoritical maximums. 
 Vietoris-Rips complex calculations consistently had a polynomial growth for both runtime and boundary matrix size while alpha complexes had linear growth.
 
