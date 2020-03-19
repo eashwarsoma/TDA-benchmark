@@ -32,7 +32,7 @@ author:
     - Cleveland, OH 44195, United States
     email: raoul.wadhwa@case.edu
 abstract: >
-  Several persistent homology software libraries have been implemented in R. The Dionysus (TDA), GUDHI (TDA), and Ripser C++ libraries (TDAstats) provide Rips complex functionality. GUDHI  (TDA package) also provides Alpha complex functionality. These software represent powerful analysis tools but are limited computationally. These limitations and guidelines for which persistent homology libraries to use have not been specified in R. We benchmarked the all libraries on a High-Powered Cluster for runtime. We also compared Alpha and Rips for memory burden. Alpha complexes run significantly faster than all Rips complex libraries for all data sets for data dimension less than or equal to three. Alpha complexes were not computable for data dimension greater than 3. TDAstats had the fastest runtimes for all Rips complexes. We recommend performing persistent homology with GUDHI Alpha complexes for data dimension less than or equal to three. For higher dimension, we recommend TDAstats Rips Complex. 
+  Several persistent homology software libraries have been implemented in R. The Dionysus (TDA), GUDHI (TDA), and Ripser C++ libraries (TDAstats) provide Rips complex functionality. GUDHI  (TDA package) also provides alpha complex functionality. These software represent powerful analysis tools but are limited computationally. These limitations and guidelines for which persistent homology libraries to use have not been specified in R. We benchmarked the all libraries on a High-Powered Cluster for runtime. We also compared alpha and Rips for memory burden. Alpha complexes run significantly faster than all Rips complex libraries for all data sets for data dimension less than or equal to three. alpha complexes were not computable for data dimension greater than 3. TDAstats had the fastest runtimes for all Rips complexes. We recommend performing persistent homology with GUDHI alpha complexes for data dimension less than or equal to three. For higher dimension, we recommend TDAstats Rips Complex. 
 output:
   rticles::rjournal_article:
     includes:
@@ -46,7 +46,7 @@ Within the umbrella of TDA, persistent homology represents an algebraic approach
 In the basic workflow of persistent homology, a series of simplicial complexes are generated on point clouds to characterize the topological features. 
 Simplicial complexes are connected sets of points, lines, and n-dimensional shapes.
 There are several methods to generate these complexes on point clouds. 
-In this paper, we are using the Rips and Alpha complex for our persistent homology calculations. 
+In this paper, we are using the Rips and alpha complex for our persistent homology calculations. 
 In both methods, a series of data structures, called simplicial complexes, are built on top of a point cloud.
 These complexes can be viewed as approximating real topologic relationships in the data.
 The exact method of constructing these complexes is described in the Mathematics section. 
@@ -57,8 +57,8 @@ Long lasting (persistent) features that exist across the series of simplicial co
 One limitation of persistent homology is its run time limits for processing large numbers of points ( $> 10^9$ points) and calculating of high dimensional features ($>$ 2 dimensions). 
 Alpha complex calculations have a complexity of $O(n^\frac{d}{2})$ and Rips complex calculations have a complexity of $O(2^n)$ where n is the number of points and d is the dimension of the point cloud \citep{roadmap}. The limits and computational resources needed to run complex data sets with major persistent homology C++ software have been well characterized \cite{roadmap}.
 
-There are several C++ libraries that calculate Alpha and Rips complexes.
-Dionysus provides Alpha and Rips complex functionality \cite{Dionysus}.
+There are several C++ libraries that calculate alpha and Rips complexes.
+Dionysus provides alpha and Rips complex functionality \cite{Dionysus}.
 GUDHI is another C++ library that also provides both functionalities as well as other TDA methodologies \cite{gudhi}. These libraries have been implemented in R with the TDA package \cite{TDA} providing an easier interface to utilize persistent homology calculations.
 
 A new C++ library, Ripser, was developed as a more efficient way to calculate Rips complexes. The code is supposed to outperform other similar libraries (e.g. Dionysus and GUDHI) by a factor over 40 in runtime \cite{Ripser}. 
@@ -73,7 +73,7 @@ Its main limiting factor is computational for calculating high dimensional featu
 We believe lack of analysis of these higher dimensional features may under utilize persistent homology's analysis potential.
 In this project, we explore different methodologies to find efficient options that could solve this issue. 
 We specifically aim to characterize the computational performance (run time) and limits of persistent homology calculations between Rips complexes in the R packages TDAstats and TDA.
-We also explore the differences in computational performance between Rips and Alpha complexes in R to assess which datasets are most appropriate for each algorithm.
+We also explore the differences in computational performance between Rips and alpha complexes in R to assess which datasets are most appropriate for each algorithm.
 
 \section{Mathematics of Persistent Homology}
 This section summarizes the mathematics behind generating simplicial complexes on point clouds in the workflow of persistent homology. 
@@ -82,7 +82,7 @@ More intuitively, n-dimensional simplex is the simplest n-dimensional object (e.
 These simplices can be glued together on a common subsimplices to form a simplicial complex (e.g. two triangles sharing a common side).
 In a simplicial complex, certain features will arise that can be characterized by dimension number (Betti number): 0-dimensional features refer to connected components, 1-dimensional features refer to holes, 2-dimensional features refer to cavities, etc. \cite{phom-survey}
 
-There are several different methods to construct a simplicial complex on a given point cloud S, but this paper focuses on the Rips and Alpha complexes. 
+There are several different methods to construct a simplicial complex on a given point cloud S, but this paper focuses on the Rips and alpha complexes. 
 The Rips complex is perhaps the most common method for constructing a simplicial complex under persistent homology \cite{Rips-Complex}.
 In a point cloud of k points, a distance parameter, $\delta$, can be used to draw a circle of diameter $\delta$ around every single point in S.
 If the distance parameter is non-zero, then some of the resulting circles may intersect.
@@ -114,7 +114,7 @@ In between these stages, the birth and death of features at certain values of $\
 In both methods, the boundary matrix records all simplicial complexes for a given parameter value. 
 From this matrix, the persistent homology matrix is calculated. 
 The size of the boundary matrix can describe the memory complexity on the RAM for persistent homology calculations. 
-We compare this memory complexity between Alpha and Rips complexes for this project. 
+We compare this memory complexity between alpha and Rips complexes for this project. 
 
 \begin{figure}
   \centering
