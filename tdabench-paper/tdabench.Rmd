@@ -40,6 +40,7 @@ output:
 ---
 
 \section{Introduction}
+
 Topological data analysis (TDA) is a broad set of methodologies that characterize structural features of data sets inspired by topological principles.
 Within the umbrella of TDA, persistent homology represents an algebraic approach to understanding the number, characteristics, and persistence of structural features in an n-dimensional point cloud.
 
@@ -72,7 +73,7 @@ Given that persistent homology can apply to any n-dimensional data set, it has w
 Its main limiting factor is computational for calculating high dimensional features in large multi-dimensional data sets. 
 We believe lack of analysis of these higher dimensional features may under utilize persistent homology's analysis potential.
 In this project, we explore different methodologies to find efficient options that could solve this issue. 
-We specifically aim to characterize the computational performance (run time) and limits of persistent homology calculations between Rips complexes in the R packages TDAstats and TDA.
+We specifically aim to characterize the computational performance (run time) and limits of persistent homology calculations between Rips complexes in the \CRANpkg{TDAstats} and \CRANpkg{TDA} R packages.
 We also explore the differences in computational performance between Rips and Alpha complexes in R to assess which datasets are most appropriate for each algorithm.
 
 \section{Mathematics of Persistent Homology}
