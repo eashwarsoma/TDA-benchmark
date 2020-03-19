@@ -286,7 +286,7 @@ Figure \ref{fig:fin} illustrates this comparison, showing that for 3-dimensional
 \section{Discussion}
 As persistent homology calculations continue to become a more popular tool to analyze complex multidimensional data, it will be important to understand from a computational perspective which method to use. 
 In this paper, we examined two forms of persistent homology complexes: Vietoris-Rips and alpha complexes. 
-Both algorithms describe the topological features through the generation of simplicial complexes. 
+Both algorithms describe topological features through the generation of simplicial complexes. 
 The advantage in saving computational time in choosing a particular algorithm depends on the point cloud characteristics.
 
 Figure \ref{fig:fin} shows that at high point cloud sizes, GUDHI’s alpha complex calculations outperforms TDAstats. 
