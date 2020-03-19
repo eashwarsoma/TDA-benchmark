@@ -40,6 +40,7 @@ output:
 ---
 
 \section{Introduction}
+
 Topological data analysis (TDA) is a broad set of methodologies that characterize structural features of data sets inspired by topological principles.
 Within the umbrella of TDA, persistent homology represents an algebraic approach to understanding the number, characteristics, and persistence of structural features in an n-dimensional point cloud.
 
@@ -72,7 +73,7 @@ Given that persistent homology can apply to any n-dimensional data set, it has w
 Its main limiting factor is computational for calculating high dimensional features in large multi-dimensional data sets. 
 We believe lack of analysis of these higher dimensional features may under utilize persistent homology's analysis potential.
 In this project, we explore different methodologies to find efficient options that could solve this issue. 
-We specifically aim to characterize the computational performance (run time) and limits of persistent homology calculations between Rips complexes in the R packages TDAstats and TDA.
+We specifically aim to characterize the computational performance (run time) and limits of persistent homology calculations between Rips complexes in the \CRANpkg{TDAstats} and \CRANpkg{TDA} R packages.
 We also explore the differences in computational performance between Rips and alpha complexes in R to assess which datasets are most appropriate for each algorithm.
 
 \section{Mathematics of Persistent Homology}
@@ -140,6 +141,8 @@ Both datasets were compared for consistency and are publicly available at the re
 Data from the remote computing node is visualized in this report.
 The larger point clouds required more than 16 GB of RAM to calculate persistent homology using a subset of the libraries; attempts to compute results resulted in runtime errors, and the corresponding output is missing from the corresponding figures and tables.
 Fully reproducible code for all numerical results and figures can be found at https://github.com/eashwarsoma/TDA-benchmark.
+This GitHub repository also contains instructions for generating the Supplement referenced in this report's results.
+Video explanations of TDA concepts and reproducing all results in this report can be found at https://tinyurl.com/TDABench.
 
 \section{Results}
 
@@ -183,16 +186,10 @@ Interestingly, all curves plotted in Figure \ref{fig:cir} grow polynomially with
 \label{fig:cir}
 \end{widefigure}
 
-<!--FOLLOWING SENTENCES SHOULD GO IN DISCUSSION
-For an n-dimensional point cloud, up to n-1 feature dimensions can be calculated. 
-In the field, most work has only included calculations up to 1 or 2 feature dimensions.
-Perhaps this is due to difficulty of conceptualizing what high dimensional features represent. 
-However, it might also be due to computational restrictions of calculating high dimensional features.-->
 Large data and feature dimensionality often restricts persistent homology calculations to small point clouds due to computational limits.
 When calculating persistent homology on a high-dimensional point cloud, as Vietoris-Rips feature dimension increases, there is a corresponding increase in runtime (Figure \ref{fig:box}).
 Dionysus is clearly outmatched by GUDHI and Ripser as feature dimension increases, with the difference being clearest for larger point clouds; by feature dimension 5, Ripser outpaces GUDHI as well (Figure \ref{fig:box}).
-Due to the limited number of points, it is unclear whether runtime for each library grows polynomially or exponentially.
-<!--RECHECK, should be enough data point to regress on-->
+It is unclear whether runtime for each library grows polynomially or exponentially (see Supplement for regression details).
 
 \begin{widefigure}
   \centering
@@ -205,10 +202,6 @@ Due to the limited number of points, it is unclear whether runtime for each libr
 \label{fig:box}
 \end{widefigure}
 
-<!--SHOULD BE IN METHODS
-The GUDHI library provided functionality to calculate persistent homology with Rips and Alpha complexes. 
-Therefore, we only used the GUDHI library to compare performance between Rips and Alpha complexes.-->
-
 Even with a constant feature dimension, the underlying data dimension could play a role in runtime of persistent homology calculation.
 Figure \ref{fig:ann} compares handling of this issue by the Vietoris-Rips complex and the alpha complex.
 Since GUDHI is the only library implementing functionality with an alpha complex, we compare its implementations of the Vietoris-Rips and alpha complices.
@@ -218,9 +211,6 @@ First, the alpha complex calculation clearly runs faster than the Vietoris-Rips 
 Second, although the Vietoris-Rips complex calculation runtime appears to be independent of underlying data dimension, alpha complex calculation is dependent on it.
 Figure \ref{fig:ann} shows a subtle difference between data dimensions 2 and 3 as point cloud size increases.
 Although unconcerning for a data dimension up to 3, failure to run any alpha complex calculations with a data dimension of 4 could be cause for concern.
-<!--SHOULD BE IN DISCUSSION
-This is understandable as Alpha complex theoretical complexity increases exponentially for increasing point cloud dimension.
-Changes in computational performance from changing point cloud dimension is one major difference between calculation of Rips and Alpha complexes.-->
 
 \begin{figure}
   \centering
