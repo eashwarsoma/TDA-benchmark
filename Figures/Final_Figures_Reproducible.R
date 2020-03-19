@@ -337,7 +337,7 @@ fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=avg.time, color=library, shape=l
        shape = "Library",
        x = "Number of Points",
        y = "Average Run Time (s)",
-       title = "Rips (TDAstats) vs Alpha Complex (GUDHI) \nRun Times on 3D Point Clouds",
+       title = "Vietoris-Rips (Ripser) vs Alpha Complex (GUDHI) \nRun Times on 3D Point Clouds",
        subtitle = "") + 
   scale_x_continuous(limits=c(5,550), breaks = c(100, 200, 300, 400, 500)) + 
   scale_y_continuous(limits=c(-.05, 84))
