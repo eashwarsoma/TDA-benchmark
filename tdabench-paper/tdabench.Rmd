@@ -48,7 +48,7 @@ In the basic workflow of persistent homology, a series of simplicial complexes a
 There are several methods to generate these complexes on point clouds. 
 In this paper, we focus on persistent homology of the Vietoris-Rips and alpha complexes, which use simplicial complexes to approximate topologic relationships in point clouds.
 The exact method of constructing these complexes is described in the Mathematics section.
-Essentially, we measures features that are "discovered" by the algorithm at a particular stage and disappear at a later stage. 
+Essentially, we measure features that are discovered by the algorithm at a particular stage and disappear at a later stage. 
 The difference between these stages is the persistence. 
 Features with larger persistence more likely represent real geometric patterns, rather than noise.
 
@@ -62,24 +62,28 @@ Here, we aim to benchmark two R packages - \CRANpkg{TDA} and \CRANpkg{TDAstats} 
 
 \section{Mathematics of Persistent Homology}
 <!--change circles to more generalizable object, e.g. n-sphere or n-ball-->
-An $n$-dimensional simplex is the convex hull of $n+1$ points in some Euclidean space.
+An $n$-dimensional simplex is the convex hull of $n+1$ points in a Euclidean space.
 More intuitively, an $n$-dimensional simplex is the simplest $n$-dimensional object (e.g. a 0-simplex is a point, a 1-simplex is a line, a 2-simplex is a triangle, 3-simplex is a tetrahedron).
 These simplices can be glued together on common sub-simplices to form a simplicial complex (e.g. two triangles sharing a common side).
-In a simplicial complex, topological features will arise that can be characterized by Betti numbers. Each Betti number $k$ counts the number of features in dimension $k$. Betti $0$ counts the number of connected components, Betti $1$ counts refer to loops, Betti $2$ counts the number of voids, and so on \citep{phom-survey}.
+In a simplicial complex, topological features will arise that can be characterized by Betti numbers. 
+Each Betti number, denoted by $B_k$, $k$ counts the number of features in dimension $k$. 
+$B_0$ counts the number of connected components, $B_1$ counts refer to loops, $B_2$ counts the number of voids, and so on \citep{phom-survey}.
 
 There are several different methods to construct a simplicial complex on a given point cloud $S$, but this paper focuses on the Vietoris-Rips and alpha complexes.
 The Vietoris-Rips complex is perhaps the most common method for constructing a simplicial complex to calculate persistent homology \citep{Rips-Complex}.
 In a point cloud of $k$ points in 2 dimensions, a distance parameter, $\delta > 0$, can be used to draw a circle of diameter $\delta$ around every point in $S$.
-For point clouds in 3 dimensions, spheres of diameter $\delta$ are drawn around each point, and hyperspheres of appropriate dimensions are drawn in higher dimensional spaces. 
-The remainder of this explanation will consider the 2 dimensional case of circles. 
+For point clouds in 3 dimensions, spheres of diameter $\delta$ are drawn around each point. 
+For dimensions $k$ greater than 3, a $k$-dimensional hypersphere is drawn around each point. 
+The remainder of this explanation will focus on the 2-dimensional case. 
 If $\delta$ is sufficiently large, then some of the resulting circles may intersect.
 In this case, a line is drawn to connect the points at the center of the intersecting circles.
-When a triple of points is connected, we add a triangle (2-simplex). When a quadruple of points is connected, we add tetrahedron (3-simplex) and so forth. 
+When a triple of points is connected, we add a triangle (2-simplex). 
+When a quadruple of points is connected, we add a tetrahedron (3-simplex) and so forth. 
 However, we only add simplices at most the dimension of the space of the point clouds (e.g. only up to 3-simplices are added in a 3-dimensional point cloud). 
 This group of points and lines form the skeleton of a simplicial complex.
 For each distance parameter, $\delta$, there will be a single simplicial complex associated with it.
 As $\delta$ increases, different topological features may appear, persist, and eventually disappear.
-<!--Is below theoretical max accurate phrasing?-->
+
 Once $\delta$ reaches the maximum Euclidean distance between any pair of points in the point cloud, a convex hull will form around all $k$ points creating a $(k-1)$-dimensional simplex.
 A 3-column matrix can be created recording the dimension of each feature, the $\delta$ at which that feature appeared, and the $\delta$ at which it disappeared.
 This matrix characterizes the persistent homology of that point cloud. 
@@ -97,7 +101,7 @@ This matrix characterizes the persistent homology of that point cloud.
 \end{figure}
 
 Alpha complexes provide another method to generate simplicial complexes on the point cloud $S$.
-Fo alpha complexes, we partition the whole space in which the data resides into cells such that each cell contains exactly one data point x, and the cell of that data point is the set of all points closer to x than any other data points.
+For alpha complexes, we partition the whole space in which the data resides into cells such that each cell contains exactly one data point $x$, and the cell of that data point is the set of all points closer to $x$ than any other data points.
 Such a partition is also known as a Voronoi diagram.
 The nerve of a Voronoi diagram is equivalent to the Delaunay Triangulation \citep{alpha-complex}.
 Alpha complexes are simplicial complexes that are subsets of the Delaunay Triangulation.
@@ -320,12 +324,11 @@ If a point cloud has more than 3 dimensions, then it could undergo pre-processin
 Note, it is possible an algorithm will eventually be developed to enable alpha complex computation of higher dimensional data. 
 However, if data dimension cannot be reduced without significant information loss, then Vietoris-Rips complexes should be used.
 It should be stated that if a point cloud is compatible with both complexes, both analyses should be performed as there may be a variation the persistent homology matrix. 
-This is because alpha complexes satisfy the Nerve theorem ~\citep{alpha-complex}. 
-This essentially means that alpha complexes are topologically equivalent to the true underlying topology of the datase whereas Rips complexes are approximations ~\citep{Rips-Complex}.
+This is because alpha complexes satisfy the Nerve Theorem \citep{alpha-complex}, which implies that they are topologically equivalent to the true underlying topology of the dataset; in contrast, Vietoris-Rips complexes only approximate the underlying topology \citep{Rips-Complex}.
 Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
 GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase. 
 GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not store for the sake of optimization.
-While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages ~\citep{Ripser}
+While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages \citep{Ripser}
 
 While Vietoris-Rips complexes can handle high-dimensional data well, calculation still significantly slows down when looking for higher dimension features. 
 Boundary matrix size rapidly increases and can overwhelm available RAM even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
