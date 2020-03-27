@@ -1,5 +1,5 @@
 ---
-title: Comparing R packages for calculation of persistent homology
+title: Benchmarking R packages for calculation of persistent homology
 author:
   - name: Eashwar V. Somasundaram
     affiliation: School of Medicine
