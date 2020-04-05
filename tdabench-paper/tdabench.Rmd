@@ -32,7 +32,7 @@ author:
     - Cleveland, OH 44195, United States
     email: raoul.wadhwa@case.edu
 abstract: >
-  Several persistent homology software libraries have been implemented in R. Specifically, the Dionysus, GUDHI, and Ripser libraries have been wrapped in R by the TDA and TDAstats packages on CRAN. They provide Vietoris-Rips and alpha complex functionality. These software represent powerful analysis tools that are currently computationally expensive and, to our knowledge, have not been formally benchmarked in R. Here, we compare the 2 R packages and the 3 underlying libraries for runtime and memory. We find that datasets with less than 3 dimensions can be evaluated with persistent homology fastest by the GUDHI library in the TDA package. For larger dimensional datasets, the Ripser library in the TDAstats package is best. Analysis of runtime and memory growth is also included in this report.
+  Several persistent homology software libraries have been implemented in R. Specifically, the Dionysus, GUDHI, and Ripser libraries have been wrapped in R by the TDA and TDAstats packages on CRAN. They provide Vietoris-Rips and alpha complex functionality. These software represent powerful analysis tools that are currently computationally expensive and, to our knowledge, have not been formally benchmarked in R. Here, we provide an analysis of runtime and memory growth for the 2 R packages and the 3 underlying libraries. We find that datasets with less than 3 dimensions can be evaluated with persistent homology fastest by the GUDHI library in the TDA package. For larger dimensional datasets, the Ripser library in the TDAstats package is best. 
 output:
   rticles::rjournal_article:
     includes:
