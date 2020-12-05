@@ -3,7 +3,7 @@ library(dplyr)
 # setup data to collect
 data_types <- c("circle", "annulus", "uniform", "torus")
 dims <- 2:4
-num_pts <- seq(from = 50, to = 500, by = 50)
+num_pts <- seq(from = 25, to = 250, by = 25)
 engines <- c("TDAstats", "GUDHI", "Dionysus")
 df <- expand.grid(data_types, dims, num_pts, engines,
                   stringsAsFactors = FALSE) %>%

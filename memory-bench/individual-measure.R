@@ -6,8 +6,9 @@ set.seed(42)
 
 # input and function setup
 curr_max_mem <- function() {
-  bench_process_memory()[2] %>% # load maximum memory used in current session
-    as.integer() %>%            # remove unnecessary attributes
+  bench_process_memory() %>%
+    extract(2) %>%              # load maximum memory used in current session
+    as.numeric() %>%            # remove unnecessary attributes
     divide_by(1024 ^ 2)         # convert from bytes to megabytes
 }
 
