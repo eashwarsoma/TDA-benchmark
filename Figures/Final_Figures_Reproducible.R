@@ -2,6 +2,8 @@ library(dplyr)
 library(ggplot2)
 library(reshape)
 library(ggforce)
+library(scales)
+
 
 ####Reading in Data####
 #Reading in the time data
@@ -24,12 +26,15 @@ data.time$avg.time <- apply(data.time[,7:16],1,mean)
 data.time$std <- apply(data.time[,7:16],1,sd)
 data.time$min.time <- apply(data.time[,7:16],1,min)
 data.time$max.time <- apply(data.time[,7:16],1,max)
+data.time$med.time <- apply(data.time[,7:16],1,median)
+
 
 #Create Factor labels for libraries
 data.time$library <- factor(data.time$library,
                             levels = c("stats","Dionysus","GUDHI", "GUDHIalpha"),
                             labels = c("TDAstats (Ripser)", 
-                                       "TDA (Dionysus)", "TDA (GUDHI Rips)", "TDA (GUDHI Alpha)"))
+                                       "TDA (Dionysus)", "TDA (GUDHI Rips)", 
+                                       "TDA (GUDHI Alpha)"))
 
 #Read in object size data
 data.mem <- read.csv("./mem1.csv", header = FALSE)
@@ -42,7 +47,8 @@ colnames(data.mem) <- c("measure.type", "point.cloud", "point.cloud.dim",
 data.mem$library <- factor(data.mem$library,
                            levels = c("stats","Dionysus","GUDHI", "GUDHIalpha"),
                            labels = c("TDAstats (Ripser)", 
-                                      "TDA (Dionysus)", "TDA (GUDHI Rips)", "TDA (GUDHI Alpha)"))
+                                      "TDA (Dionysus)", "TDA (GUDHI Rips)", 
+                                      "TDA (GUDHI Alpha)"))
 
 
 ####Figure_1####
@@ -53,27 +59,31 @@ data.fig.1 <- subset(data.time, point.cloud == "torus" & feat.dim == 2 &
                        library != "TDA (GUDHI Alpha)") 
 
 #Point graph; X: Num.points; Y: Runtime; Color: TDA library
-fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=avg.time, color=library, shape=library)) + 
+fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=med.time, color=library, shape=library)) + 
   geom_point()+
   geom_errorbar(data.fig.1, mapping = aes(x=num.points, 
-                                          ymin=avg.time - std, 
-                                          ymax=avg.time + std)) +
+                                          ymin=min.time, 
+                                          ymax=max.time)) +
   labs(color = "TDA Library",
        shape = "TDA Library",
        x = "Number of Points on Torus",
-       y = "Average Run Time",
-       title = "Rips Complex Run Times on 3D Torus Point Clouds",
-       subtitle = "") 
+       y = "Average Runtime (s)",
+       title = "Rips Complex Runtimes on 3D Torus Point Clouds",
+       subtitle = "") + 
+  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
 
 #Editing the colors (Making everything blank)
 fig.1 <- fig.1 + theme_classic() +
-  theme(legend.position = c(0.85, 0.5),
+  theme(legend.position = c(0.85, 0.4),
         legend.title = element_text(size = 9),
         legend.text = element_text(size = 7),
         plot.title = element_text(hjust = 0.5),
         axis.line = element_line(colour = "black"),
         legend.text.align = 0,
         legend.title.align = 0) 
+
+fig.1
 
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig1.png", plot = fig.1,
@@ -91,20 +101,21 @@ data.fig.2 <- subset(data.time, point.cloud == "circle" & library != "TDA (GUDHI
 data.fig.2 <- data.fig.2[(data.fig.2$point.cloud.dim - 1 == data.fig.2$feat.dim), ]
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Sphere
-fig.2 <- ggplot(data.fig.2, aes(x=num.points, y=avg.time, color=library, shape=library)) + 
+fig.2 <- ggplot(data.fig.2, aes(x=num.points, y=med.time, color=library, shape=library)) + 
   geom_point() +
   facet_wrap( ~ point.cloud.dim, ncol=3, scales = "free") + 
   geom_errorbar(data.fig.2, mapping = aes(x=num.points, 
-                                          ymin=avg.time - std, 
-                                          ymax=avg.time + std)) +
+                                          ymin=min.time, 
+                                          ymax=max.time)) +
   labs(color = "TDA Library",
        shape = "TDA Library",
        x = "Number of Points on N-Sphere",
-       y = "Average Run Time",
-       title = "Rips Complex Run Times For n-Dimensional Spheres",
+       y = "Average Runtime (s)",
+       title = "Rips Complex Runtimes For n-Dimensional Spheres",
        subtitle = "") +
   scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
-  scale_y_continuous(limits=c(-30,2100))
+  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
 
 
 #Editing the colors (Making everything blank)
@@ -120,6 +131,8 @@ fig.2 <- fig.2 + theme_classic() +
         axis.line=element_line(),
         axis.text.x = element_text(angle=-45, hjust=.025))
 
+fig.2
+
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig2.png", plot = fig.2,
        scale = 1, width = 12, height = 4, units = "in",
@@ -134,30 +147,33 @@ data.fig.3 <- subset(data.time, point.cloud == "uniform" &
 data.fig.3$num.points <- as.factor(data.fig.3$num.points)
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: TDA library; Facet: Dimensions of Annulus
-fig.3 <- ggplot(data.fig.3, aes(x=feat.dim, y=avg.time, color=num.points, shape=num.points)) + 
+fig.3 <- ggplot(data.fig.3, aes(x=feat.dim, y=med.time, color=num.points, shape=num.points)) + 
   geom_point() + facet_wrap(~library, scales = "free") + 
   geom_errorbar(data.fig.3, mapping = aes(x=feat.dim, 
-                                          ymin=avg.time - std, 
-                                          ymax=avg.time + std)) +
+                                          ymin=min.time, 
+                                          ymax=max.time)) +
   labs(color = "Number of \nPoints",
        shape = "Number of \nPoints",
        x = "Feature Dimensions",
-       y = "Average Run Time",
-       title = "Run Times For Extracting Dimensional \nFeatures on an 8 Dimensional Box",
+       y = "Average Runtime (s)",
+       title = "Runtimes For Extracting Dimensional \nFeatures on an 8 Dimensional Box",
        subtitle = "") + scale_x_continuous(limits=c(0, 8), breaks=seq(0,8,1)) +
-  scale_y_continuous(limits=c(0, 3))
+  scale_y_continuous(limits=c(0, 3)) +
+  scale_y_log10(breaks = c(1, .1, .01, .001), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
 
 #Editing the colors (Making everything blank)
 fig.3 <- fig.3 + theme_classic() +
-  theme(legend.position = c(0.93, 0.60),
+  theme(legend.position = c(0.04, 0.60),
         legend.title = element_text(size = 9),
         legend.text = element_text(size = 7),
         plot.title = element_text(hjust = 0.5),
         legend.text.align = 0,
         legend.title.align = 0,
-        strip.background = element_blank(),
+        strip.background = element_blank())
         #strip.text.x = element_blank(),
-        axis.text.x = element_text(angle=0, hjust=.025))
+        #axis.text.x = element_text(angle=0, hjust=-.15))
+fig.3
 
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig3.png", plot = fig.3,
@@ -175,31 +191,35 @@ data.fig.4$point.cloud.dim <- as.factor(data.fig.4$point.cloud.dim)
 data.fig.4 <- as.data.frame(data.fig.4)
 
 #Point graph facet; X: Num.points; Y: Runtime; Color: point.cloud dim; Facet: library
-fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=avg.time, color=point.cloud.dim, shape=point.cloud.dim)) + 
+fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=med.time, color=point.cloud.dim, shape=point.cloud.dim)) + 
   geom_point() + facet_wrap(~library, scales = "free") + 
   geom_errorbar(data.fig.4, mapping = aes(x=num.points, 
-                                          ymin=avg.time - std, 
-                                          ymax=avg.time + std), width=28) +
+                                          ymin=min.time, 
+                                          ymax=max.time), width=28) +
   labs(color = "Annulus \nDimension",
        shape = "Annulus \nDimension",
        x = "Number of Points",
-       y = "Average Run Time",
-       title = "Rips vs Alpha Complex Run Times For Extracting \n1 Dimensional Features on N-dimensional Annuluses",
+       y = "Average Runtime (s)",
+       title = "Rips vs Alpha Complex Runtimes For Extracting \n1 Dimensional Features on N-dimensional Annuluses",
        subtitle = "") + 
   scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
-  scale_y_continuous(limits=c(-.02, 22))
+  scale_y_continuous(limits=c(-.02, 22)) +
+  scale_y_log10(breaks = c(10, 1, .1, .01, .001), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
+
 
 #Editing the colors (Making everything blank)
 fig.4 <- fig.4 + theme_classic() +
-  theme(legend.position = c(0.95, 0.50),
+  theme(legend.position = c(0.4, 0.50),
         legend.title = element_text(size = 9),
         legend.text = element_text(size = 7),
         plot.title = element_text(hjust = 0.5),
         legend.text.align = 0,
         legend.title.align = 0,
-        axis.text.x = element_text(angle=0, hjust=.025),
+        #axis.text.x = element_text(angle=0, hjust=.025),
         strip.background = element_blank(),
         strip.text.x = element_text())
+fig.4
 
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig4.png", plot = fig.4,
@@ -216,11 +236,14 @@ fig.5a <- ggplot(data.fig.5a, aes(x=num.points, y=memory, color=library, shape=l
   labs(color = "Complex",
        shape = "Complex",
        x = "Number of Points",
-       y = "Object Size",
+       y = "Object Size (bytes)",
        title = "Object Size of Boundary Matrix",
        subtitle = "")+ 
   scale_x_continuous(limits=c(50,550), breaks = c(100, 200, 300, 400, 500)) + 
-  scale_y_continuous(limits=c(0, 1.8e10), breaks = c(1e5, 5e9, 1e10, 1.5e10)) 
+  scale_y_continuous(limits=c(0, 1.8e10), breaks = c(1e5, 5e9, 1e10, 1.5e10)) + 
+  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
+  
 
 #Editing the colors (Making everything blank)
 fig.5a <- fig.5a + theme_classic() +
@@ -231,7 +254,7 @@ fig.5a <- fig.5a + theme_classic() +
         plot.title = element_text(hjust = 0.5),
         legend.text.align = 0,
         legend.title.align = 0.8,
-        axis.text.x = element_text(angle=0, hjust=.025),
+        #axis.text.x = element_text(angle=0, hjust=.025),
         strip.background = element_blank(),
         #plot.margin = unit(c(1,3,1,1), "cm"),
         strip.text.x = element_blank())
@@ -251,13 +274,14 @@ fig.5b <- ggplot(data.fig.5b, aes(x=num.points, y=memory, color=feat.dim, shape=
   labs(color = "Feature \nDimension",
        shape = "Feature \nDimension",
        x = "Number of Points",
-       y = "Object Size",
+       y = "Object Size (bytes)",
        title = "Object Size of Rips Complex Boundary Matrix",
        subtitle = "")+ 
   scale_x_continuous(limits=c(50,550), breaks = c(100, 200, 300, 400, 500)) + 
   scale_y_continuous(limits=c(0, 1.8e10), 
-                     labels = function(x) format(x, scientific = TRUE))
-
+                     labels = function(x) format(x, scientific = TRUE)) +
+scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+              labels = trans_format("log10", scales::math_format(10^.x)))
 #Editing the colors (Making everything blank)
 fig.5b <- fig.5b + theme_classic() +
   theme(legend.position = c(0.92, 0.550),
@@ -266,10 +290,11 @@ fig.5b <- fig.5b + theme_classic() +
         plot.title = element_text(hjust = 0.5),
         legend.text.align = 0,
         legend.title.align = 0,
-        axis.text.x = element_text(angle=0, hjust=.025),
+        #axis.text.x = element_text(angle=0, hjust=.025),
         strip.background = element_blank(),
         #plot.margin = unit(c(1,3,1,1), "cm"),
         strip.text.x = element_blank())
+fig.5b
 
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig5b.png", plot = fig.5b,
@@ -286,34 +311,36 @@ data.fig.5c <- subset(data.fig.5c, point.cloud.dim - feat.dim == 1)
 
 data.fig.5c$feat.dim <- as.factor(data.fig.5c$feat.dim)
 
-
 #Point graph facet; X: Num.points; Y: Memory; Color: Feat.Dim; 
 fig.5c <- ggplot(data.fig.5c, aes(x=num.points, y=memory, color=feat.dim, shape=feat.dim)) + 
   geom_point() + facet_wrap(~point.cloud, scales = "free") +
   labs(color = "Feature \nDimension",
        shape = "Feature \nDimension",
        x = "Number of Points",
-       y = "Object Size",
+       y = "Object Size (bytes)",
        title = "Object Size of Alpha Complex Boundary Matrix",
        subtitle = "")+ 
   scale_x_continuous(limits=c(50,550), breaks = c(100, 200, 300, 400, 500)) + 
   scale_y_continuous(limits=c(0, 1.24e6), 
-                     labels = function(x) format(x, scientific = TRUE))
+                     labels = function(x) format(x, scientific = TRUE)) + 
+  scale_y_log10(breaks = c(10^4, 10^5, 10^6), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
 
 #Editing the colors (Making everything blank)
 fig.5c <- fig.5c + theme_classic() + theme(
-  legend.position = c(.915, 0.945),
-  legend.title = element_text(size = 9),
-  legend.text = element_text(size = 7),
+  legend.position = c(.915, 0.11),
+  legend.title = element_text(size = 7),
+  legend.text = element_text(size = 5),
   plot.title = element_text(hjust = 0.5),
   legend.text.align = 0,
   legend.title.align = 0,
   #plot.title = element_text(hjust = 0.5),
-  axis.text.x = element_text(angle=0, hjust=.025),
+  #axis.text.x = element_text(angle=0, hjust=.025),
   strip.background = element_blank(),
   strip.text.x = element_blank(), 
   #plot.margin = unit(c(1,3,1,1), "cm"),
   panel.spacing = unit(2, "lines"))
+fig.5c
 
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig5c.png", plot = fig.5c,
@@ -328,36 +355,39 @@ data.fig.6 <- subset(data.time, point.cloud.dim == 3 & feat.dim == 2 &
               subset(num.points >= 20)
 
 #Point graph facet; X: Num.points; Y: time; Color: Library; Facet: Pointcloud
-fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=avg.time, color=library, shape=library)) + 
+fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=med.time, color=library, shape=library)) + 
   facet_wrap(~point.cloud, scales = "free") + 
   geom_errorbar(data.fig.6, mapping = aes(x=num.points, 
-                                          ymin=avg.time - std, 
-                                          ymax=avg.time + std)) + geom_point() +
+                                          ymin=min.time, 
+                                          ymax=max.time)) + geom_point() +
   labs(color = "Library",
        shape = "Library",
        x = "Number of Points",
-       y = "Average Run Time (s)",
-       title = "Vietoris-Rips (Ripser) vs Alpha Complex (GUDHI) \nRun Times on 3D Point Clouds",
+       y = "Average Runtime (s)",
+       title = "Vietoris-Rips (Ripser) vs Alpha Complex (GUDHI) \nRuntimes on 3D Point Clouds",
        subtitle = "") + 
   scale_x_continuous(limits=c(5,550), breaks = c(100, 200, 300, 400, 500)) + 
-  scale_y_continuous(limits=c(-.05, 84))
-
+  scale_y_continuous(limits=c(-.05, 84)) + 
+  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", scales::math_format(10^.x)))
+                
 #Editing the colors (Making everything blank)
 fig.6 <- fig.6 + theme_classic()
 fig.6 <- fig.6 + theme(
-  legend.position = c(.13, .18),
-  legend.title = element_text(size = 9),
-  legend.text = element_text(size = 7),
+  legend.position = c(.91, .09),
+  legend.title = element_text(size = 7),
+  legend.text = element_text(size = 5),
   plot.title = element_text(hjust = 0.5),
   legend.text.align = 0,
   legend.title.align = 0,
   legend.background=element_blank(),
   #plot.title = element_text(hjust = 0.5),
-  axis.text.x = element_text(angle=0, hjust=.025),
+  #axis.text.x = element_text(angle=0, hjust=.025),
   strip.background = element_blank(),
   strip.text.x = element_blank())
 #plot.margin = unit(c(1,3,1,1), "cm"),
 #panel.spacing = unit(2, "lines"))
+fig.6
 
 #Saving plot as png for later editing
 ggsave("./Figures/Unrasterized_Images/fig6.png", plot = fig.6,
@@ -734,11 +764,11 @@ image_write(fig.1.rast, path = './Figures/Final_Figures/fig1.png', format = 'png
 fig2.unrast <- image_read("./Figures/Unrasterized_Images/fig2.png")
 #Combine Figure and Image
 fig2.rast1 <- circle %>% image_scale("200") %>%
-  image_composite(fig2.unrast, ., offset = "+3225+205", 
+  image_composite(fig2.unrast, ., offset = "+4250+205", 
                   gravity = "northeast")
 
 fig2.rast2 <- sphere %>% image_scale("200") %>%
-  image_composite(fig2.rast1, ., offset = "+1700+205", 
+  image_composite(fig2.rast1, ., offset = "+2700+205", 
                   gravity = "northeast")
 
 #Write Out File
@@ -748,19 +778,19 @@ image_write(fig2.rast2, path = './Figures/Final_Figures/fig2.png', format = 'png
 fig5a.unrast <- image_read("./Figures/Unrasterized_Images/fig5a.png")
 #Combine Figure and Images
 fig5a.rast1 <- annulus.3 %>% image_scale("200") %>%
-  image_composite(fig5a.unrast, ., offset = "+1875+175", 
+  image_composite(fig5a.unrast, ., offset = "+1225+125", 
                   gravity = "northeast")
 
 fig5a.rast2 <- sphere %>% image_scale("190") %>%
-  image_composite(fig5a.rast1, ., offset = "+720+175", 
+  image_composite(fig5a.rast1, ., offset = "+70+125", 
                   gravity = "northeast")
 
 fig5a.rast3 <- torus %>% image_scale("210") %>%
-  image_composite(fig5a.rast2, ., offset = "+1865+850", 
+  image_composite(fig5a.rast2, ., offset = "+1215+850", 
                   gravity = "northeast")
 
 fig5a.rast4 <- cube %>% image_scale("210") %>%
-  image_composite(fig5a.rast3, ., offset = "+710+850", 
+  image_composite(fig5a.rast3, ., offset = "+70+850", 
                   gravity = "northeast")
 
 #Write Out File
@@ -771,31 +801,31 @@ image_write(fig5a.rast4, path = './Figures/Final_Figures/fig5a.png', format = 'p
 fig5c.unrast <- image_read("./Figures/Unrasterized_Images/fig5c.png")
 #Combine Figure and Images
 fig5c.rast1 <- annulus.3 %>% image_scale("150") %>%
-  image_composite(fig5c.unrast, ., offset = "+1850+280", 
+  image_composite(fig5c.unrast, ., offset = "+1850+315", 
                   gravity = "northeast")
 
 fig5c.rast2 <- sphere %>% image_scale("150") %>%
-  image_composite(fig5c.rast1, ., offset = "+410+550", 
+  image_composite(fig5c.rast1, ., offset = "+410+350", 
                   gravity = "northeast")
 
 fig5c.rast3 <- torus %>% image_scale("150") %>%
-  image_composite(fig5c.rast2, ., offset = "+1875+1300", 
+  image_composite(fig5c.rast2, ., offset = "+1875+1450", 
                   gravity = "northeast")
 
 fig5c.rast4 <- cube %>% image_scale("150") %>%
-  image_composite(fig5c.rast3, ., offset = "+325+1375", 
+  image_composite(fig5c.rast3, ., offset = "+325+1450", 
                   gravity = "northeast")
 
 fig5c.rast5 <- annulus.2 %>% image_scale("150") %>%
-  image_composite(fig5c.rast4, ., offset = "+1850+775", 
+  image_composite(fig5c.rast4, ., offset = "+1850+605", 
                   gravity = "northeast")
 
 fig5c.rast6 <- circle %>% image_scale("150") %>%
-  image_composite(fig5c.rast5, ., offset = "+400+830", 
+  image_composite(fig5c.rast5, ., offset = "+400+680", 
                   gravity = "northeast")
 
 fig5c.rast7 <- square %>% image_scale("150") %>%
-  image_composite(fig5c.rast6, ., offset = "+325+1910", 
+  image_composite(fig5c.rast6, ., offset = "+450+1820", 
                   gravity = "northeast")
 
 image_write(fig5c.rast7, path = './Figures/Final_Figures/fig5c.png', format = 'png')
@@ -804,19 +834,19 @@ image_write(fig5c.rast7, path = './Figures/Final_Figures/fig5c.png', format = 'p
 fig6.unrast <- image_read("./Figures/Unrasterized_Images/fig6.png")
 #Combine Figure and Images
 fig6.rast1 <- annulus.3 %>% image_scale("185") %>%
-  image_composite(fig6.unrast, ., offset = "+1975+225", 
+  image_composite(fig6.unrast, ., offset = "+1915+225", 
                   gravity = "northeast")
 
 fig6.rast2 <- sphere %>% image_scale("185") %>%
-  image_composite(fig6.rast1, ., offset = "+820+225", 
+  image_composite(fig6.rast1, ., offset = "+760+225", 
                   gravity = "northeast")
 
 fig6.rast3 <- torus %>% image_scale("185") %>%
-  image_composite(fig6.rast2, ., offset = "+1965+900", 
+  image_composite(fig6.rast2, ., offset = "+1905+900", 
                   gravity = "northeast")
 
 fig6.rast4 <- cube %>% image_scale("185") %>%
-  image_composite(fig6.rast3, ., offset = "+810+900", 
+  image_composite(fig6.rast3, ., offset = "+750+900", 
                   gravity = "northeast")
 fig6.rast4
 
