@@ -67,7 +67,7 @@ fig.1 <- ggplot(data.fig.1, aes(x=num.points, y=med.time, color=library, shape=l
   labs(color = "TDA Library",
        shape = "TDA Library",
        x = "Number of Points on Torus",
-       y = "Average Runtime (s)",
+       y = "Median Runtime (s)",
        title = "Rips Complex Runtimes on 3D Torus Point Clouds",
        subtitle = "") + 
   scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
@@ -110,7 +110,7 @@ fig.2 <- ggplot(data.fig.2, aes(x=num.points, y=med.time, color=library, shape=l
   labs(color = "TDA Library",
        shape = "TDA Library",
        x = "Number of Points on N-Sphere",
-       y = "Average Runtime (s)",
+       y = "Median Runtime (s)",
        title = "Rips Complex Runtimes For n-Dimensional Spheres",
        subtitle = "") +
   scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
@@ -155,7 +155,7 @@ fig.3 <- ggplot(data.fig.3, aes(x=feat.dim, y=med.time, color=num.points, shape=
   labs(color = "Number of \nPoints",
        shape = "Number of \nPoints",
        x = "Feature Dimensions",
-       y = "Average Runtime (s)",
+       y = "Median Runtime (s)",
        title = "Runtimes For Extracting Dimensional \nFeatures on an 8 Dimensional Box",
        subtitle = "") + scale_x_continuous(limits=c(0, 8), breaks=seq(0,8,1)) +
   scale_y_continuous(limits=c(0, 3)) +
@@ -199,7 +199,7 @@ fig.4 <- ggplot(data.fig.4, aes(x=num.points, y=med.time, color=point.cloud.dim,
   labs(color = "Annulus \nDimension",
        shape = "Annulus \nDimension",
        x = "Number of Points",
-       y = "Average Runtime (s)",
+       y = "Median Runtime (s)",
        title = "Rips vs Alpha Complex Runtimes For Extracting \n1 Dimensional Features on N-dimensional Annuluses",
        subtitle = "") + 
   scale_x_continuous(limits=c(0,550), breaks = c(100, 200, 300, 400, 500)) + 
@@ -363,7 +363,7 @@ fig.6 <- ggplot(data.fig.6, aes(x=num.points, y=med.time, color=library, shape=l
   labs(color = "Library",
        shape = "Library",
        x = "Number of Points",
-       y = "Average Runtime (s)",
+       y = "Median Runtime (s)",
        title = "Vietoris-Rips (Ripser) vs Alpha Complex (GUDHI) \nRuntimes on 3D Point Clouds",
        subtitle = "") + 
   scale_x_continuous(limits=c(5,550), breaks = c(100, 200, 300, 400, 500)) + 
