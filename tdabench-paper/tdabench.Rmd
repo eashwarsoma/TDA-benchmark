@@ -327,12 +327,10 @@ Note, it is possible an algorithm will eventually be developed to enable alpha c
 However, if data dimension cannot be reduced without significant information loss, then Vietoris-Rips complexes should be used.
 It should be stated that if a point cloud is compatible with both complexes, both analyses should be performed as there may be a variation the persistent homology matrix. 
 This is because alpha complexes satisfy the Nerve Theorem \citep{alpha-complex}, which implies that they are topologically equivalent to the true underlying topology of the dataset; in contrast, Vietoris-Rips complexes only approximate the underlying topology \citep{Rips-Complex}.
-Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
-GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase. 
-GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not store for the sake of optimization.
-While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages \citep{Ripser}
+Among the tested Vietoris-Rips engines, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
+GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase.
 
-On average, Ripser wrapped by \CRANpkg{TDAstats} computed persistent homology of a Vietoris-Rips complex faster and with less memory than either GUDHI or Dionysus wrapped by \CRANpkg{TDA}.
+On average, Ripser computed persistent homology of a Vietoris-Rips complex with less memory than either GUDHI or Dionysus.
 Thus, when efficiency is critical, useRs would likely find \CRANpkg{TDAstats} the appropriate library.
 However, \CRANpkg{TDA} contains an entire library of features not available in \CRANpkg{TDAstats}.
 Specifically, \CRANpkg{TDA} allows kNN density estimation, kernel density estimation, density-based clustering, and dendrogram visualization, among other useful functionality.
