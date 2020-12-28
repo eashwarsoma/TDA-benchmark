@@ -332,13 +332,21 @@ GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as featu
 GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not store for the sake of optimization.
 While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages \citep{Ripser}
 
+On average, Ripser wrapped by \CRANpkg{TDAstats} computed persistent homology of a Vietoris-Rips complex faster and with less memory than either GUDHI or Dionysus wrapped by \CRANpkg{TDA}.
+Thus, when efficiency is critical, useRs would likely find \CRANpkg{TDAstats} the appropriate library.
+However, \CRANpkg{TDA} contains an entire library of features not available in \CRANpkg{TDAstats}.
+Specifically, \CRANpkg{TDA} allows kNN density estimation, kernel density estimation, density-based clustering, and dendrogram visualization, among other useful functionality.
+When computational resources are plenty, when point clouds are small and low-dimensional, or when the aforementioned functionality is required, \CRANpkg{TDA} will likely be more appropriate than \CRANpkg{TDAstats}.
+Both packages are hosted on CRAN.
+
 While Vietoris-Rips complexes can handle high-dimensional data well, calculation still significantly slows down when looking for higher dimension features. 
-Boundary matrix size rapidly increases and can overwhelm available RAM even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
+Boundary matrix size rapidly increases and can overwhelm available RAM even for small numbers of points. 
 Looking for high-dimensional features in a large, high-dimensional point clouds remains a challenge. 
 Methods to calculate persistent homology do exist for other simplicial complexes, such as the Delaunay complex and the Witness complex, but, to our knowledge, they are not currently implemented in CRAN packages.
 Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R.
 
-\section{Acknowledgments}
+# Acknowledgments
+
 The authors thank Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
 
 \bibliography{tdabench}
