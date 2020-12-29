@@ -129,7 +129,7 @@ Therefore, we can predict that low dimensional point clouds favor alpha complexe
 
 \begin{figure}
   \centering
-  \includegraphics[height=1.5in]{../Figures/Final_Figures/Intro_Alpha.png}
+  \includegraphics[width=4in]{../Figures/Final_Figures/Intro_Alpha.png}
   \caption{\textbf{Basic visualization of the Alpha complex.}
   For a given $\alpha$, $\alpha$-radius balls are drawn around each point, and the union of the balls is taken.
   Then, an intersection between this union of $\alpha$-balls and the Vornoi diagram is taken.
@@ -229,7 +229,7 @@ Although unconcerning for a data dimension up to 3, failure to run any alpha com
 
 \begin{figure}
   \centering
-  \includegraphics[height=2in]{../Figures/Final_Figures/fig4.png}
+  \includegraphics[width=6in]{../Figures/Final_Figures/fig4.png}
   \caption{
     \textbf{Comparing persistent homology calculation between Vietoris-Rips and alpha complices.}
     Median runtime (min to max, $n=10$ iterations per data point) for various data dimensions (denoted by color) are plotted against point cloud size and faceted by type of simplicial complex.
@@ -283,7 +283,6 @@ df_mem <- df_mem %>%
 
 ggplot(df_mem, aes(x = NumPoints, y = Memory, color = Engine, shape = Engine)) +
   geom_point() +
-  scale_x_continuous(trans = "log10") +
   scale_y_continuous(trans = "log10") +
   facet_grid(DataType ~ Dimension) +
   xlab("Number of points") +
@@ -306,7 +305,7 @@ Vietoris-Rips complex calculations consistently had a polynomial growth for both
 
 \begin{figure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig6.png}
+  \includegraphics[width=6in]{../Figures/Final_Figures/fig6.png}
   \caption{
     \textbf{Runtime comparison of persistent homology calculation between Ripser's Vietoris-Rips and GUDHI's alpha complex functionality.}
     Median runtime (min to max $n=10$ iterations per data point) for various 3-dimensional point cloud structures (facet) plotted against point cloud size for each library (color).
