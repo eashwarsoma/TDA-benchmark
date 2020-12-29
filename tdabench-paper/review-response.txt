@@ -10,6 +10,9 @@
         limitations (detailed below) I think it should be revised before
         acceptance.
         
+We thank the reviewer for a thorough and clear review. We address each of their
+concerns below.
+        
         ### Benchmarking measures
         
         For synthetic benchmarking generally the minimum and median are more
@@ -52,7 +55,6 @@ the runtime and memory data have been visualized on a logarithmic scale.
         however this has the severe limitation that it only applies to one of
         the 3 implementations benchmarked. This limitation is extremely severe,
         and I think must be changed before the paper can be accepted.
-        
         Fortunately there are tools the authors can use to accomplish this.
         `bench::bench_process_memory()` can be used to sample the memory for
         the entire R process (including child processes and memory allocated
@@ -63,7 +65,6 @@ the runtime and memory data have been visualized on a logarithmic scale.
         and looking at the maximum resident set size in KB. e.g.
         `time -f '%M' R -f my-benchmark-script.R`. This does basically the same
         thing as `bench::bench_process_memory()`.
-        
         Using the suggested approach would work for all of the benchmarks in
         this paper, and would make it much more informative. Memory usage is a
         very important consideration, particularly for R which is generally
