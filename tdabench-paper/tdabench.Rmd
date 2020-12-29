@@ -32,14 +32,21 @@ author:
     - Cleveland, OH 44195, United States
     email: raoul.wadhwa@case.edu
 abstract: >
-  Several persistent homology software libraries have been implemented in R. Specifically, the Dionysus, GUDHI, and Ripser libraries have been wrapped in R by the TDA and TDAstats packages on CRAN. They provide Vietoris-Rips and alpha complex functionality. These software represent powerful analysis tools that are currently computationally expensive and, to our knowledge, have not been formally benchmarked in R. Here, we provide an analysis of runtime and memory growth for the 2 R packages and the 3 underlying libraries. We find that datasets with less than 3 dimensions can be evaluated with persistent homology fastest by the GUDHI library in the TDA package. For larger dimensional datasets, the Ripser library in the TDAstats package is best. 
+  Several persistent homology software libraries have been implemented in R. Specifically, the Dionysus, GUDHI, and Ripser libraries have been wrapped in R by the TDA and TDAstats packages on CRAN. They provide Vietoris-Rips and alpha complex functionality. These software represent powerful analysis tools that are currently computationally expensive and, to our knowledge, have not been formally benchmarked in R. Here, we provide an analysis of runtime and memory growth for the 2 R packages and the 3 underlying libraries. We find that datasets with less than 3 dimensions can be evaluated with persistent homology fastest by the GUDHI library in the TDA package. For higher dimensional datasets, the Ripser library in the TDAstats package is best. 
 output:
   rticles::rjournal_article:
     includes:
       in_header: preamble.tex
 ---
 
-\section{Introduction}
+```{r setup, echo = FALSE}
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(magrittr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(broom))
+```
+
+# Introduction
 
 Topological data analysis (TDA) is a broad set of methodologies that characterizes structural features of datasets inspired by topological principles.
 It has a broad range of usage from viral evolution to physical chemistry \citep{TDA-Viral,TDA-PChem}. 
@@ -60,7 +67,7 @@ As a result, researchers often limit persistent homology analysis to lower dimen
 However, ignoring features in higher dimensions may cause significant information loss, underutilizing persistent homology's capabilities.
 Here, we aim to benchmark two R packages - \CRANpkg{TDA} and \CRANpkg{TDAstats} - and enable researchers to most efficiently calculate persistent homology in R.
 
-\section{Mathematics of Persistent Homology}
+# Mathematics of Persistent Homology
 <!--change circles to more generalizable object, e.g. n-sphere or n-ball-->
 An $n$-dimensional simplex is the convex hull of $n+1$ points in a Euclidean space.
 More intuitively, an $n$-dimensional simplex is the simplest $n$-dimensional object (e.g. a 0-simplex is a point, a 1-simplex is a line, a 2-simplex is a triangle, 3-simplex is a tetrahedron).
@@ -111,8 +118,6 @@ Once $\alpha$ is large enough, the full Delaunay Triangulation is formed.
 In between these stages, the birth and death of features at certain values of $\alpha$ can be captured in a 3-column persistent homology matrix much like the Vietoris-Rips complex.
 One key difference from the Vietoris-Rips complex is that edges can only form between neighboring points in the alpha complex.  
 
-
-
 In both methods, the boundary matrix records all simplicial complexes for each parameter value ($\delta$ for Vietoris-Rips complexes and $\alpha$ for alpha complexes). 
 Calculating persistent homology is divided into two steps: (1) forming the boundary matrix, and (2) reducing the boundary matrix to be able to read off the topological features of each dimension and their birth/death values of the parameter.
 The second step can be computed in at most O(k^3) steps where k is the number of rows (and columns) of the boundary matrix. 
@@ -124,7 +129,7 @@ Therefore, we can predict that low dimensional point clouds favor alpha complexe
 
 \begin{figure}
   \centering
-  \includegraphics[height=1.5in]{../Figures/Final_Figures/Intro_Alpha.png}
+  \includegraphics[width=4in]{../Figures/Final_Figures/Intro_Alpha.png}
   \caption{\textbf{Basic visualization of the Alpha complex.}
   For a given $\alpha$, $\alpha$-radius balls are drawn around each point, and the union of the balls is taken.
   Then, an intersection between this union of $\alpha$-balls and the Vornoi diagram is taken.
@@ -133,7 +138,7 @@ Therefore, we can predict that low dimensional point clouds favor alpha complexe
   Once $\alpha$ is large enough, the Delaunay Triangulation is formed.}
 \end{figure}
 
-\section{Methods}
+# Methods
 
 We use \CRANpkg{readr} v1.3.1 to read rectangular data \citep{readr}, \CRANpkg{ggplot2} v3.2.1 \citep{ggplot2}, \CRANpkg{scatterplot3d} v0.3-41 \citep{scatterplot3d}, \CRANpkg{recexcavAAR} v0.3.0 \citep{recexcavAAR}, \CRANpkg{deldir} v0.1 \citep{deldir}, ggtda v0.1 \citep{ggtda}, and \CRANpkg{magick} v2.2 \citep{magick} to visualize data, \CRANpkg{bench} v1.0.4 to collect benchmark data \citep{bench}, \CRANpkg{TDA} v1.6.9 \citep{TDA} and \CRANpkg{TDAstats} v0.4.1 \citep{TDAstats} to calculate persistent homology of Vietoris-Rips and alpha simplicial complices, and \CRANpkg{pryr} v0.1.4 for calculations involving R objects \citep{pryr}.
 Median runtime calculations are shown along with the minimum and maximum of 10 iterations per benchmark.
@@ -154,7 +159,7 @@ Fully reproducible code for all numerical results and figures can be found at ht
 This GitHub repository also contains instructions for generating the Supplement referenced in this report's results.
 Video explanations of TDA concepts and reproducing all results in this report can be found at https://tinyurl.com/TDABench.
 
-\section{Results}
+# Results
 
 Computing persistent homology of a canonical torus grants quick insight into efficiency of each library (Figure \ref{fig:tor}).
 Dionysus exhibits the longest median runtime, and, although Ripser and GUDHI have similar runtimes for smaller point clouds, as the number of points increases Ripser eventually has a significant lead.
@@ -224,7 +229,7 @@ Although unconcerning for a data dimension up to 3, failure to run any alpha com
 
 \begin{figure}
   \centering
-  \includegraphics[height=2in]{../Figures/Final_Figures/fig4.png}
+  \includegraphics[width=6in]{../Figures/Final_Figures/fig4.png}
   \caption{
     \textbf{Comparing persistent homology calculation between Vietoris-Rips and alpha complices.}
     Median runtime (min to max, $n=10$ iterations per data point) for various data dimensions (denoted by color) are plotted against point cloud size and faceted by type of simplicial complex.
@@ -233,64 +238,60 @@ Although unconcerning for a data dimension up to 3, failure to run any alpha com
 \label{fig:ann}
 \end{figure}
 
-Vietoris-Rips and alpha complices differ not only in runtime, but also in memory usage.
-GUDHI conveniently allows measurement of the simplicial complex boundary matrix, a reasonable proxy for total memory usage in calculation of persistent homology.
-Since Ripser and Dionysus do not have similar capabilities, they are excluded from memory benchmarks.
-Vietoris-Rips complices show rapid growth in object size as point cloud size increases; in contrast, alpha complices consistently maintain low, linearly-growing memory use (Figure \ref{fig:mem1}).
-The growth pattern differences mirror findings for runtime growth (Figure \ref{fig:ann}).
-Interestingly, different factors determine memory usage in the two types of simplicial complex.
-Whereas memory use in calculation of a Vietoris-Rips complex is dependent on point cloud size and feature dimension, memory use for an analogous calculation with an alpha complex is also dependent on the structure of the point cloud itself (Figure \ref{fig:mem2}).
-Within the limited set of tested point cloud structures, the sphere requires the least memory.
-Table \ref{tbl:limit} lists the maximum point cloud size for which persistent homology calculations could be completed for each library.
+```{r powerlaw, echo=FALSE}
+# input data
+df_mem <- read.csv("../memory-bench/memory-use.csv") %>%
+  mutate(Memory = Memory / 1024)
 
-\begin{figure}
-  \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5a.png}
-  \caption{
-    \textbf{Comparing memory usage of persistent homology calculation using a Vietoris-Rips versus an alpha complex.}
-    Boundary matrix size, a proxy for memory usage, plotted against point cloud size varying by point cloud structure (facet) and simplicial complex type (color, shape).
-    Data dimension and feature dimension were held constant at 3 and 2, respectively.
-    Point cloud structures for which memory usage was calculated were 3-dimensional annulus (top-left), 3-dimensional sphere (top-right), torus (bottom-left), and 3-dimensional cube (bottom-right).
-    Similar to runtime results, alpha complex calculation showed linear growth and Vietoris-Rips complex calculation showed polynomial growth (see Supplement for regression details).}
-\label{fig:mem1}
-\end{figure}
+# setup df
+pl_exponents <- expand.grid(c("TDAstats", "GUDHI", "Dionysus"),
+                            2:4,
+                            c("circle", "annulus", "torus", "uniform"))
 
-\begin{widefigure}
-  \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig5t.png}
-  \caption{
-    \textbf{Factors affecting boundary matrix size in Vietoris-Rips and alpha complices.}
-    Boundary matrix size plotted against point cloud size varying by point cloud structure (right, faceted), simplicial complex type (left, right), and feature dimension (color).
-    Whereas the boundary matrix for a Vietoris-Rips complex (left) is independent of point cloud structure, the same is not true for an alpha complex (right, faceted).
-    For the Vietoris-Rips complex, the decreasing number of data points plotted for successive feature dimensions reflects the computational requirements of increasing point cloud size.}
-\label{fig:mem2}
-\end{widefigure}
+# return power law exponent from data
+calc_pl_exp <- function(all_data, engine, dim, shape) {
+  # only >= 100 points
+  all_data <- all_data %>%
+    filter(NumPoints >= 100 &
+           Engine == engine &
+           Dimension == dim &
+           DataType == shape) %>%
+    mutate(LogPts = log10(NumPoints),
+           LogMem = log10(Memory))
+  
+  lm_mod <- lm(LogMem ~ LogPts, data = all_data)
+  tidy_mod <- tidy(lm_mod)
+  
+  return(tidy_mod$estimate[2])
+}
+```
 
-\begin{table}
-\centering
-\small
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Feature & Ripser & Dionysus & GUDHI Rips & GUDHI Alpha \\
-Dimension & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit & Point Cloud Limit\\
-\hline
-1 & Not Reached & Not Reached & Not Reached & Not Reached \\ 
-2 & Not Reached & 200 points & 280 points & Not Reached \\ 
-3 & 300 points & 100 points & 125 points & Could Not Compute \\
-4 & 100 points & 50 points & 75 points & Could Not Compute \\ 
-\hline
-\end{tabular}
-\caption{During the benchmarking, certain libraries were not able to calculate persistent homology for sufficiently complex point clouds. 
-Limiting factors were point cloud number and feature dimension calculation. 
-For Vietoris-Rips complices, Ripser had the best performing capacity among the three libraries. 
-Alpha complexes were not computable for any point cloud greater than 3 dimensions, so dimensional features 3 and higher could not be computed.}
-\label{tbl:limit}
-\end{table}
+In addition to runtime differences, the three Vietoris-Rips homology engines differ in memory use.
+After crossing a threshold between 50 and 100 points, all three engines appeared to follow power law growth, with a linear trend on log-log plots (Figure \ref{fig:mem}).
+However, for all combinations of point cloud dimension and shape, TDAstats used the least memory and Dionysus used the most, with TDAstats also growing with the smallest power law exponent as the number of points increased.
+As an example, for 3-dimensional annulus point clouds, GUDHI memory use grew with a power law exponent of
+`r calc_pl_exp(df_mem, "GUDHI", 3, "annulus") %>% signif(digits = 2)`,
+Dionysus use grew with an exponent of
+`r calc_pl_exp(df_mem, "Dionysus", 3, "annulus") %>% signif(digits = 2)`,
+and TDAstats use grew with an exponent of
+`r calc_pl_exp(df_mem, "TDAstats", 3, "annulus") %>% signif(digits = 2)`.
+The entire table of exponents can be found in the Supplement (GitHub), but Figure \ref{fig:mem} clearly illustrates that TDAstats was, for all tested cases, the optimal Vietoris-Rips engine in the context of memory use.
 
-In real life scenarios, practitioners likely care most about comparative performance of the fastest Vietoris-Rips complex library and the fastest alpha complex library.
-Figure \ref{fig:fin} illustrates this comparison, showing that for 3-dimensional point clouds, GUDHI's alpha complex library outpaces Ripser's Vietoris-Rips functionality.
+```{r memory, echo=FALSE, fig.cap="\\label{fig:mem}\\textbf{Comparing memory use of Vietoris-Rips persistent homology engines.} Each column title corresponds to point cloud dimension; each row title lists point cloud shape; each persistent homology engine is represented by points of a distinct shape and color. For point clouds containing more than 50 points, there appears to be a linear trend on the log-log axes. Data for 2- and 4-dimensional tori were not collected because a torus does not trivially generalize to dimensions other than 3. Missing points for GUDHI and Dionysus in the 4-dim plots indicate that persistent homology calculation was terminated since memory requirement exceeded available RAM (32 GB)."}
+df_mem <- df_mem %>%
+  mutate(Dimension = factor(Dimension, levels = 2:4, labels = c("2-dim", "3-dim", "4-dim")))
 
-\section{Discussion}
+ggplot(df_mem, aes(x = NumPoints, y = Memory, color = Engine, shape = Engine)) +
+  geom_point() +
+  scale_y_continuous(trans = "log10") +
+  facet_grid(DataType ~ Dimension) +
+  xlab("Number of points") +
+  ylab("Memory (GB)") +
+  theme_bw()
+```
+
+# Discussion
+
 As persistent homology calculations continue to become a more popular tool to analyze complex multidimensional data, it will be important to understand from a computational perspective which method to use. 
 In this paper, we examined two forms of persistent homology complexes: Vietoris-Rips and alpha complexes. 
 Both algorithms describe topological features through the generation of simplicial complexes. 
@@ -304,7 +305,7 @@ Vietoris-Rips complex calculations consistently had a polynomial growth for both
 
 \begin{figure}
   \centering
-  \includegraphics[height=2.5in]{../Figures/Final_Figures/fig6.png}
+  \includegraphics[width=6in]{../Figures/Final_Figures/fig6.png}
   \caption{
     \textbf{Runtime comparison of persistent homology calculation between Ripser's Vietoris-Rips and GUDHI's alpha complex functionality.}
     Median runtime (min to max $n=10$ iterations per data point) for various 3-dimensional point cloud structures (facet) plotted against point cloud size for each library (color).
@@ -325,18 +326,24 @@ Note, it is possible an algorithm will eventually be developed to enable alpha c
 However, if data dimension cannot be reduced without significant information loss, then Vietoris-Rips complexes should be used.
 It should be stated that if a point cloud is compatible with both complexes, both analyses should be performed as there may be a variation the persistent homology matrix. 
 This is because alpha complexes satisfy the Nerve Theorem \citep{alpha-complex}, which implies that they are topologically equivalent to the true underlying topology of the dataset; in contrast, Vietoris-Rips complexes only approximate the underlying topology \citep{Rips-Complex}.
-Among the tested libraries, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
-GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase. 
-GUDHI and Dionysus, however, do have the option of returning the boundary matrix, which Ripser does not store for the sake of optimization.
-While we did not measure Ripser's boundary matrix object size, Ripser's C++ code (outside its implementation in R) demonstrates memory advantages \citep{Ripser}
+Among the tested Vietoris-Rips engines, Ripser (wrapped by \CRANpkg{TDAstats}) has the fastest calculation time. 
+GUDHI and Dionysus (wrapped by \CRANpkg{TDA}) significantly fall behind as feature dimension and number of points increase.
+
+On average, Ripser computed persistent homology of a Vietoris-Rips complex with less memory than either GUDHI or Dionysus.
+Thus, when efficiency is critical, useRs would likely find \CRANpkg{TDAstats} the appropriate library.
+However, \CRANpkg{TDA} contains an entire library of features not available in \CRANpkg{TDAstats}.
+Specifically, \CRANpkg{TDA} allows kNN density estimation, kernel density estimation, density-based clustering, and dendrogram visualization, among other useful functionality.
+When computational resources are plenty, when point clouds are small and low-dimensional, or when the aforementioned functionality is required, \CRANpkg{TDA} will likely be more appropriate than \CRANpkg{TDAstats}.
+Both packages are hosted on CRAN.
 
 While Vietoris-Rips complexes can handle high-dimensional data well, calculation still significantly slows down when looking for higher dimension features. 
-Boundary matrix size rapidly increases and can overwhelm available RAM even for small numbers of points (e.g. 100 points when looking for 4-dimensional features). 
+Boundary matrix size rapidly increases and can overwhelm available RAM even for small numbers of points. 
 Looking for high-dimensional features in a large, high-dimensional point clouds remains a challenge. 
 Methods to calculate persistent homology do exist for other simplicial complexes, such as the Delaunay complex and the Witness complex, but, to our knowledge, they are not currently implemented in CRAN packages.
 Future challenges would be creating and implementing algorithms that reduce the computational complexity of higher dimensional topological feature calculations for R.
 
-\section{Acknowledgments}
+# Acknowledgments
+
 The authors thank Emily Dolson, PhD for assistance with using a high-performance computing node for data collection.
 
 \bibliography{tdabench}
