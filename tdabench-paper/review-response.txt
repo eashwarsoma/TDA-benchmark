@@ -83,7 +83,11 @@ method to correct our previous limitation.
         have much lower coefficients, if it is indeed the same big O growth
         rate.
         
-***
+We agree with the reviewer's point. To address this, we have added a faceted
+bar plot figure that illustrates the growth rate of each engine's calculation
+function with various point cloud dimensions and shapes. Additionally, text in
+the results and discussion sections has been edited/added to discuss the big O
+complexity (memory and runtime).
         
         There are a number of benchmarks that could not be calculated due to
         insufficient ram, however the authors are only benchmarking with 16 GB
