@@ -74,7 +74,11 @@ We agree with the reviewer's point and have used `bench::bench_process_memory`
 to collect memory benchmark data for all point cloud size, dimension, and
 shape combinations. The resulting data has been visualized in Figure 7. Text
 in the results and discussion sections has been adjusted to reflect the newly
-added data. We thank the reviewer for the improvement and for providing a clear
+added data.
+        Examples of text revisions/additions
+        - Results: "In addition to runtime differences...than the other engines"
+        - Discussion: "While Vietoris-Rips complexes can...dimension increases."
+We thank the reviewer for the improvement and for providing a clear
 method to correct our previous limitation.
         
         I think more discussion should be give to the big O `O()` runtime of the
@@ -82,13 +86,16 @@ method to correct our previous limitation.
         follow a power law, but at least from the data shown Ripser seems to
         have much lower coefficients, if it is indeed the same big O growth
         rate.
-        
-We agree with the reviewer's point. To address this, we have added a faceted
-bar plot figure that illustrates the growth rate of each engine's calculation
-function with various point cloud dimensions and shapes. Additionally, text in
-the results and discussion sections has been edited/added to discuss the big O
-complexity (memory and runtime).
-        
+
+We agree with the reviewer's point of discussing the big O runtime of the
+various persistent homology engines. However, instead of focusing on the
+coefficients, we added results and discussion pertaining to the exponent of the
+power law (which matters more as dimension increases). To address this, we
+have added a faceted bar plot figure that illustrates the growth rate of each
+engine's calculation function with various point cloud dimensions and shapes.
+Additionally, text in the results and discussion sections has been edited/added
+to discuss the big O complexity (memory and runtime, last paragraph in dicussion).
+
         There are a number of benchmarks that could not be calculated due to
         insufficient ram, however the authors are only benchmarking with 16 GB
         of memory. In 2020 16 GB of memory is not a great deal for computational
@@ -116,7 +123,7 @@ currently a no-cost study. Acquiring and then spending funding would take time
 and consume monetary resources. We believe the additions made to the memory
 benchmark results provide sufficient evidence for our high-level conclusions
 (e.g. relative package efficiency, growth rates for each package) with the
-increased RAM used (32 GB instead of the previous 16 GB).
+increased RAM used.
         
         ### Usability discussion
         
@@ -133,12 +140,15 @@ We agree that computational efficiency should not be the only deciding factor
 between packages. Although there are no major differences in the ease of use,
 interface, or maintainer responsiveness between the TDA and TDAstats packages,
 there is a significant different in the feature set between the two. We have
-added a paragraph in the Discussion section that compares the functionality
-of the two packages. We refrained from adding code examples as it risks
-unnecessary redundancy - both packages are well documented and have associated
-vignettes and publications with extensive sample code. We have referenced the
-packages appropriately and any interested users can easily find the code via
-the References section (in addition to CRAN and GitHub).
+added the following paragraph in the Discussion section that compares the
+functionality of the two packages:
+        "On average, Ripser computed...packages are hosted on CRAN."
+
+We refrained from adding code examples as it risks unnecessary redundancy - both
+packages are well documented and have associated vignettes and publications with
+extensive sample code. We have referenced the packages appropriately and any
+interested users can easily find the code via the References section (in
+addition to CRAN and GitHub).
         
         ## Conclusion ##
         
