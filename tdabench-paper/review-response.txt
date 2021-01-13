@@ -80,7 +80,7 @@ added data.
         - Discussion: "While Vietoris-Rips complexes can...dimension increases."
 We thank the reviewer for the improvement and for providing a clear
 method to correct our previous limitation.
-        
+
         I think more discussion should be give to the big O `O()` runtime of the
         implementations. It is mentioned in the Fig. 3 legend that they all
         follow a power law, but at least from the data shown Ripser seems to
@@ -105,7 +105,7 @@ discussion.
         not a limiting factor. I would strongly urge the authors to look into
         using more powerful infrastructure to run these benchmarks so their
         results were not so limited.
-        
+
 We agree that 16 GB RAM is a benchmarking limitation. We gained access to 32 GB
 RAM machines at our academic institution and have collected memory benchmark
 data on these. Although increased memory availability would increase the point
@@ -147,15 +147,15 @@ packages are well documented and have associated vignettes and publications with
 extensive sample code. We have referenced the packages appropriately and any
 interested users can easily find the code via the References section (in
 addition to CRAN and GitHub).
-        
+
         ## Conclusion ##
-        
+
         Overall I think the authors did an admirable job analyzing the
         benchmarks and in writing the paper. However the benchmarking
         methodology was flawed enough in terms of metrics, display, measurement
         of memory and memory limits that I think it should be revised and
         redone before the paper is accepted.
-        
+
 We thank the reviewer for their kind words and agree that the submitted
 manuscript had room for improvement. We have made revisions to address the
 reviewer's concerns and hope that the revised manuscript is now worthy of
