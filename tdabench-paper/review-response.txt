@@ -90,9 +90,11 @@ method to correct our previous limitation.
 We agree with the reviewer's point of discussing the big O runtime of the
 various persistent homology engines. However, instead of focusing on the
 coefficients, we added results and discussion pertaining to the exponent of the
-power law (matters more as dimension increases). These additions include Figure
-8 in the results (and corresponding text) and text in the last paragraph of the
-discussion.
+power law (which matters more as dimension increases). To address this, we
+have added a faceted bar plot figure that illustrates the growth rate of each
+engine's calculation function with various point cloud dimensions and shapes.
+Additionally, text in the results and discussion sections has been edited/added
+to discuss the big O complexity (memory and runtime, last paragraph in dicussion).
 
         There are a number of benchmarks that could not be calculated due to
         insufficient ram, however the authors are only benchmarking with 16 GB
